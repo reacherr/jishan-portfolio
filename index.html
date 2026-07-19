@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Jishan Ali Thobani — Singer · Composer · Songwriter</title>
+<meta name="description" content="The official mehfil of Jishan Ali Thobani — Bollywood & devotional singer, composer and songwriter. Scroll to spin the record." />
+<meta property="og:title" content="Jishan Ali Thobani — Singer · Composer · Songwriter" />
+<meta property="og:description" content="Scroll to spin the record. Songs, brands & the mehfil." />
+<meta property="og:image" content="https://i.ytimg.com/vi/ZlKAAOCDEB8/maxresdefault.jpg" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23101915'/%3E%3Ctext x='32' y='44' font-size='36' text-anchor='middle' fill='%23D4A429'%3E%E2%99%AA%3C/text%3E%3C/svg%3E" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Rozha+One&family=Karla:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Noto+Nastaliq+Urdu:wght@400;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css?v=13" />
+</head>
+<body>
+
+<div id="loader" aria-hidden="true">
+  <div class="loader-wheel" id="loaderWheel">
+    <div class="loader-ring"></div>
+    <span class="loader-note">♪</span>
+  </div>
+  <p class="loader-caption">sur mil raha hai…</p>
+</div>
+
+<nav class="groove-nav" id="grooveNav" aria-label="Acts">
+  <button data-act="act-overture"><i></i><span>Shuruaat</span></button>
+  <button data-act="act-songs"><i></i><span>Suniye</span></button>
+  <button data-act="act-brands"><i></i><span>Brands</span></button>
+  <button data-act="act-gallery"><i></i><span>Jhalak</span></button>
+  <button data-act="act-sleeve"><i></i><span>Mehfil</span></button>
+</nav>
+
+<div class="record-assembly" id="assembly">
+  <svg class="ring-text" viewBox="0 0 100 100" aria-hidden="true">
+    <defs>
+      <path id="ringpath" d="M 50,50 m -46,0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0" />
+    </defs>
+    <text>
+      <textPath href="#ringpath">JISHAN ALI THOBANI &#160;·&#160; SINGER &#160;·&#160; COMPOSER &#160;·&#160; SONGWRITER &#160;·&#160; MEHFIL SE MEHFIL TAK &#160;·&#160;</textPath>
+    </text>
+  </svg>
+  <div class="record" id="record" role="listbox" aria-label="Songs — arrow keys to spin, Enter to play" tabindex="0">
+    <div class="platter" id="platter">
+      <div class="rim-labels" id="rimLabels"></div>
+      <div class="center-label" id="centerLabel">
+        <span class="center-year" id="centerYear"></span>
+      </div>
+    </div>
+    <div class="glint"></div>
+    <div class="spindle"></div>
+  </div>
+  <div class="tonearm" id="tonearm" aria-hidden="true">
+    <div class="tonearm-pivot"></div>
+    <div class="tonearm-arm">
+      <div class="tonearm-head"></div>
+    </div>
+  </div>
+</div>
+
+<main>
+
+  <section class="act act-overture" id="act-overture">
+    <div class="record-slot" id="slotHero" aria-hidden="true"></div>
+    <div class="hero-copy">
+      <p class="hero-devanagari" lang="hi">जिशान अली थोबानी</p>
+      <h1 class="hero-name"><span>Jishan</span> <span>Ali</span> <span>Thobani</span></h1>
+      <p class="hero-roles">Singer &nbsp;·&nbsp; Composer &nbsp;·&nbsp; Songwriter</p>
+    </div>
+    <p class="scroll-cue"><span class="cue-line"></span>neeche ghumao — the record follows</p>
+  </section>
+
+  <section class="act act-songs" id="act-songs">
+    <div class="songs-pin">
+      <p class="act-marker">side A — suniye</p>
+      <div class="songs-slot-col"><div class="record-slot" id="slotSongs" aria-hidden="true"></div></div>
+      <div class="songs-panel">
+        <div class="poster" id="poster">
+          <span class="poster-index" id="posterIndex">०१</span>
+          <p class="poster-eyebrow">ab platter pe — now on the platter</p>
+          <div class="poster-media" id="posterMedia">
+            <img class="poster-thumb" id="posterThumb" alt="" />
+            <button class="poster-play" id="playBtn">
+              <span class="poster-play-ring">▸</span>
+              <span class="poster-play-tag">sui rakho — play the song</span>
+            </button>
+            <div id="playerMount"></div>
+          </div>
+          <h2 class="poster-title" id="posterTitle"></h2>
+          <p class="poster-meta" id="posterMeta"></p>
+          <p class="poster-note" id="posterNote"></p>
+          <button class="lift-btn" id="liftBtn" hidden>↑ sui uthao — lift the needle</button>
+        </div>
+        <div class="track-steppers">
+          <button id="prevTrack" aria-label="Previous song">‹ pichla</button>
+          <span class="stepper-count" id="stepperCount">01 / 07</span>
+          <button id="nextTrack" aria-label="Next song">agla ›</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="act act-brands" id="act-brands">
+
+    <div class="ribbon ribbon-a" aria-hidden="true">
+      <div class="ribbon-track">
+        <span>Disney ✦ Spotify ✦ Snickers ✦ Nescafé ✦ Crocs ✦ Dabur ✦ IDFC First ✦ Disney+ Hotstar ✦&#160;</span>
+        <span>Disney ✦ Spotify ✦ Snickers ✦ Nescafé ✦ Crocs ✦ Dabur ✦ IDFC First ✦ Disney+ Hotstar ✦&#160;</span>
+      </div>
+    </div>
+
+    <div class="brands-scene">
+      <ul class="stubs">
+        <li class="stub stub-1 stamp"><b><img src="assets/logos/disney.svg" alt="Disney" /></b><span>brand campaign</span></li>
+        <li class="stub stub-2 stamp"><b><img src="assets/logos/spotify.svg" alt="Spotify" /></b><span>brand campaign</span></li>
+        <li class="stub stub-3 stamp"><b><img src="assets/logos/snickers.svg?v=2" alt="Snickers" /></b><span>jingle work</span></li>
+        <li class="stub stub-4 stamp"><b><img src="assets/logos/nescafe.svg" alt="Nescafé" /></b><span>brand campaign</span></li>
+        <li class="stub stub-5 stamp"><b><img src="assets/logos/crocs.svg" alt="Crocs" /></b><span>brand campaign</span></li>
+        <li class="stub stub-6 stamp"><b>Dabur</b><span>brand campaign</span></li>
+        <li class="stub stub-7 stamp"><b><img src="assets/logos/idfc.svg?v=2" alt="IDFC First Bank" /></b><span>brand campaign</span></li>
+        <li class="stub stub-8 stamp"><b><img src="assets/logos/hotstar.svg" alt="Disney+ Hotstar" /></b><span>feature film</span></li>
+      </ul>
+      <div class="bill">
+        <p class="bill-top stamp">jishan ali thobani — in association with</p>
+        <h2 class="bill-heading stamp">The Billing</h2>
+        <p class="bill-sub stamp">campaigns · collaborations · commissions</p>
+        <div class="bill-film stamp">
+          <p class="bill-film-label">feature film credit</p>
+          <p class="bill-film-title">“Pop Kaun”</p>
+          <p class="bill-film-note">lyrics &amp; music — streaming on Disney+ Hotstar</p>
+        </div>
+        <p class="bill-foot stamp">stages sung across the UAE · Europe · Canada</p>
+      </div>
+    </div>
+
+    <ul class="brand-stats">
+      <li class="reveal"><b data-count="8" data-pad="1">00</b><span>brands sung for</span></li>
+      <li class="reveal" style="--d: 0.12s"><b data-count="14">0</b><span>countries, one anthem</span></li>
+      <li class="reveal" style="--d: 0.24s"><b data-count="2.6" data-suffix="M+">0</b><span>views on the top release</span></li>
+    </ul>
+
+    <div class="ribbon ribbon-b" aria-hidden="true">
+      <div class="ribbon-track">
+        <span>Mehfil se mehfil tak ✦ UAE ✦ Europe ✦ Canada ✦ India ✦ Mehfil se mehfil tak ✦ UAE ✦ Europe ✦ Canada ✦ India ✦&#160;</span>
+        <span>Mehfil se mehfil tak ✦ UAE ✦ Europe ✦ Canada ✦ India ✦ Mehfil se mehfil tak ✦ UAE ✦ Europe ✦ Canada ✦ India ✦&#160;</span>
+      </div>
+    </div>
+
+  </section>
+
+  <section class="act act-gallery" id="act-gallery">
+    <header class="gallery-head">
+      <p class="chapter-eyebrow reveal">jhalak — stills from the songs</p>
+      <h2 class="chapter-title reveal">Parde ke peeche</h2>
+    </header>
+    <div class="collage" id="collage"></div>
+  </section>
+
+  <section class="act act-sleeve" id="act-sleeve">
+    <div class="sleeve-pin">
+      <div class="sleeve" id="sleeveCard">
+        <p class="sleeve-side">side d — stage door</p>
+        <h2 class="sleeve-title">Mehfil bulao</h2>
+        <ul class="sleeve-credits">
+          <li><span>Concerts</span><span>mehfils, festivals, world stages</span></li>
+          <li><span>Campaigns</span><span>brand anthems &amp; jingles</span></li>
+          <li><span>Compositions</span><span>film &amp; original scores</span></li>
+        </ul>
+        <a class="book-cta" href="https://www.instagram.com/jishanalithobani/" target="_blank" rel="noopener">DM on Instagram ↗</a>
+        <ul class="socials">
+          <li><a href="https://www.youtube.com/channel/UC5REaB-8n8Jxq64RrRSeH1g" target="_blank" rel="noopener">YouTube — @jishanalithobani</a></li>
+          <li><a href="https://www.facebook.com/jishanalithobani/" target="_blank" rel="noopener">Facebook — jishanalithobani</a></li>
+          <li><a href="https://x.com/jishanalithoban" target="_blank" rel="noopener">X — @jishanalithoban</a></li>
+          <li><a href="https://soundcloud.com/jishanalithobani" target="_blank" rel="noopener">SoundCloud — jishanalithobani</a></li>
+        </ul>
+        <p class="book-urdu" lang="ur">محفل سے محفل تک</p>
+        <p class="sleeve-catno">JAT — mumbai · all songs sung with niyat</p>
+      </div>
+      <p class="fin">record waapas sleeve mein — shukriya for listening</p>
+    </div>
+  </section>
+
+</main>
+
+<script src="app.js?v=13"></script>
+</body>
+</html>
