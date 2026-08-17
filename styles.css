@@ -1053,38 +1053,152 @@ main { position: relative; }
   color: var(--ember);
 }
 
-.film-credit {
-  margin-top: clamp(2.4rem, 6vh, 4rem);
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: clamp(1rem, 3vw, 2.4rem);
-  padding: clamp(1.1rem, 2.6vw, 1.8rem) clamp(1.2rem, 3vw, 2.2rem);
-  background: var(--night);
-  color: var(--cream);
-  border-radius: 10px;
+/* ══ 03 · on screen — the Pop Kaun? credit ══════════════════ */
+
+.act-screen {
+  padding-top: clamp(5rem, 14vh, 9rem);
+  padding-bottom: clamp(5rem, 13vh, 8rem);
+  overflow: clip;
 }
 
-.fc-label, .fc-where {
-  font-size: 0.68rem;
+.screen-glow {
+  position: absolute;
+  top: 4%;
+  left: 42%;
+  width: min(80vw, 940px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    rgba(233, 161, 60, 0.16) 0%,
+    rgba(194, 54, 28, 0.09) 40%,
+    rgba(19, 16, 16, 0) 70%);
+  pointer-events: none;
+}
+
+.screen-head { position: relative; z-index: 2; max-width: 62rem; margin-bottom: clamp(1.8rem, 4vh, 2.8rem); }
+
+.screen-title {
+  font-family: var(--ff-display);
+  font-weight: 800;
+  font-variation-settings: "wdth" 90, "opsz" 96;
+  font-size: clamp(3rem, 9vw, 7.5rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+}
+
+.screen-title span { color: var(--ember); }
+
+.screen-lede { max-width: 46ch; }
+
+/* the key art doubles as the trailer poster */
+.screen-media {
+  position: relative;
+  z-index: 2;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--night-2);
+  box-shadow:
+    0 0 0 1px rgba(233, 161, 60, 0.22),
+    0 44px 90px -46px rgba(0, 0, 0, 0.95);
+}
+
+.screen-art { width: 100%; height: 100%; object-fit: cover; }
+
+.screen-play {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background:
+    radial-gradient(circle at 50% 48%, rgba(19, 16, 16, 0.26) 0%, rgba(19, 16, 16, 0) 46%),
+    linear-gradient(180deg, rgba(19, 16, 16, 0) 55%, rgba(19, 16, 16, 0.72));
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  font-family: var(--ff-body);
+}
+
+.screen-play-ring {
+  width: clamp(54px, 6.5vw, 84px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(244, 236, 224, 0.95);
+  color: var(--night);
+  display: grid;
+  place-items: center;
+  font-size: clamp(1rem, 1.6vw, 1.35rem);
+  padding-left: 4px;
+  transition: background 0.24s var(--ease), color 0.24s var(--ease), transform 0.24s var(--ease);
+}
+
+.screen-play:hover .screen-play-ring { background: var(--ember); color: var(--night); transform: scale(1.08); }
+
+.screen-play-label {
+  position: absolute;
+  left: clamp(1rem, 2.4vw, 1.8rem);
+  bottom: clamp(0.9rem, 2vw, 1.4rem);
+  font-size: 0.72rem;
   font-weight: 500;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--cream-45);
+  color: rgba(244, 236, 224, 0.92);
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.8);
 }
 
-.fc-body { display: flex; align-items: baseline; gap: clamp(0.6rem, 1.6vw, 1.1rem); flex-wrap: wrap; }
+.screen-mount { position: absolute; inset: 0; display: none; }
+.screen-mount iframe { width: 100%; height: 100%; border: 0; display: block; }
 
-.fc-title {
-  font-family: var(--ff-display);
-  font-weight: 700;
-  font-variation-settings: "wdth" 88;
-  font-size: clamp(1.3rem, 3vw, 2.2rem);
-  line-height: 1;
-  letter-spacing: -0.025em;
+.screen-media.is-live .screen-mount { display: block; }
+.screen-media.is-live .screen-art,
+.screen-media.is-live .screen-play { display: none; }
+
+/* billing block, set like end credits */
+.screen-credits {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr 0.9fr 1.7fr 1.1fr;
+  gap: clamp(1rem, 2.4vw, 2rem);
+  margin-top: clamp(1.6rem, 3.5vh, 2.4rem);
+  padding-top: clamp(1.2rem, 2.6vh, 1.8rem);
+  border-top: 1px solid var(--line);
 }
 
-.fc-role { font-size: 0.78rem; letter-spacing: 0.05em; color: var(--ember); font-weight: 500; }
+.screen-credits dt {
+  font-size: 0.64rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ember);
+  margin-bottom: 0.45rem;
+}
+
+.screen-credits dd {
+  font-size: clamp(0.86rem, 1.1vw, 0.98rem);
+  line-height: 1.45;
+  color: var(--cream);
+}
+
+.screen-note {
+  position: relative;
+  z-index: 2;
+  max-width: 64ch;
+  margin-top: clamp(2rem, 5vh, 3.2rem);
+  padding-left: clamp(1.6rem, 3vw, 2.6rem);
+  color: var(--cream-70);
+  font-size: clamp(0.98rem, 1.2vw, 1.14rem);
+  line-height: 1.65;
+}
+
+.sn-mark {
+  position: absolute;
+  left: 0;
+  top: 0.15em;
+  bottom: 0.15em;
+  width: 2px;
+  background: linear-gradient(180deg, var(--ember), rgba(233, 161, 60, 0));
+}
 
 /* ══ 03 · records — back into the night ══════════════════════ */
 
@@ -1431,6 +1545,7 @@ a.cl-value:hover { color: var(--ember); border-bottom-color: var(--ember); }
 
 @media (max-width: 1080px) {
   .camp-pin { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); }
+  .screen-credits { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .rec-pin { grid-template-columns: 1fr; }
   .rec-stage { position: static; }
   .rec-stage .disc-slot { display: none; }
@@ -1500,7 +1615,7 @@ a.cl-value:hover { color: var(--ember); border-bottom-color: var(--ember); }
   .camp-films.n3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .camp-films.n3 > :first-child { grid-column: 1 / -1; }
 
-  .film-credit { grid-template-columns: 1fr; gap: 0.7rem; }
+  .screen-credits { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
   .rec-row button { grid-template-columns: 1.9rem minmax(0, 1fr) auto; }
 

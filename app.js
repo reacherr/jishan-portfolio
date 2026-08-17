@@ -213,6 +213,13 @@ const recMedia     = $("recMedia");
 const recMount     = $("recMount");
 const recPlay      = $("recPlay");
 
+const actScreen   = $("act-screen");
+const screenMedia = $("screenMedia");
+const screenMount = $("screenMount");
+const screenArt   = $("screenArt");
+
+const POP_KAUN_TRAILER = "hIXyT2WuTCs";
+
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 if (reducedMotion) document.body.classList.add("rm");
 
@@ -312,7 +319,9 @@ function fitLogo(img) {
 /* ── playback state (drives the equaliser ring) ──────────────── */
 
 function refreshPlaying() {
-  const live = document.querySelector(".film.is-live") || recMedia.classList.contains("is-live");
+  const live = document.querySelector(".film.is-live")
+    || recMedia.classList.contains("is-live")
+    || screenMedia.classList.contains("is-live");
   document.body.classList.toggle("is-playing", !!live);
   if (live) startPlaySpin();
   else stopPlaySpin();
@@ -451,6 +460,21 @@ function stopRelease() {
 
 recPlay.addEventListener("click", playRelease);
 
+/* ── the Pop Kaun? trailer ───────────────────────────────────── */
+
+defer(screenArt, `https://i.ytimg.com/vi/${POP_KAUN_TRAILER}/maxresdefault.jpg`);
+
+$("screenPlay").addEventListener("click", () => {
+  const fr = document.createElement("iframe");
+  fr.src = `https://www.youtube-nocookie.com/embed/${POP_KAUN_TRAILER}?autoplay=1&rel=0&playsinline=1`;
+  fr.title = "Pop Kaun? — official trailer";
+  fr.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+  fr.allowFullscreen = true;
+  screenMount.replaceChildren(fr);
+  screenMedia.classList.add("is-live");
+  refreshPlaying();
+});
+
 /* ── the equaliser ring ──────────────────────────────────────── */
 
 {
@@ -494,12 +518,12 @@ function buildRailWave() {
 /* ── measurement ─────────────────────────────────────────────── */
 
 /* act offsets are cached so the scroll loop never touches layout for them */
-const marks = { hero: 0, campaigns: 0, brands: 0, records: 0, contact: 0 };
+const marks = { hero: 0, campaigns: 0, brands: 0, screen: 0, records: 0, contact: 0 };
 let docSpan = 1;
 let scrubEnabled = false;
 let roomNow = null;
 
-const RAIL_ORDER = ["contact", "records", "brands", "campaigns", "hero"];
+const RAIL_ORDER = ["contact", "records", "screen", "brands", "campaigns", "hero"];
 
 function measure() {
   vw = innerWidth;
@@ -508,6 +532,7 @@ function measure() {
   marks.hero      = $("act-hero").offsetTop;
   marks.campaigns = actCampaigns.offsetTop;
   marks.brands    = actBrands.offsetTop;
+  marks.screen    = actScreen.offsetTop;
   marks.records   = actRecords.offsetTop;
   marks.contact   = actContact.offsetTop;
 
@@ -681,7 +706,7 @@ function frame() {
 
   /* the rail floats over whichever room is at the middle of the screen */
   const mid = y + vh / 2;
-  const room = mid < marks.campaigns || mid >= marks.records ? "night" : "day";
+  const room = mid < marks.campaigns || mid >= marks.screen ? "night" : "day";
   if (room !== roomNow) {
     roomNow = room;
     document.body.classList.toggle("on-day", room === "day");
@@ -809,7 +834,8 @@ for (const b of railButtons) {
 /* ── reveals + counters ──────────────────────────────────────── */
 
 document.querySelectorAll(
-  ".act-eyebrow, .act-title, .act-lede, .film-credit, .wall, .contact-body, .hero-shot, .hero-figures"
+  ".act-eyebrow, .act-title, .act-lede, .wall, .contact-body, .hero-shot, .hero-figures," +
+  ".screen-title, .screen-media, .screen-credits, .screen-note"
 ).forEach((el) => el.classList.add("rv"));
 
 const io = new IntersectionObserver((entries) => {
