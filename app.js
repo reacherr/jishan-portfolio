@@ -68,7 +68,7 @@ const RELEASES = [
     title: "99 Names of ALLAH",
     year: "2025",
     sub: "Asma Ul Husna · 2.6M+ views",
-    note: "The Asma Ul Husna, sung name by name — his most-heard recording, and still climbing.",
+    note: "The Asma Ul Husna, sung name by name. His most-heard recording — and still climbing.",
     thumb: "https://i.ytimg.com/vi/FhfhFYd-08s/maxresdefault.jpg",
   },
   {
@@ -76,7 +76,7 @@ const RELEASES = [
     title: "Navroz Mubarak",
     year: "2024",
     sub: "ft. Zaheed Damani · 100 artists · 14 countries",
-    note: "One song, a hundred voices, fourteen countries — a Navroz greeting that circled the globe.",
+    note: "One song, a hundred voices, fourteen countries — a Navroz greeting that went right around the globe.",
     thumb: "https://i.ytimg.com/vi/ZlKAAOCDEB8/maxresdefault.jpg",
   },
   {
@@ -92,7 +92,7 @@ const RELEASES = [
     title: "Mubarak Ho Salgirah",
     year: "2024",
     sub: "ft. United States Jamat · 1.4M+ views",
-    note: "A Salgirah offering, recorded with the United States Jamat in one voice.",
+    note: "A Salgirah offering, recorded with the United States Jamat singing as one.",
     thumb: "https://i.ytimg.com/vi/9W8GifKS438/hqdefault.jpg",
   },
   {
@@ -108,7 +108,7 @@ const RELEASES = [
     title: "HasbunALLAH",
     year: "2019",
     sub: "The breakout devotional",
-    note: "“ALLAH is sufficient for us.” The recording that carried his voice to playlists worldwide.",
+    note: "“ALLAH is sufficient for us.” The recording that carried his voice out past the mehfil.",
     thumb: "https://i.ytimg.com/vi/fTu-x3Of1m4/maxresdefault.jpg",
   },
   {
@@ -116,7 +116,7 @@ const RELEASES = [
     title: "India Taiyar Hai",
     year: "2025",
     sub: "Team India anthem · Global Encounters Festival",
-    note: "An anthem written for Team India at the Global Encounters Festival.",
+    note: "An anthem written for Team India at the Global Encounters Festival — drums up, flags out.",
     thumb: "https://i.ytimg.com/vi/r3sqyZ02NqU/hqdefault.jpg",
   },
 ];
@@ -168,42 +168,6 @@ const RAIL_LOGOS = [
   "pediasure.png", "kkr.png", "navi.png", "radio-mirchi.png", "morphy-richards.png",
 ];
 
-/*
-   Deferred images. Driven by geometry off the scroll event rather than
-   IntersectionObserver, so a tile can never be left blank if the observer
-   callback is throttled (background tabs, restored sessions).
-*/
-const deferred = new Set();
-
-function defer(img, src) {
-  img.dataset.src = src;
-  deferred.add(img);
-}
-
-function sweepDeferred() {
-  if (!deferred.size) return;
-  const ahead = innerHeight + 700;
-  for (const img of deferred) {
-    const host = img.closest("li, .logo-rail") || img.parentElement;
-    const r = host.getBoundingClientRect();
-    if (r.top > ahead || r.bottom < -700) continue;
-    img.src = img.dataset.src;
-    delete img.dataset.src;
-    deferred.delete(img);
-    fitLogo(img);
-  }
-}
-
-/* logos with a squarish or tall bounding box need more height to read */
-function fitLogo(img) {
-  const rate = () => {
-    if (!img.naturalWidth || !img.naturalHeight) return;
-    if (img.naturalWidth / img.naturalHeight < 2.1) img.classList.add("is-sq");
-  };
-  if (img.complete) rate();
-  else img.addEventListener("load", rate, { once: true });
-}
-
 /* ── dom ─────────────────────────────────────────────────────── */
 
 const $ = (id) => document.getElementById(id);
@@ -214,7 +178,9 @@ const platter    = $("platter");
 const discArt    = $("discArt");
 const dpFill     = $("dpFill");
 const rail       = $("rail");
-const railFill   = $("railFill");
+const rwTrack    = $("rwTrack");
+const rwFill     = $("rwFill");
+const railWave   = document.querySelector(".rail-wave");
 const railButtons = [...rail.querySelectorAll("button")];
 
 const slotHero      = $("slotHero");
@@ -264,9 +230,44 @@ let recIndexActive = -1;
 let playSpinRAF = null;
 let frameQueued = false;
 
-/* ── build: logo rail ────────────────────────────────────────── */
+/*
+   Deferred images. Driven by geometry off the scroll event rather than
+   IntersectionObserver, so a tile can never be left blank if the observer
+   callback is throttled (background tabs, restored sessions).
+*/
+const deferred = new Set();
 
-/* the rail sits below the fold — nothing is fetched until it is nearly in view */
+function defer(img, src) {
+  img.dataset.src = src;
+  deferred.add(img);
+}
+
+function sweepDeferred() {
+  if (!deferred.size) return;
+  const ahead = innerHeight + 700;
+  for (const img of deferred) {
+    const host = img.closest("li, .logo-rail") || img.parentElement;
+    const r = host.getBoundingClientRect();
+    if (r.top > ahead || r.bottom < -700) continue;
+    img.src = img.dataset.src;
+    delete img.dataset.src;
+    deferred.delete(img);
+    fitLogo(img);
+  }
+}
+
+/* logos with a squarish or tall bounding box need more height to read */
+function fitLogo(img) {
+  const rate = () => {
+    if (!img.naturalWidth || !img.naturalHeight) return;
+    if (img.naturalWidth / img.naturalHeight < 2.1) img.classList.add("is-sq");
+  };
+  if (img.complete) rate();
+  else img.addEventListener("load", rate, { once: true });
+}
+
+/* ── build: brand rail ───────────────────────────────────────── */
+
 {
   const track = $("logoRail");
   [...RAIL_LOGOS, ...RAIL_LOGOS].forEach((file) => {
@@ -308,6 +309,15 @@ let frameQueued = false;
   wall.appendChild(frag);
 }
 
+/* ── playback state (drives the equaliser ring) ──────────────── */
+
+function refreshPlaying() {
+  const live = document.querySelector(".film.is-live") || recMedia.classList.contains("is-live");
+  document.body.classList.toggle("is-playing", !!live);
+  if (live) startPlaySpin();
+  else stopPlaySpin();
+}
+
 /* ── build: campaign card ────────────────────────────────────── */
 
 campTotal.textContent = String(NC).padStart(2, "0");
@@ -325,6 +335,7 @@ function renderCampaign(i) {
 
   campFilms.className = `camp-films n${Math.min(c.films.length, 3)}`;
   campFilms.replaceChildren(...c.films.map((f) => filmFacade(f, c.brand)));
+  refreshPlaying();
 
   campPrev.disabled = i === 0;
   campNext.disabled = i === NC - 1;
@@ -357,7 +368,7 @@ function filmFacade(f, brand) {
     fr.allowFullscreen = true;
     btn.querySelector(".film-shot").appendChild(fr);
     btn.classList.add("is-live");
-    startPlaySpin();
+    refreshPlaying();
   });
   return btn;
 }
@@ -427,7 +438,7 @@ function playRelease() {
   recMount.replaceChildren(fr);
   recMedia.classList.add("is-live");
   recLocked = true;
-  startPlaySpin();
+  refreshPlaying();
 }
 
 function stopRelease() {
@@ -435,10 +446,50 @@ function stopRelease() {
   if (!recMedia.classList.contains("is-live")) return;
   recMount.replaceChildren();
   recMedia.classList.remove("is-live");
-  stopPlaySpin();
+  refreshPlaying();
 }
 
 recPlay.addEventListener("click", playRelease);
+
+/* ── the equaliser ring ──────────────────────────────────────── */
+
+{
+  const eq = $("eq");
+  const BARS = 30;
+  for (let i = 0; i < BARS; i++) {
+    const bar = document.createElement("div");
+    bar.className = "eq-bar";
+    bar.style.setProperty("--a", `${(360 / BARS) * i}deg`);
+    const s = document.createElement("span");
+    s.style.setProperty("--dur", `${(0.36 + Math.random() * 0.5).toFixed(2)}s`);
+    s.style.setProperty("--del", `${(Math.random() * -0.9).toFixed(2)}s`);
+    bar.appendChild(s);
+    eq.appendChild(bar);
+  }
+}
+
+/* ── the rail sound wave ─────────────────────────────────────── */
+
+let railLen = 0;
+
+function buildRailWave() {
+  if (!railWave || getComputedStyle(railWave).display === "none") return;
+  const h = Math.max(rail.offsetHeight + 20, 40);
+  railWave.setAttribute("viewBox", `0 0 12 ${h}`);
+  const steps = Math.max(80, Math.round(h / 2));
+  let d = "";
+  for (let i = 0; i <= steps; i++) {
+    const t = i / steps;
+    const y = t * h;
+    const x = 6 + Math.sin(t * Math.PI * 2 * 6.5) * (3.4 + Math.sin(t * Math.PI * 3) * 1.6);
+    d += `${i ? "L" : "M"}${x.toFixed(2)} ${y.toFixed(2)} `;
+  }
+  rwTrack.setAttribute("d", d);
+  rwFill.setAttribute("d", d);
+  railLen = rwFill.getTotalLength();
+  rwFill.style.strokeDasharray = String(railLen);
+  rwFill.style.strokeDashoffset = String(railLen);
+}
 
 /* ── measurement ─────────────────────────────────────────────── */
 
@@ -446,6 +497,7 @@ recPlay.addEventListener("click", playRelease);
 const marks = { hero: 0, campaigns: 0, brands: 0, records: 0, contact: 0 };
 let docSpan = 1;
 let scrubEnabled = false;
+let roomNow = null;
 
 const RAIL_ORDER = ["contact", "records", "brands", "campaigns", "hero"];
 
@@ -493,15 +545,7 @@ function slotPose(el) {
   return { cx: r.left + r.width / 2, cy: r.top + r.height / 2, s: r.width };
 }
 
-/*
-   zones, by scroll position:
-     hero        → hero slot
-     campaigns   → campaigns slot, progress ring live
-     brands      → fades out
-     records     → peeks out from behind the feature card, label = active release
-     contact     → slides in behind the contact card
-*/
-/* reduced motion: the disc is parked in the hero and never travels */
+/* reduced motion: the record is parked behind the portrait and never travels */
 function parkDisc() {
   const r = slotHero.getBoundingClientRect();
   if (r.width < 1) return;
@@ -511,8 +555,16 @@ function parkDisc() {
   assembly.style.transform = `translate3d(${r.left + scrollX}px, ${r.top + scrollY}px, 0)`;
 }
 
+/*
+   zones, by scroll position:
+     hero        → behind the portrait
+     campaigns   → beside the title, progress ring live
+     brands      → fades out
+     records     → peeks from behind the feature card, label = active release
+     contact     → slides in behind the contact card
+*/
 function stageAt(y) {
-  /* long blend so the disc is pulled toward the next slot before it scrolls away */
+  /* long blend so the record is pulled toward the next slot before it leaves */
   const B = vh * 0.95;
   const hero = slotPose(slotHero);
   const camp = slotPose(slotCampaigns);
@@ -624,7 +676,19 @@ function frame() {
   }
   for (const b of railButtons) b.classList.toggle("is-here", b.dataset.act === `act-${here}`);
 
-  railFill.style.height = `${clamp01(y / docSpan) * 100}%`;
+  /* the floating CTA retires once the real one is on screen */
+  document.body.classList.toggle("at-contact", y >= marks.contact - vh * 0.4);
+
+  /* the rail floats over whichever room is at the middle of the screen */
+  const mid = y + vh / 2;
+  const room = mid < marks.campaigns || mid >= marks.records ? "night" : "day";
+  if (room !== roomNow) {
+    roomNow = room;
+    document.body.classList.toggle("on-day", room === "day");
+    document.body.classList.toggle("on-night", room === "night");
+  }
+
+  if (railLen) rwFill.style.strokeDashoffset = String(railLen * (1 - clamp01(y / docSpan)));
 }
 
 function queueFrame() {
@@ -651,6 +715,7 @@ addEventListener("resize", () => {
   resizeTimer = setTimeout(() => {
     sizeCampaignsAct();
     measure();
+    buildRailWave();
     if (reducedMotion) parkDisc();
     queueFrame();
     sweepDeferred();
@@ -693,7 +758,7 @@ function goToCampaign(i) {
 campPrev.addEventListener("click", () => goToCampaign(campIndex - 1));
 campNext.addEventListener("click", () => goToCampaign(campIndex + 1));
 
-/* dragging the disc scrubs the campaign reel */
+/* dragging the record scrubs the campaign reel */
 {
   let dragging = false;
   let lastAngle = 0;
@@ -734,7 +799,7 @@ campNext.addEventListener("click", () => goToCampaign(campIndex + 1));
 
 /* ── rail navigation ─────────────────────────────────────────── */
 
-for (const b of rail.querySelectorAll("button")) {
+for (const b of railButtons) {
   b.addEventListener("click", () => {
     const el = $(b.dataset.act);
     scrollTo({ top: el.offsetTop, behavior: reducedMotion ? "auto" : "smooth" });
@@ -743,8 +808,9 @@ for (const b of rail.querySelectorAll("button")) {
 
 /* ── reveals + counters ──────────────────────────────────────── */
 
-document.querySelectorAll(".act-eyebrow, .act-title, .act-lede, .film-credit, .wall, .contact-body")
-  .forEach((el) => el.classList.add("rv"));
+document.querySelectorAll(
+  ".act-eyebrow, .act-title, .act-lede, .film-credit, .wall, .contact-body, .hero-shot, .hero-figures"
+).forEach((el) => el.classList.add("rv"));
 
 const io = new IntersectionObserver((entries) => {
   for (const en of entries) {
@@ -755,6 +821,13 @@ const io = new IntersectionObserver((entries) => {
 }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
 
 document.querySelectorAll(".rv").forEach((el) => io.observe(el));
+
+/* the hero is above the fold — never let it wait on an observer */
+requestAnimationFrame(() =>
+  document.querySelectorAll(".act-hero .rv").forEach((el) => el.classList.add("in"))
+);
+setTimeout(() =>
+  document.querySelectorAll(".act-hero .rv").forEach((el) => el.classList.add("in")), 400);
 
 const countIO = new IntersectionObserver((entries) => {
   for (const en of entries) {
@@ -804,6 +877,7 @@ function dismissLoader() {
 addEventListener("load", () => {
   sizeCampaignsAct();
   measure();
+  buildRailWave();
   if (reducedMotion) parkDisc();
   queueFrame();
   sweepDeferred();
@@ -819,6 +893,7 @@ $("year").textContent = new Date().getFullYear();
 
 sizeCampaignsAct();
 measure();
+buildRailWave();
 renderCampaign(0);
 selectRelease(0, false);
 if (reducedMotion) parkDisc();

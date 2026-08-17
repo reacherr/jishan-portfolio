@@ -5,21 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Jishan Ali Thobani — Singer &amp; Music Director</title>
 <meta name="description" content="Jishan Ali Thobani — singer, music director and composer. 250+ projects across 100+ brands, original releases with 2.6M+ views, and music for the film Pop Kaun." />
-<meta name="theme-color" content="#f5f3ee" />
+<meta name="theme-color" content="#131010" />
 <link rel="canonical" href="https://reacherr.github.io/jishan-portfolio/" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Jishan Ali Thobani — Singer &amp; Music Director" />
 <meta property="og:description" content="250+ projects · 100+ brands · original releases with 2.6M+ views." />
 <meta property="og:image" content="https://i.ytimg.com/vi/FhfhFYd-08s/maxresdefault.jpg" />
 <meta name="twitter:card" content="summary_large_image" />
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101013'/%3E%3Ccircle cx='32' cy='32' r='19' fill='none' stroke='%23f5f3ee' stroke-width='3'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23cc3520'/%3E%3C/svg%3E" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23131010'/%3E%3Ccircle cx='32' cy='32' r='19' fill='none' stroke='%23f4ece0' stroke-width='3'/%3E%3Ccircle cx='32' cy='32' r='5' fill='%23e9a13c'/%3E%3C/svg%3E" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link rel="preconnect" href="https://i.ytimg.com" />
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&display=swap" rel="stylesheet" />
-<!-- the Devanagari face is only ever used for his name — subset to those glyphs -->
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@500&text=%E0%A4%9C%E0%A4%BF%E0%A4%B6%E0%A4%BE%E0%A4%A8%20%E0%A4%85%E0%A4%B2%E0%A5%80%20%E0%A4%A5%E0%A5%8B%E0%A4%AC%E0%A4%BE%E0%A4%A8%E0%A5%80&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=38" />
+<!-- Devanagari display is only ever his name and one word — subset to those glyphs -->
+<link href="https://fonts.googleapis.com/css2?family=Rozha+One&text=%E0%A4%9C%E0%A4%BF%E0%A4%B6%E0%A4%BE%E0%A4%A8%20%E0%A4%85%E0%A4%B2%E0%A5%80%20%E0%A4%A5%E0%A5%8B%E0%A4%AC%E0%A4%BE%E0%A4%A8%E0%A5%80%20%E0%A4%AE%E0%A4%B9%E0%A4%AB%E0%A4%BC%E0%A4%BF%E0%A4%B2&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css?v=47" />
 </head>
 <body>
 
@@ -30,12 +30,17 @@
   <div class="loader-bar"><i></i></div>
 </div>
 
+<div class="grain" aria-hidden="true"></div>
+
 <a class="wordmark" href="#top" aria-label="Jishan Ali Thobani — back to top">
   <span class="wordmark-jat">JAT</span>
 </a>
 
 <nav class="rail" id="rail" aria-label="Sections">
-  <span class="rail-line" aria-hidden="true"><i id="railFill"></i></span>
+  <svg class="rail-wave" viewBox="0 0 12 400" preserveAspectRatio="none" aria-hidden="true">
+    <path class="rw-track" id="rwTrack" />
+    <path class="rw-fill" id="rwFill" />
+  </svg>
   <button type="button" data-act="act-hero"><em>00</em><span>Index</span></button>
   <button type="button" data-act="act-campaigns"><em>01</em><span>Campaigns</span></button>
   <button type="button" data-act="act-brands"><em>02</em><span>Brands</span></button>
@@ -49,6 +54,7 @@
 </a>
 
 <div class="disc-assembly" id="assembly" aria-hidden="true">
+  <div class="eq" id="eq"></div>
   <svg class="disc-progress" viewBox="0 0 100 100">
     <circle class="dp-track" cx="50" cy="50" r="48.4" />
     <circle class="dp-fill" id="dpFill" cx="50" cy="50" r="48.4" />
@@ -65,25 +71,36 @@
 <main id="main">
 
   <!-- ══ 00 · index ══════════════════════════════════════════ -->
-  <section class="act act-hero" id="act-hero">
+  <section class="act act-hero room-night" id="act-hero">
     <span id="top"></span>
+    <div class="hero-glow" aria-hidden="true"></div>
+
     <div class="hero-grid">
       <div class="hero-type">
-        <p class="hero-deva" lang="hi">जिशान अली थोबानी</p>
+        <p class="hero-place">Mumbai&nbsp;· India &nbsp;—&nbsp; available worldwide</p>
         <h1 class="hero-name">
           <span class="hn-line">Jishan</span>
           <span class="hn-line">Ali</span>
           <span class="hn-line hn-last">Thobani</span>
         </h1>
+        <p class="hero-deva" lang="hi" aria-hidden="true">जिशान अली थोबानी</p>
         <p class="hero-role">
           <b>Singer</b><i aria-hidden="true"></i><b>Music&nbsp;Director</b><i aria-hidden="true"></i><b>Composer</b>
         </p>
         <p class="hero-lede">
-          Voice, jingles and music direction for India&rsquo;s biggest brands — and a
-          catalogue of original releases heard millions of times over.
+          If you have heard an ad break in India, you have probably heard him.
+          Two hundred and fifty campaigns on one side; on the other, devotional
+          records his listeners play millions of times over.
         </p>
       </div>
-      <div class="hero-disc"><div class="disc-slot" id="slotHero"></div></div>
+
+      <figure class="hero-shot">
+        <div class="disc-slot" id="slotHero" aria-hidden="true"></div>
+        <div class="hero-shot-frame">
+          <img src="assets/jishan.jpg?v=2" alt="Jishan Ali Thobani" width="600" height="600" fetchpriority="high" />
+        </div>
+        <figcaption><i aria-hidden="true"></i>In the room, between takes</figcaption>
+      </figure>
     </div>
 
     <ul class="hero-figures">
@@ -91,21 +108,22 @@
       <li><b data-count="100" data-suffix="+">0</b><span>Brands</span></li>
       <li><b data-count="2.6" data-suffix="M+">0</b><span>Views, top release</span></li>
     </ul>
+  </section>
+
+  <!-- ══ 01 · campaigns ══════════════════════════════════════ -->
+  <section class="act act-campaigns room-day" id="act-campaigns" aria-labelledby="campHeading">
 
     <div class="logo-rail" aria-label="Selected brands">
       <div class="logo-rail-track" id="logoRail"></div>
     </div>
-  </section>
 
-  <!-- ══ 01 · campaigns ══════════════════════════════════════ -->
-  <section class="act act-campaigns" id="act-campaigns" aria-labelledby="campHeading">
     <div class="camp-pin">
       <div class="camp-left">
         <p class="act-eyebrow"><em>01</em> Commercial work</p>
         <h2 class="act-title" id="campHeading">The<br />Campaigns</h2>
         <p class="act-lede">
-          Jingles, ad films and anthems — written, composed, sung and directed.
-          Scroll to run the reel.
+          Jingles, ad films and stadium anthems — written, composed, sung, and
+          often all four at once. Keep scrolling and the reel runs.
         </p>
         <div class="camp-disc"><div class="disc-slot" id="slotCampaigns"></div></div>
       </div>
@@ -139,13 +157,13 @@
   </section>
 
   <!-- ══ 02 · brands ═════════════════════════════════════════ -->
-  <section class="act act-brands" id="act-brands" aria-labelledby="wallHeading">
+  <section class="act act-brands room-day" id="act-brands" aria-labelledby="wallHeading">
     <header class="wall-head">
       <p class="act-eyebrow"><em>02</em> The client list</p>
-      <h2 class="act-title" id="wallHeading">Heard on air<br />for a hundred&nbsp;brands.</h2>
+      <h2 class="act-title" id="wallHeading">A hundred brands<br />have borrowed his&nbsp;voice.</h2>
       <p class="act-lede">
-        A selection of the companies whose campaigns carry his voice, his jingles
-        or his music direction.
+        Some wanted a jingle. Some wanted an anthem. Some just wanted the
+        thirty seconds you can&rsquo;t get out of your head.
       </p>
     </header>
 
@@ -162,13 +180,15 @@
   </section>
 
   <!-- ══ 03 · records ════════════════════════════════════════ -->
-  <section class="act act-records" id="act-records" aria-labelledby="recHeading">
+  <section class="act act-records room-night" id="act-records" aria-labelledby="recHeading">
+    <div class="rec-glow" aria-hidden="true"></div>
+
     <header class="rec-head">
       <p class="act-eyebrow"><em>03</em> His own releases</p>
       <h2 class="act-title" id="recHeading">The Records</h2>
       <p class="act-lede">
-        Devotional and original music released under his own name — sung across
-        the UAE, Europe, Canada and India.
+        The other half of the work, released under his own name — devotional
+        music and anthems, sung across the UAE, Europe, Canada and India.
       </p>
     </header>
 
@@ -196,14 +216,16 @@
   </section>
 
   <!-- ══ 04 · contact ════════════════════════════════════════ -->
-  <section class="act act-contact" id="act-contact" aria-labelledby="contactHeading">
+  <section class="act act-contact room-night" id="act-contact" aria-labelledby="contactHeading">
     <div class="contact-pin">
+      <p class="contact-deva" lang="hi" aria-hidden="true">महफ़िल</p>
+
       <div class="contact-card" id="contactCard">
         <div class="disc-slot" id="slotContact" aria-hidden="true"></div>
 
         <div class="contact-body">
           <p class="act-eyebrow contact-eyebrow"><em>04</em> Booking &amp; enquiries</p>
-          <h2 class="contact-title" id="contactHeading">Let&rsquo;s make something<br />worth hearing.</h2>
+          <h2 class="contact-title" id="contactHeading">Tell him what<br />it should sound&nbsp;like.</h2>
 
           <ul class="contact-lines">
             <li>
@@ -248,6 +270,6 @@
 
 </main>
 
-<script src="app.js?v=38"></script>
+<script src="app.js?v=47"></script>
 </body>
 </html>
