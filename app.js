@@ -1,697 +1,826 @@
-const TRACKS = [
+/* ══════════════════════════════════════════════════════════════
+   Jishan Ali Thobani — Singer & Music Director
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── data ────────────────────────────────────────────────────── */
+
+const CAMPAIGNS = [
   {
-    id: "ZlKAAOCDEB8",
-    title: "Navroz Mubarak",
-    rim: "Navroz Mubarak",
-    year: "2024",
-    meta: "ft. Zaheed Damani · 100 artists · 14 countries",
-    note: "One song, a hundred Ismaili voices, fourteen countries. A Navroz greeting that circled the globe.",
-    thumb: "https://i.ytimg.com/vi/ZlKAAOCDEB8/maxresdefault.jpg",
+    brand: "Navi",
+    logo: "navi.png",
+    tag: "Ad films · Jingle",
+    films: [
+      { t: "Navi Loan", id: "pBGnn9Pt_5g" },
+      { t: "Navi Loan II", id: "BmTD8T4Vfec" },
+      { t: "Navi Health Insurance", id: "-kGt3IaW8ns" },
+    ],
   },
+  {
+    brand: "Sweet Dreams",
+    logo: "sweet-dreams.png",
+    tag: "Ad film · ft. Bipasha Basu & Karan Grover",
+    films: [{ t: "Sweet Dreams", id: "gS9CyERAyWc" }],
+  },
+  {
+    brand: "Nilkamal",
+    logo: "nilkamal.png",
+    tag: "Ad films · Jingle",
+    films: [
+      { t: "Home by Nilkamal", id: "ShHZw7-aw6c" },
+      { t: "Shoes", id: "sfXWdhUuWmU" },
+    ],
+  },
+  {
+    brand: "Stanley Tools",
+    logo: "stanley.png",
+    tag: "Commercial · Hindi",
+    films: [{ t: "Stanley 5m Tape", id: "x9BB-CcWCc4" }],
+  },
+  {
+    brand: "Oman Cricket",
+    logo: "oman-cricket.png",
+    tag: "Official anthem",
+    films: [{ t: "#HayyaCricket Anthem", id: "U2iPX_cjw74" }],
+  },
+  {
+    brand: "Metro Shoes",
+    logo: "metro-shoes.png",
+    tag: "Ad film",
+    films: [{ t: "Metro", id: "_l7pLI8urP0" }],
+  },
+  {
+    brand: "SFA Championship",
+    logo: "sfa.png",
+    tag: "Anthem · Sports for All",
+    films: [{ t: "Sports for All", id: "5tl62BfUDS4" }],
+  },
+  {
+    brand: "Priority",
+    logo: "priority.png",
+    tag: "Anthem",
+    films: [{ t: "Priority Anthem", id: "kI1PgkOMCBI" }],
+  },
+];
+
+const RELEASES = [
   {
     id: "FhfhFYd-08s",
     title: "99 Names of ALLAH",
-    rim: "99 Names of Allah",
     year: "2025",
-    meta: "Asma Ul Husna · 2.6M+ views",
-    note: "The Asma Ul Husna, sung name by name. His most-heard recording — and still climbing.",
+    sub: "Asma Ul Husna · 2.6M+ views",
+    note: "The Asma Ul Husna, sung name by name — his most-heard recording, and still climbing.",
     thumb: "https://i.ytimg.com/vi/FhfhFYd-08s/maxresdefault.jpg",
   },
   {
-    id: "fTu-x3Of1m4",
-    title: "HasbunALLAH",
-    rim: "HasbunAllah",
-    year: "2019",
-    meta: "Salgirah 2019 · the breakout",
-    note: "“ALLAH is sufficient for us.” The devotional that carried his voice to playlists worldwide.",
-    thumb: "https://i.ytimg.com/vi/fTu-x3Of1m4/maxresdefault.jpg",
+    id: "ZlKAAOCDEB8",
+    title: "Navroz Mubarak",
+    year: "2024",
+    sub: "ft. Zaheed Damani · 100 artists · 14 countries",
+    note: "One song, a hundred voices, fourteen countries — a Navroz greeting that circled the globe.",
+    thumb: "https://i.ytimg.com/vi/ZlKAAOCDEB8/maxresdefault.jpg",
   },
   {
     id: "AeqZuH_HOeY",
     title: "Allahumma Salli Ala",
-    rim: "Allahumma Salli Ala",
     year: "2022",
-    meta: "Salwaat · Durood · 1.6M+ views",
+    sub: "Salwaat · Durood · 1.6M+ views",
     note: "A salwaat in praise of the Prophet ﷺ — gentle, layered, sung in salutation.",
     thumb: "https://i.ytimg.com/vi/AeqZuH_HOeY/maxresdefault.jpg",
   },
   {
     id: "9W8GifKS438",
     title: "Mubarak Ho Salgirah",
-    rim: "Mubarak Ho Salgirah",
     year: "2024",
-    meta: "ft. United States Jamat · 1.4M+ views",
-    note: "A Salgirah offering, sung with the United States Jamat in one voice.",
+    sub: "ft. United States Jamat · 1.4M+ views",
+    note: "A Salgirah offering, recorded with the United States Jamat in one voice.",
     thumb: "https://i.ytimg.com/vi/9W8GifKS438/hqdefault.jpg",
   },
   {
     id: "CjRNp_gMOhg",
     title: "SubhanALLAH Wa Bihamdihi",
-    rim: "SubhanAllah Wa Bihamdihi",
     year: "2023",
-    meta: "ft. Canadian artists · 1.3M+ views",
-    note: "A tasbih recorded across borders with Canadian artists — one remembrance, many voices.",
+    sub: "ft. Canadian artists · 1.3M+ views",
+    note: "A tasbih recorded across borders — one remembrance, many voices.",
     thumb: "https://i.ytimg.com/vi/CjRNp_gMOhg/hqdefault.jpg",
+  },
+  {
+    id: "fTu-x3Of1m4",
+    title: "HasbunALLAH",
+    year: "2019",
+    sub: "The breakout devotional",
+    note: "“ALLAH is sufficient for us.” The recording that carried his voice to playlists worldwide.",
+    thumb: "https://i.ytimg.com/vi/fTu-x3Of1m4/maxresdefault.jpg",
   },
   {
     id: "r3sqyZ02NqU",
     title: "India Taiyar Hai",
-    rim: "India Taiyar Hai",
     year: "2025",
-    meta: "Team India anthem · Global Encounters Festival",
-    note: "An anthem for Team India at the Global Encounters Festival — drums up, flags out.",
+    sub: "Team India anthem · Global Encounters Festival",
+    note: "An anthem written for Team India at the Global Encounters Festival.",
     thumb: "https://i.ytimg.com/vi/r3sqyZ02NqU/hqdefault.jpg",
   },
 ];
 
-const DEVANAGARI_NUM = ["०१", "०२", "०३", "०४", "०५", "०६", "०७"];
-const N = TRACKS.length;
-const STEP = 360 / N;
-const NEEDLE = 36;
-const SCROLL_SPIN = 0.06; // deg of platter per px of scroll outside the songs act
+const BRANDS = [
+  ["Spotify", "spotify.png"],
+  ["Disney+ Hotstar", "hotstar.png"],
+  ["Nutella", "nutella.png"],
+  ["Snickers", "snickers.png"],
+  ["Crocs", "crocs.png"],
+  ["Royal Challengers Bengaluru", "rcb.png"],
+  ["Kolkata Knight Riders", "kkr.png"],
+  ["Bajaj Finserv", "bajaj-finserv.png"],
+  ["IDFC First Bank", "idfc.png"],
+  /* the old site shipped a PediaSure file under the Petronas name — set as type */
+  ["Petronas", null],
+  ["Cleartrip", "cleartrip.png"],
+  ["PediaSure", "pediasure.png"],
+  ["Morphy Richards", "morphy-richards.png"],
+  ["Radio Mirchi", "radio-mirchi.png"],
+  ["Navi", "navi.png"],
+  ["Nilkamal", "nilkamal.png"],
+  ["Stanley Tools", "stanley.png"],
+  ["Metro Shoes", "metro-shoes.png"],
+  ["Behrouz Biryani", "behrouz.png"],
+  ["Country Delight", "country-delight.png"],
+  ["Faces Canada", "faces-canada.png"],
+  ["Ferns N Petals", "fnp.png"],
+  ["Snitch", "snitch.png"],
+  ["Somany", "somany.png"],
+  ["UPES", "upes.png"],
+  ["Boomer", "boomer.png"],
+  ["U&i", "u-and-i.png"],
+  ["Niyo", "niyo.png"],
+  ["EasyPay", "easypay.png"],
+  ["Chola MS", "chola.png"],
+  ["Danube Home", "danube.png"],
+  ["WallMantra", "wallmantra.png"],
+  ["pTron", "ptron.png"],
+  ["Priority", "priority.png"],
+  ["SFA Championship", "sfa.png"],
+  ["Oman Cricket", "oman-cricket.png"],
+  ["Sweet Dreams", "sweet-dreams.png"],
+];
 
-const assembly = document.getElementById("assembly");
-const record = document.getElementById("record");
-const platter = document.getElementById("platter");
-const rimLabels = document.getElementById("rimLabels");
-const centerLabel = document.getElementById("centerLabel");
-const centerYear = document.getElementById("centerYear");
-const poster = document.getElementById("poster");
-const posterIndex = document.getElementById("posterIndex");
-const posterTitle = document.getElementById("posterTitle");
-const posterMeta = document.getElementById("posterMeta");
-const posterNote = document.getElementById("posterNote");
-const playBtn = document.getElementById("playBtn");
-const posterMedia = document.getElementById("posterMedia");
-const posterThumb = document.getElementById("posterThumb");
-const playerMount = document.getElementById("playerMount");
-const liftBtn = document.getElementById("liftBtn");
-const stepperCount = document.getElementById("stepperCount");
-const slotHero = document.getElementById("slotHero");
-const slotSongs = document.getElementById("slotSongs");
-const sleeveCard = document.getElementById("sleeveCard");
-const actSongs = document.getElementById("act-songs");
-const actSleeve = document.getElementById("act-sleeve");
-const collage = document.getElementById("collage");
-const grooveNav = document.getElementById("grooveNav");
+const RAIL_LOGOS = [
+  "spotify.png", "hotstar.png", "nutella.png", "snickers.png", "crocs.png",
+  "rcb.png", "bajaj-finserv.png", "idfc.png", "cleartrip.png",
+  "pediasure.png", "kkr.png", "navi.png", "radio-mirchi.png", "morphy-richards.png",
+];
+
+/*
+   Deferred images. Driven by geometry off the scroll event rather than
+   IntersectionObserver, so a tile can never be left blank if the observer
+   callback is throttled (background tabs, restored sessions).
+*/
+const deferred = new Set();
+
+function defer(img, src) {
+  img.dataset.src = src;
+  deferred.add(img);
+}
+
+function sweepDeferred() {
+  if (!deferred.size) return;
+  const ahead = innerHeight + 700;
+  for (const img of deferred) {
+    const host = img.closest("li, .logo-rail") || img.parentElement;
+    const r = host.getBoundingClientRect();
+    if (r.top > ahead || r.bottom < -700) continue;
+    img.src = img.dataset.src;
+    delete img.dataset.src;
+    deferred.delete(img);
+    fitLogo(img);
+  }
+}
+
+/* logos with a squarish or tall bounding box need more height to read */
+function fitLogo(img) {
+  const rate = () => {
+    if (!img.naturalWidth || !img.naturalHeight) return;
+    if (img.naturalWidth / img.naturalHeight < 2.1) img.classList.add("is-sq");
+  };
+  if (img.complete) rate();
+  else img.addEventListener("load", rate, { once: true });
+}
+
+/* ── dom ─────────────────────────────────────────────────────── */
+
+const $ = (id) => document.getElementById(id);
+
+const assembly   = $("assembly");
+const disc       = $("disc");
+const platter    = $("platter");
+const discArt    = $("discArt");
+const dpFill     = $("dpFill");
+const rail       = $("rail");
+const railFill   = $("railFill");
+const railButtons = [...rail.querySelectorAll("button")];
+
+const slotHero      = $("slotHero");
+const slotCampaigns = $("slotCampaigns");
+const slotRecords   = $("slotRecords");
+const slotContact   = $("slotContact");
+
+const actCampaigns = $("act-campaigns");
+const actBrands    = $("act-brands");
+const actRecords   = $("act-records");
+const actContact   = $("act-contact");
+
+const campCard  = $("campCard");
+const campLogo  = $("campLogo");
+const campBrand = $("campBrand");
+const campTag   = $("campTag");
+const campFilms = $("campFilms");
+const campNum   = $("campNum");
+const campTotal = $("campTotal");
+const campScrub = $("campScrub");
+const campPrev  = $("campPrev");
+const campNext  = $("campNext");
+
+const recIndex     = $("recIndex");
+const recThumb     = $("recThumb");
+const recTitle     = $("recTitle");
+const recNote      = $("recNote");
+const recPlayTitle = $("recPlayTitle");
+const recMedia     = $("recMedia");
+const recMount     = $("recMount");
+const recPlay      = $("recPlay");
 
 const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
 if (reducedMotion) document.body.classList.add("rm");
 
-let vw = innerWidth, vh = innerHeight;
-let songsTop = 0, songsSpan = 1, songsEnd = 1, sleeveTop = 0, sleeveSpan = 1;
-let rotation = NEEDLE;
+const NC = CAMPAIGNS.length;
+const SCROLL_SPIN = 0.05;
+
+let vw = innerWidth;
+let vh = innerHeight;
+let campTop = 0, campSpan = 1, campEnd = 1;
+let discSize = 0;
+let rotation = 0;
 let spinOffset = 0;
-let curSize = 0;
-let activeIndex = 0;
-let displayedIndex = -1;
-let playingIndex = -1;
-let inSongs = false;
-let settleTimer = null;
-let playRAF = null;
+let campIndex = -1;
+let recIndexActive = -1;
+let playSpinRAF = null;
+let frameQueued = false;
 
-/* ---------- rim labels ---------- */
+/* ── build: logo rail ────────────────────────────────────────── */
 
-const labelEls = TRACKS.map((t, i) => {
-  const el = document.createElement("span");
-  el.className = "rim-label";
-  el.textContent = t.rim;
-  el.id = `track-option-${i}`;
-  el.setAttribute("role", "option");
-  el.setAttribute("aria-selected", "false");
-  rimLabels.appendChild(el);
-  return el;
-});
-
-function paintLabels() {
-  const platterAngle = rotation + spinOffset;
-  const radius = curSize * 0.42;
-  labelEls.forEach((el, i) => {
-    const eff = (((i * STEP + platterAngle) % 360) + 360) % 360;
-    const flipped = eff > 100 && eff < 260;
-    el.style.transform =
-      `rotate(${i * STEP - 90}deg) translate(${radius}px) rotate(${flipped ? 270 : 90}deg) translate(-50%, -50%)`;
+/* the rail sits below the fold — nothing is fetched until it is nearly in view */
+{
+  const track = $("logoRail");
+  [...RAIL_LOGOS, ...RAIL_LOGOS].forEach((file) => {
+    const img = document.createElement("img");
+    img.decoding = "async";
+    img.alt = "";
+    img.setAttribute("aria-hidden", "true");
+    defer(img, `assets/brands/${file}`);
+    track.appendChild(img);
   });
 }
 
-function applyTransforms() {
-  platter.style.transform = `rotate(${rotation + spinOffset}deg)`;
-  centerLabel.style.transform = `rotate(${-rotation}deg)`;
-  paintLabels();
+/* ── build: brand wall ───────────────────────────────────────── */
+
+{
+  const wall = $("wall");
+  const frag = document.createDocumentFragment();
+  BRANDS.forEach(([name, file], i) => {
+    const li = document.createElement("li");
+    li.dataset.n = String(i + 1).padStart(2, "0");
+    if (file) {
+      const img = document.createElement("img");
+      img.decoding = "async";
+      img.alt = name;
+      defer(img, `assets/brands/${file}`);
+      li.appendChild(img);
+    } else {
+      const type = document.createElement("span");
+      type.className = "wall-type";
+      type.textContent = name;
+      li.appendChild(type);
+    }
+    frag.appendChild(li);
+  });
+  const more = document.createElement("li");
+  more.className = "wall-more";
+  more.innerHTML = `<span>&amp; sixty more<small>250+ projects</small></span>`;
+  frag.appendChild(more);
+  wall.appendChild(frag);
 }
 
-/* ---------- measurements ---------- */
+/* ── build: campaign card ────────────────────────────────────── */
+
+campTotal.textContent = String(NC).padStart(2, "0");
+
+function renderCampaign(i) {
+  if (i === campIndex) return;
+  campIndex = i;
+  const c = CAMPAIGNS[i];
+
+  campLogo.src = `assets/brands/${c.logo}`;
+  campLogo.alt = `${c.brand} logo`;
+  campBrand.textContent = c.brand;
+  campTag.textContent = c.tag;
+  campNum.textContent = String(i + 1).padStart(2, "0");
+
+  campFilms.className = `camp-films n${Math.min(c.films.length, 3)}`;
+  campFilms.replaceChildren(...c.films.map((f) => filmFacade(f, c.brand)));
+
+  campPrev.disabled = i === 0;
+  campNext.disabled = i === NC - 1;
+
+  if (reducedMotion) return;
+  campCard.classList.remove("is-swapping");
+  void campCard.offsetWidth;
+  campCard.classList.add("is-swapping");
+}
+
+function filmFacade(f, brand) {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "film";
+  btn.innerHTML =
+    `<span class="film-shot">` +
+      `<img src="https://i.ytimg.com/vi/${f.id}/hqdefault.jpg" alt="" loading="lazy" decoding="async" width="480" height="360" />` +
+      `<span class="film-veil"><span class="film-cue" aria-hidden="true">▶</span></span>` +
+    `</span>` +
+    `<span class="film-name"></span>`;
+  btn.querySelector(".film-name").textContent = f.t;
+  btn.setAttribute("aria-label", `Play ${brand} — ${f.t}`);
+  btn.addEventListener("click", () => {
+    if (btn.classList.contains("is-live")) return;
+    const fr = document.createElement("iframe");
+    fr.className = "film-frame";
+    fr.src = `https://www.youtube-nocookie.com/embed/${f.id}?autoplay=1&rel=0&playsinline=1`;
+    fr.title = `${brand} — ${f.t}`;
+    fr.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+    fr.allowFullscreen = true;
+    btn.querySelector(".film-shot").appendChild(fr);
+    btn.classList.add("is-live");
+    startPlaySpin();
+  });
+  return btn;
+}
+
+/* ── build: records ──────────────────────────────────────────── */
+
+{
+  const frag = document.createDocumentFragment();
+  RELEASES.forEach((r, i) => {
+    const li = document.createElement("li");
+    li.className = "rec-row";
+    li.innerHTML =
+      `<button type="button">` +
+        `<span class="rec-n">${String(i + 1).padStart(2, "0")}</span>` +
+        `<span class="rec-name"></span>` +
+        `<span class="rec-year">${r.year}</span>` +
+      `</button>`;
+    const name = li.querySelector(".rec-name");
+    name.textContent = r.title;
+    const sub = document.createElement("span");
+    sub.className = "rec-sub";
+    sub.textContent = r.sub;
+    name.appendChild(sub);
+    li.querySelector("button").addEventListener("click", () => selectRelease(i, true));
+    frag.appendChild(li);
+  });
+  recIndex.appendChild(frag);
+}
+
+const recRows = [...recIndex.querySelectorAll(".rec-row")];
+
+/* while a release is playing, scrolling must not yank it away */
+let recLocked = false;
+
+function selectRelease(i, fromClick) {
+  if (i === recIndexActive) {
+    if (fromClick) playRelease();
+    return;
+  }
+  recIndexActive = i;
+  const r = RELEASES[i];
+
+  stopRelease();
+  recThumb.src = r.thumb;
+  recThumb.alt = `${r.title} — video still`;
+  recTitle.textContent = r.title;
+  recNote.textContent = r.note;
+  recPlayTitle.textContent = r.title;
+
+  recRows.forEach((row, k) => row.classList.toggle("is-on", k === i));
+
+  if (artOn) {
+    discArt.style.backgroundImage = `url("${r.thumb}")`;
+    discArt.classList.add("is-art");
+  }
+
+  if (fromClick) playRelease();
+}
+
+function playRelease() {
+  const r = RELEASES[recIndexActive];
+  const fr = document.createElement("iframe");
+  fr.src = `https://www.youtube-nocookie.com/embed/${r.id}?autoplay=1&rel=0&playsinline=1`;
+  fr.title = `${r.title} — Jishan Ali Thobani`;
+  fr.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+  fr.allowFullscreen = true;
+  recMount.replaceChildren(fr);
+  recMedia.classList.add("is-live");
+  recLocked = true;
+  startPlaySpin();
+}
+
+function stopRelease() {
+  recLocked = false;
+  if (!recMedia.classList.contains("is-live")) return;
+  recMount.replaceChildren();
+  recMedia.classList.remove("is-live");
+  stopPlaySpin();
+}
+
+recPlay.addEventListener("click", playRelease);
+
+/* ── measurement ─────────────────────────────────────────────── */
+
+/* act offsets are cached so the scroll loop never touches layout for them */
+const marks = { hero: 0, campaigns: 0, brands: 0, records: 0, contact: 0 };
+let docSpan = 1;
+let scrubEnabled = false;
+
+const RAIL_ORDER = ["contact", "records", "brands", "campaigns", "hero"];
 
 function measure() {
   vw = innerWidth;
   vh = innerHeight;
-  songsTop = actSongs.offsetTop;
-  songsSpan = Math.max(actSongs.offsetHeight - vh, 1);
-  songsEnd = songsTop + songsSpan;
-  sleeveTop = actSleeve.offsetTop;
-  sleeveSpan = Math.max(actSleeve.offsetHeight - vh, 1);
+
+  marks.hero      = $("act-hero").offsetTop;
+  marks.campaigns = actCampaigns.offsetTop;
+  marks.brands    = actBrands.offsetTop;
+  marks.records   = actRecords.offsetTop;
+  marks.contact   = actContact.offsetTop;
+
+  campTop = marks.campaigns;
+  campSpan = Math.max(actCampaigns.offsetHeight - vh, 1);
+  campEnd = campTop + campSpan;
+
+  docSpan = Math.max(document.documentElement.scrollHeight - vh, 1);
 }
 
-/* ---------- scroll choreography ---------- */
+/* the campaigns act needs enough runway to scrub one screen per campaign */
+function sizeCampaignsAct() {
+  scrubEnabled = !reducedMotion && innerWidth > 860;
+  actCampaigns.style.height = scrubEnabled
+    ? `${innerHeight * (1 + (NC - 1) * 0.62)}px`
+    : "";
+}
 
-const smooth = (x) => { const t = Math.min(Math.max(x, 0), 1); return t * t * (3 - 2 * t); };
-const mix = (a, b, u) => ({ cx: a.cx + (b.cx - a.cx) * u, cy: a.cy + (b.cy - a.cy) * u, s: a.s + (b.s - a.s) * u });
-const rectPose = (el) => {
+/* ── disc choreography ───────────────────────────────────────── */
+
+const clamp01 = (x) => (x < 0 ? 0 : x > 1 ? 1 : x);
+const smooth = (x) => { const t = clamp01(x); return t * t * (3 - 2 * t); };
+const mixPose = (a, b, u) => ({
+  cx: a.cx + (b.cx - a.cx) * u,
+  cy: a.cy + (b.cy - a.cy) * u,
+  s: a.s + (b.s - a.s) * u,
+});
+
+let lastPose = { cx: 0, cy: 0, s: 1 };
+
+/* a slot hidden by a media query reports zero width — treat it as "no anchor" */
+function slotPose(el) {
   const r = el.getBoundingClientRect();
+  if (r.width < 1) return null;
   return { cx: r.left + r.width / 2, cy: r.top + r.height / 2, s: r.width };
-};
-
-function dockPose() {
-  const s = Math.min(vw, vh) * (vw < 860 ? 0.42 : 0.52);
-  return { cx: vw < 860 ? -s * 0.34 : -s * 0.18, cy: vh * 0.82, s };
 }
 
-function poseAt(y) {
-  const B = vh * 0.65;
-  if (y < songsTop - B) return rectPose(slotHero);
-  if (y < songsTop) return mix(rectPose(slotHero), rectPose(slotSongs), smooth((y - (songsTop - B)) / B));
-  if (y <= songsEnd) return rectPose(slotSongs);
-  if (y <= songsEnd + B) return mix(rectPose(slotSongs), dockPose(), smooth((y - songsEnd) / B));
-  const sp = (y - sleeveTop) / sleeveSpan;
-  if (sp <= 0) return dockPose();
-  const card = sleeveCard.getBoundingClientRect();
-  const mouth = { cx: card.left + card.width / 2, cy: card.top - card.width * 0.30, s: card.width * 0.94 };
-  if (sp < 0.5) return mix(dockPose(), mouth, smooth(sp / 0.5));
-  const inside = { cx: mouth.cx, cy: card.top + card.height * 0.42, s: mouth.s };
-  return mix(mouth, inside, smooth((sp - 0.5) / 0.5));
+/*
+   zones, by scroll position:
+     hero        → hero slot
+     campaigns   → campaigns slot, progress ring live
+     brands      → fades out
+     records     → peeks out from behind the feature card, label = active release
+     contact     → slides in behind the contact card
+*/
+/* reduced motion: the disc is parked in the hero and never travels */
+function parkDisc() {
+  const r = slotHero.getBoundingClientRect();
+  if (r.width < 1) return;
+  assembly.style.position = "absolute";
+  assembly.style.width = `${r.width}px`;
+  assembly.style.height = `${r.width}px`;
+  assembly.style.transform = `translate3d(${r.left + scrollX}px, ${r.top + scrollY}px, 0)`;
 }
 
-function rotAt(y) {
-  if (y < songsTop) return NEEDLE + (songsTop - y) * SCROLL_SPIN;
-  if (y <= songsEnd) return NEEDLE - ((y - songsTop) / songsSpan) * (N - 1) * STEP;
-  return NEEDLE - (N - 1) * STEP - (y - songsEnd) * SCROLL_SPIN;
+function stageAt(y) {
+  /* long blend so the disc is pulled toward the next slot before it scrolls away */
+  const B = vh * 0.95;
+  const hero = slotPose(slotHero);
+  const camp = slotPose(slotCampaigns);
+
+  if (y < campTop - B) return { pose: hero, a: 1, scrub: false, art: false };
+
+  if (y < campTop) {
+    const u = smooth((y - (campTop - B)) / B);
+    if (!hero || !camp) return { pose: hero || camp, a: hero || camp ? 1 - u : 0, scrub: false, art: false };
+    return { pose: mixPose(hero, camp, u), a: 1, scrub: false, art: false };
+  }
+
+  if (y <= campEnd) return { pose: camp, a: 1, scrub: scrubEnabled, art: false };
+
+  if (y < campEnd + B) {
+    const u = smooth((y - campEnd) / B);
+    return { pose: camp, a: 1 - u, scrub: scrubEnabled, art: false };
+  }
+
+  const rec = slotPose(slotRecords);
+  const con = slotPose(slotContact);
+  const recIn = marks.records - vh * 0.35;
+  const conIn = marks.contact - vh * 0.5;
+
+  if (y < recIn) return { pose: rec, a: 0, scrub: false, art: true };
+
+  if (y < conIn) {
+    const u = smooth((y - recIn) / (vh * 0.35));
+    return { pose: rec, a: u, scrub: false, art: true };
+  }
+
+  const u = smooth((y - conIn) / (vh * 0.5));
+  if (!rec || !con) return { pose: con || rec, a: con || rec ? 1 : 0, scrub: false, art: true };
+  return { pose: mixPose(rec, con, u), a: 1, scrub: false, art: true };
 }
 
-function trackAt(y) {
-  const t = Math.min(Math.max((y - songsTop) / songsSpan, 0), 1) * (N - 1);
-  return Math.round(t);
+function paint() {
+  platter.style.transform = `rotate(${rotation + spinOffset}deg)`;
 }
 
-function setActive(idx) {
-  if (idx === activeIndex) return;
-  activeIndex = idx;
-  labelEls.forEach((el, i) => {
-    el.classList.toggle("is-active", i === activeIndex);
-    el.setAttribute("aria-selected", String(i === activeIndex));
-  });
-  record.setAttribute("aria-activedescendant", `track-option-${activeIndex}`);
-  renderTrack();
-}
+let artOn = null;
 
-let frameQueued = false;
+function setDiscArt(on) {
+  if (on === artOn) return;
+  artOn = on;
+  if (on && recIndexActive >= 0) {
+    discArt.style.backgroundImage = `url("${RELEASES[recIndexActive].thumb}")`;
+    discArt.classList.add("is-art");
+  } else {
+    discArt.style.backgroundImage = "";
+    discArt.classList.remove("is-art");
+  }
+}
 
 function frame() {
   frameQueued = false;
   const y = scrollY;
 
-  const pose = poseAt(y);
-  if (Math.abs(pose.s - curSize) > 0.5) {
-    curSize = pose.s;
-    assembly.style.width = `${curSize}px`;
-    assembly.style.height = `${curSize}px`;
-    rimLabels.style.fontSize = `${Math.max(curSize * 0.017, 7)}px`;
-    centerYear.style.fontSize = `${Math.max(curSize * 0.042, 9)}px`;
-  }
-  assembly.style.transform = `translate3d(${pose.cx - pose.s / 2}px, ${pose.cy - pose.s / 2}px, 0)`;
+  /* ── read phase — every layout query happens here ── */
+  const st = stageAt(y);
 
-  rotation = rotAt(y);
-  applyTransforms();
-
-  const B = vh * 0.65;
-  inSongs = y >= songsTop - B && y <= songsEnd + B;
-  assembly.classList.toggle("in-songs", inSongs);
-  if (!inSongs && playingIndex !== -1) stopVideo();
-
-  if (inSongs) {
-    setActive(trackAt(y));
-    clearTimeout(settleTimer);
-    settleTimer = setTimeout(onSettle, 140);
+  let nearestRow = -1;
+  if (!recLocked && y > marks.brands && y < marks.contact + vh) {
+    const mid = vh * 0.45;
+    let bestD = Infinity;
+    for (let i = 0; i < recRows.length; i++) {
+      const r = recRows[i].getBoundingClientRect();
+      if (r.bottom < 0 || r.top > vh) continue;
+      const d = Math.abs(r.top + r.height / 2 - mid);
+      if (d < bestD) { bestD = d; nearestRow = i; }
+    }
   }
 
-  const acts = ["act-sleeve", "act-gallery", "act-brands", "act-songs", "act-overture"];
-  let here = "act-overture";
-  for (const id of acts) {
-    if (y >= document.getElementById(id).offsetTop - vh * 0.5) { here = id; break; }
-  }
-  grooveNav.querySelectorAll("button").forEach((b) =>
-    b.classList.toggle("is-here", b.dataset.act === here)
-  );
+  /* ── write phase ── */
+  if (!reducedMotion) {
+    const pose = st.pose || lastPose;
+    lastPose = pose;
 
-  /* hero parallax departure */
-  if (y < vh * 1.2) {
-    const heroCopy = document.querySelector(".hero-copy");
-    heroCopy.style.transform = `translateY(${-y * 0.28}px)`;
-    heroCopy.style.opacity = Math.max(1 - y / (vh * 0.7), 0);
-    const cue = document.querySelector(".scroll-cue");
-    cue.style.opacity = Math.max(0.9 - y / (vh * 0.3), 0);
+    if (Math.abs(pose.s - discSize) > 0.5) {
+      discSize = pose.s;
+      assembly.style.width = `${discSize}px`;
+      assembly.style.height = `${discSize}px`;
+    }
+    assembly.style.transform =
+      `translate3d(${Math.round(pose.cx - pose.s / 2)}px, ${Math.round(pose.cy - pose.s / 2)}px, 0)`;
+
+    const alpha = st.pose ? st.a : 0;
+    assembly.style.opacity = alpha.toFixed(3);
+    assembly.style.visibility = alpha < 0.02 ? "hidden" : "visible";
+    assembly.classList.toggle("is-scrubbing", st.scrub);
+
+    rotation = y * SCROLL_SPIN;
+    paint();
+    setDiscArt(st.art);
   }
 
-  /* collage drift — photos ride at different speeds */
-  collageImgs.forEach((img, i) => {
-    const r = img.getBoundingClientRect();
-    if (r.bottom < 0 || r.top > vh) return;
-    const p = (r.top + r.height / 2 - vh / 2) / vh;
-    img.style.transform = `translateY(${p * (i % 2 ? 30 : -34)}px) scale(1.12)`;
-  });
+  if (scrubEnabled && y >= campTop - vh * 0.35 && y <= campEnd + vh * 0.35) {
+    const p = clamp01((y - campTop) / campSpan);
+    renderCampaign(Math.round(p * (NC - 1)));
+    campScrub.style.width = `${(p * 100).toFixed(1)}%`;
+    dpFill.style.strokeDashoffset = String(304.2 * (1 - p));
+  }
+
+  if (nearestRow >= 0) selectRelease(nearestRow, false);
+
+  let here = "hero";
+  for (const key of RAIL_ORDER) {
+    if (y >= marks[key] - vh * 0.45) { here = key; break; }
+  }
+  for (const b of railButtons) b.classList.toggle("is-here", b.dataset.act === `act-${here}`);
+
+  railFill.style.height = `${clamp01(y / docSpan) * 100}%`;
 }
 
 function queueFrame() {
-  if (!frameQueued && !reducedMotion) {
+  if (!frameQueued) {
     frameQueued = true;
     requestAnimationFrame(frame);
   }
 }
 
-function onSettle() {
-  renderTrack();
-  if (playingIndex !== -1 && playingIndex !== activeIndex) playActive();
-  else if (playingIndex === -1) ensurePlayer(TRACKS[activeIndex].id); // pre-warm for instant, Safari-safe playback
-}
+let lastSweep = 0;
+addEventListener("scroll", () => {
+  queueFrame();
+  const now = performance.now();
+  if (now - lastSweep > 120) { lastSweep = now; sweepDeferred(); }
+}, { passive: true });
 
-addEventListener("scroll", queueFrame, { passive: true });
-addEventListener("resize", () => { measure(); queueFrame(); });
+let resizeTimer = null;
+let lastW = innerWidth;
+addEventListener("resize", () => {
+  /* mobile browsers fire resize on every URL-bar nudge — only react to real changes */
+  if (innerWidth === lastW && Math.abs(innerHeight - vh) < 120) return;
+  lastW = innerWidth;
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => {
+    sizeCampaignsAct();
+    measure();
+    if (reducedMotion) parkDisc();
+    queueFrame();
+    sweepDeferred();
+  }, 140);
+});
 
-/* ---------- track rendering ---------- */
-
-function renderTrack() {
-  if (displayedIndex === activeIndex) return;
-  displayedIndex = activeIndex;
-  const t = TRACKS[activeIndex];
-  posterIndex.textContent = DEVANAGARI_NUM[activeIndex];
-  posterTitle.textContent = t.title;
-  posterMeta.textContent = `${t.year} · ${t.meta}`;
-  posterNote.textContent = t.note;
-  posterThumb.src = t.thumb;
-  posterThumb.alt = `${t.title} — video thumbnail`;
-  centerYear.textContent = t.year;
-  stepperCount.textContent = `0${activeIndex + 1} / 0${N}`;
-  if (reducedMotion) return;
-  poster.classList.remove("is-swapping");
-  void poster.offsetWidth;
-  poster.classList.add("is-swapping");
-}
-
-/* ---------- playback ---------- */
+/* ── platter spin while something is playing ─────────────────── */
 
 function startPlaySpin() {
-  if (reducedMotion) return;
-  cancelAnimationFrame(playRAF);
+  if (reducedMotion || playSpinRAF) return;
   let last = performance.now();
   const tick = (now) => {
-    spinOffset += (now - last) * 0.072;
+    spinOffset += (now - last) * 0.055;
     last = now;
-    applyTransforms();
-    playRAF = requestAnimationFrame(tick);
+    paint();
+    playSpinRAF = requestAnimationFrame(tick);
   };
-  playRAF = requestAnimationFrame(tick);
+  playSpinRAF = requestAnimationFrame(tick);
 }
 
 function stopPlaySpin() {
-  cancelAnimationFrame(playRAF);
-  const rem = spinOffset % 360;
-  if (rem < 1 || reducedMotion) { spinOffset = 0; applyTransforms(); return; }
-  const t0 = performance.now();
-  const dur = 600;
-  const ease = (x) => 1 - Math.pow(1 - x, 3);
-  const settle = (now) => {
-    const p = Math.min((now - t0) / dur, 1);
-    spinOffset = rem + (360 - rem) * ease(p);
-    applyTransforms();
-    if (p < 1) playRAF = requestAnimationFrame(settle);
-    else { spinOffset = 0; applyTransforms(); }
-  };
-  playRAF = requestAnimationFrame(settle);
+  if (!playSpinRAF) return;
+  cancelAnimationFrame(playSpinRAF);
+  playSpinRAF = null;
+  spinOffset = 0;
+  paint();
 }
 
-let mountedId = null;
+/* ── transport + drag ────────────────────────────────────────── */
 
-function commandPlayer(func, args = []) {
-  const fr = playerMount.firstElementChild;
-  if (!fr) return;
-  try {
-    fr.contentWindow.postMessage(JSON.stringify({ event: "command", func, args }), "*");
-  } catch { /* iframe not ready */ }
-}
-
-function ensurePlayer(id) {
-  if (mountedId === id) return;
-  mountedId = id;
-  playerMount.innerHTML =
-    `<iframe src="https://www.youtube-nocookie.com/embed/${id}?enablejsapi=1&playsinline=1&rel=0" ` +
-    `title="Jishan Ali Thobani — player" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe>`;
-}
-
-function burstPlay() {
-  let tries = 0;
-  const attempt = () => {
-    commandPlayer("playVideo");
-    if (++tries < 9) setTimeout(attempt, 160);
-  };
-  attempt();
-}
-
-function playActive() {
-  const t = TRACKS[activeIndex];
-  const wasPlaying = playingIndex !== -1;
-  playingIndex = activeIndex;
-  if (mountedId === t.id) {
-    burstPlay();
-  } else if (wasPlaying) {
-    mountedId = t.id;
-    commandPlayer("loadVideoById", [t.id]);
-  } else {
-    ensurePlayer(t.id);
-    burstPlay();
-  }
-  posterMedia.classList.add("is-live");
-  liftBtn.hidden = false;
-  document.body.classList.add("is-playing");
-  startPlaySpin();
-}
-
-function stopVideo() {
-  if (playingIndex === -1) return;
-  playingIndex = -1;
-  commandPlayer("pauseVideo");
-  posterMedia.classList.remove("is-live");
-  liftBtn.hidden = true;
-  document.body.classList.remove("is-playing");
-  stopPlaySpin();
-}
-
-playBtn.addEventListener("click", playActive);
-liftBtn.addEventListener("click", stopVideo);
-
-/* ---------- steppers, keyboard, drag ---------- */
-
-function scrollToTrack(i) {
-  const idx = Math.min(Math.max(i, 0), N - 1);
-  if (reducedMotion) {
-    setActive(idx);
-    renderTrack();
+function goToCampaign(i) {
+  const idx = Math.min(Math.max(i, 0), NC - 1);
+  if (!scrubEnabled) {
+    renderCampaign(idx);
     return;
   }
-  scrollTo({ top: songsTop + (idx / (N - 1)) * songsSpan, behavior: "smooth" });
+  scrollTo({ top: campTop + (idx / (NC - 1)) * campSpan, behavior: "smooth" });
 }
 
-document.getElementById("prevTrack").addEventListener("click", () => scrollToTrack(activeIndex - 1));
-document.getElementById("nextTrack").addEventListener("click", () => scrollToTrack(activeIndex + 1));
+campPrev.addEventListener("click", () => goToCampaign(campIndex - 1));
+campNext.addEventListener("click", () => goToCampaign(campIndex + 1));
 
-record.addEventListener("keydown", (e) => {
-  if (e.key === "ArrowRight" || e.key === "ArrowDown") { e.preventDefault(); scrollToTrack(activeIndex + 1); }
-  if (e.key === "ArrowLeft" || e.key === "ArrowUp") { e.preventDefault(); scrollToTrack(activeIndex - 1); }
-  if (e.key === "Enter" || e.key === " ") {
-    e.preventDefault();
-    if (inSongs || reducedMotion) playActive();
-    else scrollToTrack(activeIndex);
-  }
-});
+/* dragging the disc scrubs the campaign reel */
+{
+  let dragging = false;
+  let lastAngle = 0;
 
-/* dragging the record scrolls the page (which spins the record) */
-let dragging = false;
-let lastAngle = 0;
-
-function pointerAngle(e) {
-  const r = record.getBoundingClientRect();
-  return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180 / Math.PI;
-}
-
-function pointerDist(e) {
-  const r = record.getBoundingClientRect();
-  return Math.hypot(e.clientX - (r.left + r.width / 2), e.clientY - (r.top + r.height / 2));
-}
-
-record.addEventListener("pointerdown", (e) => {
-  if (reducedMotion) return;
-  dragging = true;
-  lastAngle = pointerAngle(e);
-  record.setPointerCapture(e.pointerId);
-  document.documentElement.style.scrollBehavior = "auto";
-});
-
-record.addEventListener("pointermove", (e) => {
-  if (!dragging) return;
-  if (pointerDist(e) < record.offsetWidth * 0.16) { lastAngle = pointerAngle(e); return; } // dead zone near the spindle
-  const a = pointerAngle(e);
-  let d = a - lastAngle;
-  if (d > 180) d -= 360;
-  if (d < -180) d += 360;
-  lastAngle = a;
-  const y = scrollY;
-  const deriv = (rotAt(y + 2) - rotAt(y)) / 2; // deg per px, negative
-  if (deriv < -0.0001) {
-    const dy = Math.min(Math.max(d / deriv, -140), 140);
-    scrollBy(0, dy);
-  }
-});
-
-["pointerup", "pointercancel"].forEach((ev) =>
-  record.addEventListener(ev, () => {
-    dragging = false;
-    document.documentElement.style.scrollBehavior = "";
-  })
-);
-
-/* ---------- groove nav ---------- */
-
-grooveNav.querySelectorAll("button").forEach((b) =>
-  b.addEventListener("click", () => {
-    const el = document.getElementById(b.dataset.act);
-    scrollTo({ top: el.offsetTop, behavior: reducedMotion ? "auto" : "smooth" });
-  })
-);
-
-/* ---------- gallery collage ---------- */
-
-TRACKS.forEach((t) => {
-  const fig = document.createElement("figure");
-  fig.className = "reveal";
-  fig.innerHTML =
-    `<div class="ph"><img src="${t.thumb}" alt="Jishan Ali Thobani — still from ${t.title}" loading="lazy" /></div>` +
-    `<figcaption><b>${t.title}</b><span>${t.year}</span></figcaption>`;
-  collage.appendChild(fig);
-});
-
-const collageImgs = [...collage.querySelectorAll("img")];
-
-/* ---------- wow layer ---------- */
-
-const finePointer = matchMedia("(pointer: fine)").matches;
-
-/* equalizer ring around the vinyl while playing */
-const eq = document.createElement("div");
-eq.className = "eq";
-eq.setAttribute("aria-hidden", "true");
-const EQ_BARS = 28;
-for (let i = 0; i < EQ_BARS; i++) {
-  const bar = document.createElement("div");
-  bar.className = "eq-bar";
-  bar.style.setProperty("--a", `${(360 / EQ_BARS) * i}deg`);
-  const s = document.createElement("span");
-  s.style.setProperty("--dur", `${(0.38 + Math.random() * 0.5).toFixed(2)}s`);
-  s.style.setProperty("--del", `${(Math.random() * -0.9).toFixed(2)}s`);
-  bar.appendChild(s);
-  eq.appendChild(bar);
-}
-assembly.appendChild(eq);
-
-/* hero name — letters rise in like notes settling on a staff */
-let letterCount = 0;
-document.querySelectorAll(".hero-name > span").forEach((word) => {
-  const text = word.textContent;
-  word.textContent = "";
-  [...text].forEach((ch) => {
-    const l = document.createElement("span");
-    l.className = "ltr";
-    l.textContent = ch;
-    l.style.setProperty("--i", letterCount++);
-    word.appendChild(l);
-  });
-});
-
-/* 3D tilt on the paper cards */
-function attachTilt(el, max = 3.2) {
-  if (!finePointer || reducedMotion) return;
-  el.addEventListener("pointermove", (e) => {
-    const r = el.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    el.style.setProperty("--ry", `${(px * max * 2).toFixed(2)}deg`);
-    el.style.setProperty("--rx", `${(-py * max * 2).toFixed(2)}deg`);
-  });
-  el.addEventListener("pointerleave", () => {
-    el.style.setProperty("--rx", "0deg");
-    el.style.setProperty("--ry", "0deg");
-  });
-}
-
-[poster, document.querySelector(".bill"), sleeveCard].forEach((el) => attachTilt(el));
-
-/* magnetic pull on key buttons */
-function attachMagnet(el, strength = 0.3, radius = 70) {
-  if (!finePointer || reducedMotion) return;
-  el.addEventListener("pointermove", (e) => {
-    const r = el.getBoundingClientRect();
-    const dx = e.clientX - (r.left + r.width / 2);
-    const dy = e.clientY - (r.top + r.height / 2);
-    el.style.setProperty("--mx", `${Math.max(-radius, Math.min(radius, dx)) * strength}px`);
-    el.style.setProperty("--my", `${Math.max(-radius, Math.min(radius, dy)) * strength}px`);
-  });
-  el.addEventListener("pointerleave", () => {
-    el.style.setProperty("--mx", "0px");
-    el.style.setProperty("--my", "0px");
-  });
-}
-
-[liftBtn, document.querySelector(".book-cta"), ...grooveNav.querySelectorAll("button")]
-  .forEach((el) => attachMagnet(el));
-
-/* mini-vinyl cursor trail that spins with your scroll */
-if (finePointer && !reducedMotion) {
-  const cur = document.createElement("div");
-  cur.id = "vinylCursor";
-  cur.setAttribute("aria-hidden", "true");
-  document.body.appendChild(cur);
-  let mx = -100, my = -100, cx = -100, cy = -100, spin = 0, lastYc = scrollY;
-  addEventListener("mousemove", (e) => {
-    mx = e.clientX;
-    my = e.clientY;
-    document.body.classList.add("cursor-live");
-  });
-  document.documentElement.addEventListener("mouseleave", () =>
-    document.body.classList.remove("cursor-live")
-  );
-  const curTick = () => {
-    cx += (mx - cx) * 0.22;
-    cy += (my - cy) * 0.22;
-    const vel = scrollY - lastYc;
-    lastYc = scrollY;
-    spin += 2.4 + Math.min(Math.abs(vel) * 0.6, 22);
-    cur.style.transform = `translate(${cx + 16}px, ${cy + 18}px) rotate(${spin}deg)`;
-    requestAnimationFrame(curTick);
+  const angleAt = (e) => {
+    const r = disc.getBoundingClientRect();
+    return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180 / Math.PI;
   };
-  requestAnimationFrame(curTick);
+
+  disc.addEventListener("pointerdown", (e) => {
+    if (reducedMotion) return;
+    dragging = true;
+    lastAngle = angleAt(e);
+    disc.setPointerCapture(e.pointerId);
+    document.documentElement.style.scrollBehavior = "auto";
+  });
+
+  disc.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    const a = angleAt(e);
+    let d = a - lastAngle;
+    if (d > 180) d -= 360;
+    if (d < -180) d += 360;
+    lastAngle = a;
+    scrollBy(0, Math.max(-160, Math.min(160, d / SCROLL_SPIN)));
+  });
+
+  const end = (e) => {
+    if (!dragging) return;
+    dragging = false;
+    if (e.pointerId != null && disc.hasPointerCapture(e.pointerId)) disc.releasePointerCapture(e.pointerId);
+    document.documentElement.style.scrollBehavior = "";
+  };
+
+  disc.addEventListener("pointerup", end);
+  disc.addEventListener("pointercancel", end);
 }
 
-/* double-click the record — one exuberant extra spin */
-let burstRAF = null;
-record.addEventListener("dblclick", () => {
-  if (reducedMotion) return;
-  if (playingIndex === -1) {
-    cancelAnimationFrame(burstRAF);
-    const from = spinOffset;
-    const t0 = performance.now();
-    const dur = 900;
-    const ease = (x) => 1 - Math.pow(1 - x, 3);
-    const tick = (now) => {
-      const p = Math.min((now - t0) / dur, 1);
-      spinOffset = from + 360 * ease(p);
-      applyTransforms();
-      if (p < 1) burstRAF = requestAnimationFrame(tick);
-      else { spinOffset = from; applyTransforms(); }
-    };
-    burstRAF = requestAnimationFrame(tick);
-  }
-  const wah = document.createElement("p");
-  wah.className = "wah";
-  wah.textContent = ["kya baat hai!", "wah wah!", "irshad!"][Math.floor(Math.random() * 3)];
-  assembly.appendChild(wah);
-  setTimeout(() => wah.remove(), 1400);
-});
+/* ── rail navigation ─────────────────────────────────────────── */
 
-/* ---------- reveal / stamp observers ---------- */
+for (const b of rail.querySelectorAll("button")) {
+  b.addEventListener("click", () => {
+    const el = $(b.dataset.act);
+    scrollTo({ top: el.offsetTop, behavior: reducedMotion ? "auto" : "smooth" });
+  });
+}
+
+/* ── reveals + counters ──────────────────────────────────────── */
+
+document.querySelectorAll(".act-eyebrow, .act-title, .act-lede, .film-credit, .wall, .contact-body")
+  .forEach((el) => el.classList.add("rv"));
 
 const io = new IntersectionObserver((entries) => {
-  entries.forEach((en) => {
-    if (en.isIntersecting) {
-      en.target.classList.add("in");
-      io.unobserve(en.target);
-    }
-  });
-}, { threshold: 0.18 });
+  for (const en of entries) {
+    if (!en.isIntersecting) continue;
+    en.target.classList.add("in");
+    io.unobserve(en.target);
+  }
+}, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
 
-document.querySelectorAll(".reveal, .stamp").forEach((el) => io.observe(el));
+document.querySelectorAll(".rv").forEach((el) => io.observe(el));
 
-document.querySelectorAll(".bill .stamp").forEach((el, i) => {
-  el.style.setProperty("--d", `${i * 0.07}s`);
-});
-
-/* count-up stats */
-const statIO = new IntersectionObserver((entries) => {
-  entries.forEach((en) => {
-    if (!en.isIntersecting) return;
-    statIO.unobserve(en.target);
+const countIO = new IntersectionObserver((entries) => {
+  for (const en of entries) {
+    if (!en.isIntersecting) continue;
+    countIO.unobserve(en.target);
     const el = en.target;
     const target = parseFloat(el.dataset.count);
     const decimals = el.dataset.count.includes(".") ? 1 : 0;
     const suffix = el.dataset.suffix || "";
-    const pad = el.dataset.pad === "1";
-    const fmt = (v) => {
-      const num = decimals ? v.toFixed(decimals) : String(Math.round(v));
-      return (pad ? num.padStart(2, "0") : num) + suffix;
-    };
-    if (reducedMotion) { el.textContent = fmt(target); return; }
+    const fmt = (v) => (decimals ? v.toFixed(decimals) : String(Math.round(v))) + suffix;
+    if (reducedMotion) { el.textContent = fmt(target); continue; }
     const t0 = performance.now();
-    const dur = 1400;
     const ease = (x) => 1 - Math.pow(1 - x, 3);
     const tick = (now) => {
-      const p = Math.min((now - t0) / dur, 1);
+      const p = Math.min((now - t0) / 1300, 1);
       el.textContent = fmt(target * ease(p));
       if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = fmt(target);
     };
     requestAnimationFrame(tick);
-  });
-}, { threshold: 0.7 });
+  }
+}, { threshold: 0.6 });
 
-document.querySelectorAll(".brand-stats b").forEach((el) => statIO.observe(el));
+document.querySelectorAll(".hero-figures b").forEach((el) => countIO.observe(el));
 
-/* ---------- loader ---------- */
+/* ── hero name entrance ──────────────────────────────────────── */
 
-function finishLoader() {
-  const loader = document.getElementById("loader");
-  const wheel = document.getElementById("loaderWheel");
-  if (reducedMotion) { loader.classList.add("is-done"); return; }
-  const r = slotHero.getBoundingClientRect();
-  const w = wheel.getBoundingClientRect();
-  const dx = r.left + r.width / 2 - (w.left + w.width / 2);
-  const dy = r.top + r.height / 2 - (w.top + w.height / 2);
-  wheel.classList.add("is-flying");
-  loader.classList.add("is-fading");
-  requestAnimationFrame(() => {
-    wheel.style.transform = `translate(${dx}px, ${dy}px) scale(${r.width / w.width})`;
-  });
-  setTimeout(() => loader.classList.add("is-done"), 800);
+/* the rise itself is a CSS animation, so it never depends on rAF firing */
+document.querySelectorAll(".hn-line").forEach((line, i) => {
+  const inner = document.createElement("span");
+  inner.className = "hn-in";
+  inner.style.setProperty("--i", i);
+  inner.textContent = line.textContent;
+  line.replaceChildren(inner);
+});
+
+/* ── loader ──────────────────────────────────────────────────── */
+
+const loader = $("loader");
+requestAnimationFrame(() => loader.classList.add("is-filling"));
+
+function dismissLoader() {
+  loader.classList.add("is-done");
+  setTimeout(() => loader.remove(), 600);
 }
 
 addEventListener("load", () => {
+  sizeCampaignsAct();
   measure();
+  if (reducedMotion) parkDisc();
   queueFrame();
-  setTimeout(finishLoader, reducedMotion ? 0 : 1100);
+  sweepDeferred();
+  setTimeout(dismissLoader, reducedMotion ? 0 : 380);
 });
 
-/* ---------- init ---------- */
+/* never let a slow asset trap the visitor behind the loader */
+setTimeout(dismissLoader, 3500);
 
+/* ── init ────────────────────────────────────────────────────── */
+
+$("year").textContent = new Date().getFullYear();
+
+sizeCampaignsAct();
 measure();
-labelEls[0].classList.add("is-active");
-labelEls[0].setAttribute("aria-selected", "true");
-record.setAttribute("aria-activedescendant", "track-option-0");
-renderTrack();
-
-if (reducedMotion) {
-  const r = slotHero.getBoundingClientRect();
-  curSize = r.width;
-  assembly.style.width = `${curSize}px`;
-  assembly.style.height = `${curSize}px`;
-  assembly.style.position = "absolute";
-  assembly.style.transform = `translate3d(${r.left + scrollY * 0}px, ${r.top + scrollY}px, 0)`;
-  rimLabels.style.fontSize = `${curSize * 0.017}px`;
-  centerYear.style.fontSize = `${curSize * 0.042}px`;
-  applyTransforms();
-} else {
-  frame();
-}
+renderCampaign(0);
+selectRelease(0, false);
+if (reducedMotion) parkDisc();
+frame();
+sweepDeferred();
