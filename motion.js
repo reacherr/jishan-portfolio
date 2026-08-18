@@ -331,6 +331,124 @@
     }
   }
 
+  /* ── the hero answers you ──────────────────────────────────────
+     The first screen was the one place nothing reacted to the pointer,
+     which is exactly the screen everybody sees. Three responses, all
+     built from things the rest of the site already says: light, the
+     record, and the variable face his name is set in.               */
+
+  if (fine) {
+    const hero = $("act-hero");
+    const nameEl = document.querySelector(".hero-name");
+    const frame = document.querySelector(".hero-shot-frame");
+    const shot = document.querySelector(".hero-shot");
+
+    /* 1 · a warm light you move across his face */
+    let glint = null;
+    if (frame) {
+      glint = document.createElement("div");
+      glint.className = "hero-glint";
+      glint.setAttribute("aria-hidden", "true");
+      frame.appendChild(glint);
+
+      frame.addEventListener("pointermove", (e) => {
+        const r = frame.getBoundingClientRect();
+        glint.style.setProperty("--gx", ((e.clientX - r.left) / r.width * 100).toFixed(1) + "%");
+        glint.style.setProperty("--gy", ((e.clientY - r.top) / r.height * 100).toFixed(1) + "%");
+      });
+    }
+
+    /* 2 · the record behind him spins up while you are on the portrait */
+    let spinWant = 0;
+    let spinVel = 0;
+    if (shot && window.JAT && window.JAT.addSpin) {
+      shot.addEventListener("pointerenter", () => { spinWant = 2.4; });
+      shot.addEventListener("pointerleave", () => { spinWant = 0; });
+      gsap.ticker.add(() => {
+        if (spinVel < 0.004 && spinWant === 0) return;
+        spinVel += (spinWant - spinVel) * 0.045;
+        window.JAT.addSpin(spinVel);
+      });
+    }
+
+    /* 3 · his name is set in a variable face — let the cursor widen it.
+       Splitting to characters costs the kerning pairs, so the split is
+       kept and measured; see the note in PROJECT.md. */
+    const chars = [];
+    if (nameEl) {
+      nameEl.querySelectorAll(".hn-in").forEach((inner) => {
+        const text = inner.textContent;
+        inner.textContent = "";
+        for (const ch of text) {
+          const span = document.createElement("span");
+          span.className = "hn-ch";
+          span.textContent = ch;
+          inner.appendChild(span);
+          chars.push(span);
+        }
+      });
+      /* the rise animation clips to the line box; once it has played the
+         clip has to go, or a letter can never lift out of the mask */
+      setTimeout(() => nameEl.classList.add("is-live"), 1500);
+    }
+
+    if (chars.length) {
+      const WDTH_REST = 88, WDTH_NEAR = 100, R = 235;
+      const state = new Float32Array(chars.length);
+      let rects = [];
+      let px = -1e5, py = -1e5;
+      let inside = false;
+      let lastY = -1;
+      let running = false;
+
+      const measure = () => {
+        rects = chars.map((c) => c.getBoundingClientRect());
+        lastY = scrollY;
+      };
+
+      const tick = () => {
+        let awake = false;
+        if (inside && scrollY !== lastY) measure();
+
+        for (let i = 0; i < chars.length; i++) {
+          const r = rects[i];
+          let want = 0;
+          if (inside && r && r.width) {
+            const dx = px - (r.left + r.width / 2);
+            const dy = py - (r.top + r.height / 2);
+            const d = Math.sqrt(dx * dx + dy * dy) / R;
+            if (d < 1) want = (1 - d) * (1 - d);
+          }
+          const was = state[i];
+          const now = was + (want - was) * 0.14;
+          state[i] = now;
+
+          /* JS owns the width axis (calc() in font-variation-settings is not
+             safe to rely on); CSS reads --hl for the lift, the warmth and
+             the glow, so there is one style write per char per frame */
+          if (!inside && now < 0.01) {
+            if (was !== 0) { chars[i].style.fontVariationSettings = ""; chars[i].style.removeProperty("--hl"); }
+            state[i] = 0;
+          } else if (Math.abs(now - was) > 0.004) {
+            chars[i].style.fontVariationSettings =
+              `"wdth" ${(WDTH_REST + (WDTH_NEAR - WDTH_REST) * now).toFixed(1)}, "opsz" 96`;
+            chars[i].style.setProperty("--hl", now.toFixed(3));
+            awake = true;
+          }
+        }
+
+        if (!awake && !inside) { running = false; gsap.ticker.remove(tick); }
+      };
+
+      const wake = () => { if (running) return; running = true; gsap.ticker.add(tick); };
+
+      hero.addEventListener("pointerenter", (e) => { measure(); px = e.clientX; py = e.clientY; inside = true; wake(); });
+      hero.addEventListener("pointermove", (e) => { px = e.clientX; py = e.clientY; if (!inside) { inside = true; measure(); wake(); } });
+      hero.addEventListener("pointerleave", () => { inside = false; wake(); });
+      addEventListener("resize", () => { if (inside) measure(); });
+    }
+  }
+
   /* ── the campaign card changes like a cut, not a fade ──────────── */
 
   {

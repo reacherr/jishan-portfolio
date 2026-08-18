@@ -653,8 +653,13 @@ function stageAt(y) {
   return { pose: mixPose(rec, con, u), a: 1, scrub: false, art: true };
 }
 
+/* hoverSpin is nudged by the motion layer — touching the portrait spins
+   the record behind it. It is never reset, so letting go coasts to a
+   stop from wherever it got to rather than snapping back. */
+let hoverSpin = 0;
+
 function paint() {
-  platter.style.transform = `rotate(${rotation + spinOffset}deg)`;
+  platter.style.transform = `rotate(${rotation + spinOffset + hoverSpin}deg)`;
 }
 
 let artOn = null;
@@ -954,6 +959,10 @@ window.JAT = {
     if (recHover < 0) return;
     recHover = -1;
     queueFrame();
+  },
+  addSpin(deg) {
+    hoverSpin += deg;
+    paint();
   },
 };
 

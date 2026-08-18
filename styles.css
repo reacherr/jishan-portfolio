@@ -1612,6 +1612,46 @@ a.cl-value:hover { color: var(--ember); border-bottom-color: var(--ember); }
 
 .logo-rail-track { will-change: transform; }
 
+/* ── the hero answers you ────────────────────────────────────── */
+
+/* a warm light you push around his face — the "rooms of light" idea
+   made something you can actually touch */
+.hero-glint {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: screen;
+  background: radial-gradient(34% 34% at var(--gx, 50%) var(--gy, 40%),
+    rgba(255, 226, 178, 0.42) 0%,
+    rgba(255, 186, 112, 0.16) 42%,
+    rgba(255, 170, 90, 0) 72%);
+  transition: opacity 0.55s var(--ease);
+}
+
+.hero-shot-frame:hover .hero-glint { opacity: 1; }
+
+/* his name is set in a variable face; the cursor widens the letters
+   nearest it and lifts them a little off the baseline */
+.hn-ch {
+  --hl: 0;
+  display: inline-block;
+  will-change: font-variation-settings, transform;
+  transform: translateY(calc(var(--hl) * -14px));
+  /* the letters nearest the cursor warm toward the ember and light up —
+     the room's stage light, run across his own name */
+  color: color-mix(in oklab, var(--ember) calc(var(--hl) * 68%), var(--hn-base, var(--cream)));
+  text-shadow: 0 0 calc(var(--hl) * 30px) rgba(233, 161, 60, calc(var(--hl) * 0.5));
+}
+
+.hero-name { --hn-base: var(--cream); }
+.hn-last { --hn-base: var(--flame-hot); }
+
+/* the entrance masks each line — once it has played the clip has to go,
+   or a letter can never lift out of its own line box */
+.hero-name.is-live .hn-line { overflow: visible; }
+
 /* ── type that arrives a line at a time ──────────────────────── */
 
 .sp-line { display: block; will-change: transform; }
