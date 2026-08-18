@@ -350,6 +350,8 @@ function renderCampaign(i) {
   campNext.disabled = i === NC - 1;
 
   if (reducedMotion) return;
+  document.dispatchEvent(new CustomEvent("jat:campaign", { detail: i }));
+  if (document.documentElement.classList.contains("motion-on")) return;
   campCard.classList.remove("is-swapping");
   void campCard.offsetWidth;
   campCard.classList.add("is-swapping");
@@ -393,6 +395,7 @@ function filmFacade(f, brand) {
       `<button type="button">` +
         `<span class="rec-n">${String(i + 1).padStart(2, "0")}</span>` +
         `<span class="rec-name"></span>` +
+        `<span class="rec-eq" aria-hidden="true"><i></i><i></i><i></i></span>` +
         `<span class="rec-year">${r.year}</span>` +
       `</button>`;
     const name = li.querySelector(".rec-name");
@@ -411,6 +414,9 @@ const recRows = [...recIndex.querySelectorAll(".rec-row")];
 
 /* while a release is playing, scrolling must not yank it away */
 let recLocked = false;
+
+/* a hovered row previews its release and hands control back on leave */
+let recHover = -1;
 
 function selectRelease(i, fromClick) {
   if (i === recIndexActive) {
@@ -433,6 +439,8 @@ function selectRelease(i, fromClick) {
     discArt.style.backgroundImage = `url("${r.thumb}")`;
     discArt.classList.add("is-art");
   }
+
+  document.dispatchEvent(new CustomEvent("jat:release", { detail: i }));
 
   if (fromClick) playRelease();
 }
@@ -495,19 +503,38 @@ $("screenPlay").addEventListener("click", () => {
 /* ── the rail sound wave ─────────────────────────────────────── */
 
 let railLen = 0;
+let railH = 0;
 
-function buildRailWave() {
-  if (!railWave || getComputedStyle(railWave).display === "none") return;
-  const h = Math.max(rail.offsetHeight + 20, 40);
-  railWave.setAttribute("viewBox", `0 0 12 ${h}`);
+/*
+   The wave the rail is drawn from. `bumpAmp` swells the amplitude around
+   `bumpY` — the motion layer uses it to make the wave respond to the
+   pointer, like a finger laid on a string.
+*/
+function railWavePath(h, bumpY, bumpAmp) {
   const steps = Math.max(80, Math.round(h / 2));
   let d = "";
   for (let i = 0; i <= steps; i++) {
     const t = i / steps;
     const y = t * h;
-    const x = 6 + Math.sin(t * Math.PI * 2 * 6.5) * (3.4 + Math.sin(t * Math.PI * 3) * 1.6);
+    let amp = 3.4 + Math.sin(t * Math.PI * 3) * 1.6;
+    if (bumpAmp) {
+      /* additive, so the swell reads the same wherever the wave is
+         hovered — multiplying would flatten it at the wave's nodes */
+      const k = (y - bumpY) / 42;
+      amp += bumpAmp * 3.4 * Math.exp(-k * k);
+    }
+    const x = 6 + Math.sin(t * Math.PI * 2 * 6.5) * amp;
     d += `${i ? "L" : "M"}${x.toFixed(2)} ${y.toFixed(2)} `;
   }
+  return d;
+}
+
+function buildRailWave() {
+  if (!railWave || getComputedStyle(railWave).display === "none") return;
+  const h = Math.max(rail.offsetHeight + 20, 40);
+  railH = h;
+  railWave.setAttribute("viewBox", `0 0 12 ${h}`);
+  const d = railWavePath(h, 0, 0);
   rwTrack.setAttribute("d", d);
   rwFill.setAttribute("d", d);
   railLen = rwFill.getTotalLength();
@@ -652,7 +679,7 @@ function frame() {
   const st = stageAt(y);
 
   let nearestRow = -1;
-  if (!recLocked && y > marks.brands && y < marks.contact + vh) {
+  if (!recLocked && recHover < 0 && y > marks.brands && y < marks.contact + vh) {
     const mid = vh * 0.45;
     let bestD = Infinity;
     for (let i = 0; i < recRows.length; i++) {
@@ -912,6 +939,23 @@ addEventListener("load", () => {
 
 /* never let a slow asset trap the visitor behind the loader */
 setTimeout(dismissLoader, 3500);
+
+/* ── surface for the motion layer ────────────────────────────── */
+
+window.JAT = {
+  railWavePath,
+  get railH() { return railH; },
+  previewRelease(i) {
+    if (recLocked) return;
+    recHover = i;
+    selectRelease(i, false);
+  },
+  endPreview() {
+    if (recHover < 0) return;
+    recHover = -1;
+    queueFrame();
+  },
+};
 
 /* ── init ────────────────────────────────────────────────────── */
 

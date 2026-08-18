@@ -386,6 +386,43 @@ body.at-contact .hire {
 
 .disc:active { cursor: grabbing; }
 
+/*
+   Dragging the record scrubs the campaign reel — the single least
+   discoverable thing on the page. `cursor: grab` hints it; this says it,
+   but only in the act where dragging actually does something.
+*/
+.disc { transition: box-shadow 0.4s var(--ease); }
+
+.disc-assembly.is-scrubbing .disc:hover {
+  box-shadow:
+    0 0 0 1px rgba(233, 161, 60, 0.52),
+    0 1px 0 rgba(255, 224, 186, 0.2) inset,
+    0 30px 70px -26px rgba(0, 0, 0, 0.85),
+    0 0 90px -14px rgba(233, 161, 60, 0.34);
+}
+
+.disc-hint {
+  position: absolute;
+  top: calc(100% + 0.85rem);
+  left: 50%;
+  transform: translate(-50%, 6px);
+  white-space: nowrap;
+  font-family: var(--ff-body);
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ember);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.32s var(--ease), transform 0.32s var(--ease);
+}
+
+.disc-assembly.is-scrubbing .disc:hover ~ .disc-hint {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
 .platter { position: absolute; inset: 0; border-radius: 50%; will-change: transform; }
 
 .platter::before,
@@ -1530,6 +1567,218 @@ a.cl-value:hover { color: var(--ember); border-bottom-color: var(--ember); }
 
 .foot-legal { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--cream-45); }
 
+/* ══════════════════════════════════════════════════════════════
+   the motion layer
+
+   `.motion-on` is set by motion.js only once GSAP is up and the
+   visitor has not asked for reduced motion. Anything under it either
+   hands a property over to GSAP or adds an effect that would look
+   half-finished without a script to drive it.
+   ══════════════════════════════════════════════════════════════ */
+
+/* GSAP owns these transforms now — a CSS transition on the same
+   property would fight quickTo for the inline style every frame */
+.motion-on .logo-rail-track { animation: none; }
+.motion-on .camp-card.is-swapping { animation: none; }
+.motion-on .film:hover { transform: none; }
+
+.motion-on .film-cue,
+.motion-on .rec-play-ring,
+.motion-on .screen-play-ring {
+  transition: background 0.24s var(--ease), color 0.24s var(--ease);
+}
+
+.motion-on .hire {
+  transition: background 0.28s var(--ease), color 0.28s var(--ease), opacity 0.35s var(--ease);
+}
+
+.motion-on .btn-primary,
+.motion-on .btn-ghost {
+  transition: background 0.26s var(--ease), color 0.26s var(--ease), border-color 0.26s var(--ease);
+}
+
+/* the wipe below supplies the colour change, so the fill stays put */
+.motion-on .hire:hover,
+.motion-on .btn-primary:hover { background: var(--flame); }
+
+/* magnetics own the transform; without this the v4 lift snaps in for the
+   one frame between pointerenter and the first pointermove */
+.motion-on .hire:hover,
+.motion-on .btn-primary:hover,
+.motion-on .btn-ghost:hover { transform: none; }
+
+/* the retire gives up transform too, so magnetics can keep it */
+.motion-on body.at-contact .hire { transform: none; }
+
+.logo-rail-track { will-change: transform; }
+
+/* ── type that arrives a line at a time ──────────────────────── */
+
+.sp-line { display: block; will-change: transform; }
+
+/* SplitText's line masks clip on the baseline — pad the descenders back.
+   Only the mask gets it: padding the line inside as well would grow the
+   mask by the same amount again and loosen the leading. */
+.split-title > div { padding-bottom: 0.1em; margin-bottom: -0.1em; }
+
+/* ── the film still, lit as you pass over it ─────────────────── */
+
+.film-shot img { transition: transform 0.7s var(--ease), filter 0.5s var(--ease); }
+.film:hover .film-shot img { transform: scale(1.055); filter: brightness(1.06); }
+
+/* a bar of light sweeps the still, the way a screen catches one */
+.film-shot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(105deg,
+    rgba(255, 255, 255, 0) 38%,
+    rgba(255, 245, 225, 0.16) 48%,
+    rgba(255, 255, 255, 0) 58%);
+  transform: translateX(-115%);
+  transition: transform 0s 0.7s;
+}
+
+.film:hover .film-shot::after { transform: translateX(115%); transition: transform 0.7s var(--ease); }
+.film.is-live .film-shot::after { display: none; }
+
+.film-cue { will-change: transform; }
+
+/* ── the brand wall under a moving stage light ───────────────── */
+
+.wall li {
+  --lit: 0;
+  z-index: 0;
+  transform: scale(calc(1 + var(--lit) * 0.05));
+  transition: background 0.3s var(--ease);
+}
+
+.wall li:hover { z-index: 2; }
+
+/* the pool of warmth itself, painted under the mark */
+.wall li::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: var(--lit);
+  background:
+    radial-gradient(circle at 50% 44%, rgba(255, 253, 248, 0.95) 0%, rgba(255, 250, 240, 0.5) 62%, rgba(255, 250, 240, 0) 100%),
+    radial-gradient(circle at 50% 44%, rgba(233, 161, 60, 0.16) 0%, rgba(233, 161, 60, 0) 70%);
+}
+
+.wall li > * { position: relative; z-index: 1; }
+
+/* the one dark tile takes the light as an ember bloom, not a white wash */
+.wall li.wall-more::before {
+  background: radial-gradient(circle at 50% 44%, rgba(233, 161, 60, 0.22) 0%, rgba(233, 161, 60, 0) 72%);
+}
+
+.wall img {
+  opacity: calc(0.64 + var(--lit) * 0.36);
+  filter: grayscale(calc(1 - var(--lit))) contrast(calc(1.06 - var(--lit) * 0.06));
+}
+
+/* only the mark actually under the cursor drops out of multiply */
+.wall li:hover img { mix-blend-mode: normal; }
+.wall li::after { opacity: calc(var(--lit) * 0.9); }
+.wall-type { color: color-mix(in oklab, var(--fg) calc(var(--lit) * 100%), var(--fg-3)); }
+
+/* the pool is already eased in JS — a transition on top would only lag it.
+   Without the motion layer these keep their original hover transitions. */
+.motion-on .wall img,
+.motion-on .wall li::after,
+.motion-on .wall-type { transition: none; }
+
+/* ── the record index as a running order ─────────────────────── */
+
+.rec-row button { grid-template-columns: 2.4rem minmax(0, 1fr) auto auto; }
+
+.rec-row { position: relative; }
+
+/* an ember rule wipes in under the row you are pointing at */
+.rec-row::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--ember);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  transition: transform 0.45s var(--ease);
+}
+
+.rec-row:hover::after,
+.rec-row.is-on::after { transform: scaleX(1); }
+
+/* three bars that only move for the record currently cued up */
+.rec-eq {
+  display: flex;
+  align-items: flex-end;
+  align-self: center;
+  gap: 2px;
+  height: 0.85rem;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease);
+}
+
+.rec-eq i {
+  width: 2px;
+  height: 30%;
+  background: var(--ember);
+  transform-origin: 50% 100%;
+}
+
+.rec-row.is-on .rec-eq { opacity: 1; }
+.rec-row.is-on .rec-eq i { animation: rec-eq 0.9s ease-in-out infinite alternate; }
+.rec-row.is-on .rec-eq i:nth-child(2) { animation-duration: 0.62s; }
+.rec-row.is-on .rec-eq i:nth-child(3) { animation-duration: 1.15s; }
+
+@keyframes rec-eq { to { height: 100%; } }
+
+/* ── links that draw their own underline ─────────────────────── */
+
+.contact-socials a { position: relative; text-decoration: none; }
+
+.contact-socials a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1px;
+  background: var(--ember);
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform 0.4s var(--ease);
+}
+
+.contact-socials a:hover::after {
+  transform: scaleX(1);
+  transform-origin: 0 50%;
+}
+
+/* the primary button fills from the floor rather than just swapping colour */
+.btn-primary { position: relative; }
+.btn-primary, .hire { overflow: hidden; isolation: isolate; }
+
+.btn-primary::before, .hire::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--ember);
+  transform: translateY(101%);
+  transition: transform 0.45s var(--ease);
+}
+
+.btn-primary:hover::before, .hire:hover::before { transform: none; }
+
 /* ── reveal ──────────────────────────────────────────────────── */
 
 .rv {
@@ -1617,7 +1866,7 @@ a.cl-value:hover { color: var(--ember); border-bottom-color: var(--ember); }
 
   .screen-credits { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
-  .rec-row button { grid-template-columns: 1.9rem minmax(0, 1fr) auto; }
+  .rec-row button { grid-template-columns: 1.9rem minmax(0, 1fr) auto auto; }
 
   .contact-card .disc-slot { display: none; }
   .contact-deva { font-size: clamp(3rem, 18vw, 6rem); top: -2.6rem; }
