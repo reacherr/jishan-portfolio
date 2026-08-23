@@ -102,6 +102,30 @@
   }
   bindFilmCues();
 
+  /* The same still on a screen with no hover: the bar of light passes
+     once as the tile arrives, staggered down the row, and again when a
+     new campaign lands. One class per tile, then the observer forgets
+     it — nothing runs between arrivals. */
+  const sweepFilms = (() => {
+    if (fine) return () => {};
+
+    const io = new IntersectionObserver((ents) => {
+      for (const en of ents) {
+        if (!en.isIntersecting) continue;
+        const el = en.target;
+        io.unobserve(el);
+        gsap.delayedCall(0.12 + (+el.dataset.sw || 0) * 0.14, () => el.classList.add("is-swept"));
+      }
+    }, { threshold: 0.3 });
+
+    return () => q("#campFilms .film").forEach((el, i) => {
+      el.dataset.sw = i;
+      el.classList.remove("is-swept");
+      io.observe(el);
+    });
+  })();
+  sweepFilms();
+
   /* ── the brand wall reads like a stage light ───────────────────
      Thirty-seven logos is a lot of grey. A pool of warmth follows the
      pointer across the grid: nearby marks lift, regain their colour and
@@ -176,6 +200,78 @@
       });
       wall.addEventListener("pointermove", (e) => { px = e.clientX; py = e.clientY; });
       wall.addEventListener("pointerleave", () => { inside = false; wake(); });
+    } else if (tiles.length) {
+      /* No cursor to follow on a phone, so the light rides the scroll
+         instead: a band sitting just above the middle of the screen,
+         lighting each row as it passes through and letting it go again
+         behind. Same `--lit` the pointer writes, so every rule the
+         desktop pool drives is reused untouched.
+
+         Quantised to tenths on purpose. `--lit` drives a grayscale
+         filter, and a filter handed a new value every frame re-rasterises
+         every mark on screen — on a phone that is the whole cost of the
+         section. Ten steps is invisible in motion and turns a raster pass
+         per frame into one every few frames.                            */
+      const lit = new Float32Array(tiles.length);
+      const shown = new Float32Array(tiles.length).fill(-1);
+      let mid = [];
+      let first = 0, last = 0;
+      let reach = 200;
+      let awake = false;
+
+      const measure = () => {
+        const base = scrollY;
+        let h = 0;
+        mid = tiles.map((t) => {
+          const r = t.getBoundingClientRect();
+          h = r.height;
+          return base + r.top + r.height / 2;
+        });
+        first = mid[0];
+        last = mid[mid.length - 1];
+        /* measured in rows, not in viewports, so the band keeps its shape
+           whatever the grid reflows to — same reasoning as the pool above */
+        reach = Math.max(h * 3, 120);
+      };
+
+      measure();
+      addEventListener("load", measure);
+      setTimeout(measure, 1200);   /* the wall's deferred images settle late */
+      let mt = null;
+      const remeasure = (wait) => { clearTimeout(mt); mt = setTimeout(measure, wait); };
+      addEventListener("resize", () => remeasure(180));
+      /* tapping through campaigns changes that card's height — one film or
+         three — which moves the whole wall under the cached positions */
+      document.addEventListener("jat:campaign", () => remeasure(420));
+
+      gsap.ticker.add(() => {
+        const band = scrollY + innerHeight * 0.46;
+        const near = band > first - innerHeight && band < last + innerHeight;
+        /* nothing on screen and nothing still lit — do not even loop */
+        if (!near && !awake) return;
+
+        awake = false;
+
+        for (let i = 0; i < tiles.length; i++) {
+          let want = 0;
+          if (near) {
+            const d = Math.abs(band - mid[i]) / reach;
+            if (d < 1) want = (1 - d) * (1 - d);
+          }
+
+          /* eased, so the light lags the scroll a little rather than
+             tracking it exactly — a lamp, not a readout */
+          const now = lit[i] + (want - lit[i]) * 0.16;
+          lit[i] = now;
+          if (now > 0.004) awake = true;
+
+          const step = Math.round(now * 10) / 10;
+          if (step !== shown[i]) {
+            shown[i] = step;
+            tiles[i].style.setProperty("--lit", step.toFixed(1));
+          }
+        }
+      });
     }
   }
 
@@ -269,6 +365,36 @@
 
     if (heroImg) gsap.set(heroImg, { scale: 1.07, transformOrigin: "50% 30%" });
 
+    /* A phone has no pointer to push the hero light around with, so the
+       glint rides the scroll instead: the warm patch crosses his face as
+       the portrait leaves the screen. Same element the hover path builds,
+       held lit by a class rather than by :hover. */
+    let glint = null;
+    if (!fine) {
+      const shotFrame = document.querySelector(".hero-shot-frame");
+      if (shotFrame) {
+        glint = document.createElement("div");
+        glint.className = "hero-glint";
+        glint.setAttribute("aria-hidden", "true");
+        shotFrame.appendChild(glint);
+        shotFrame.classList.add("glint-lit");
+      }
+
+      /* and the ember behind him breathes, so the one screen everybody
+         sees is never completely still — transform and opacity only, so
+         it costs a composite and nothing else */
+      if (heroGlow) {
+        gsap.to(heroGlow, {
+          scale: 1.1,
+          opacity: 0.74,
+          duration: 6.5,
+          ease: "sine.inOut",
+          yoyo: true,
+          repeat: -1,
+        });
+      }
+    }
+
     const setHeroY = heroImg ? gsap.quickSetter(heroImg, "y", "px") : null;
     const setDevaX = deva ? gsap.quickSetter(deva, "x", "px") : null;
 
@@ -283,6 +409,7 @@
     addEventListener("load", remeasure);
 
     let lastY = scrollY;
+    let glintAt = -1;
     let vel = 0;
     let dir = 1;
     let lastSkew = 0;
@@ -292,6 +419,16 @@
       const dy = y - lastY;
       lastY = y;
       vel += (dy - vel) * 0.12;
+
+      /* the hero light, on the devices that cannot push it themselves */
+      if (glint && y < innerHeight * 1.2) {
+        const p = clamp01(y / (innerHeight * 0.85));
+        if (Math.abs(p - glintAt) > 0.004) {
+          glintAt = p;
+          glint.style.setProperty("--gx", (20 + p * 62).toFixed(1) + "%");
+          glint.style.setProperty("--gy", (24 + p * 42).toFixed(1) + "%");
+        }
+      }
 
       /* the reel */
       if (reel) {
@@ -469,6 +606,7 @@
           { autoAlpha: 1, y: 0, duration: 0.55, stagger: 0.055 }, 0.06);
 
       bindFilmCues();
+      sweepFilms();
     });
   }
 

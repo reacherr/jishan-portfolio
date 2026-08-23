@@ -503,6 +503,9 @@ $("screenPlay").addEventListener("click", () => {
 /* ── the rail sound wave ─────────────────────────────────────── */
 
 let railLen = 0;
+let progNow = -1;
+/* the hairline only exists under the 860px block — do not pay for it above */
+let railBar = false;
 let railH = 0;
 
 /*
@@ -568,6 +571,7 @@ function measure() {
   campEnd = campTop + campSpan;
 
   docSpan = Math.max(document.documentElement.scrollHeight - vh, 1);
+  railBar = innerWidth <= 860;
 }
 
 /* the campaigns act needs enough runway to scrub one screen per campaign */
@@ -746,6 +750,16 @@ function frame() {
   }
 
   if (railLen) rwFill.style.strokeDashoffset = String(railLen * (1 - clamp01(y / docSpan)));
+
+  /* the phone rail has no waveform to fill, so the same progress runs as
+     a hairline along the top edge of the bar (see the mobile block in
+     styles.css). Written here, not in the motion layer, so it works with
+     GSAP absent or reduced motion on. */
+  const prog = clamp01(y / docSpan);
+  if (railBar && Math.abs(prog - progNow) > 0.001) {
+    progNow = prog;
+    rail.style.setProperty("--prog", prog.toFixed(3));
+  }
 }
 
 function queueFrame() {
