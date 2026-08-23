@@ -581,4 +581,131 @@
       });
     });
   }
+
+  /* ── notes shaken off the pointer ──────────────────────────────
+     He is a singer: moving across his page should sound like
+     something. Notes fall out of the cursor as it travels and fade
+     on the way up; hold still and the page goes quiet again.
+
+     Emission is gated on distance travelled, not on time, so the
+     rate follows the hand — a slow drift leaves the odd note, a
+     flick across the screen leaves a run of them. A minimum
+     interval caps the run so a fast sweep cannot flood the layer.
+
+     Touch screens have no cursor, so the same emitter rides the
+     finger instead: a tap knocks two loose, and because touchmove
+     keeps firing through a scroll, a flick trails them up the page.
+
+     Pooled elements, one layer, nothing to garbage collect.        */
+
+  {
+    const GLYPHS = [
+      /* eighth note */
+      '<svg viewBox="0 0 24 24"><path d="M9.9 2.6c3.9 1.1 6.6 3.3 6.9 6.4.2 2-.6 3.7-2.2 5 .5-2.6-.9-4.6-4.7-6.2v9.5a3 3 0 0 1-.1.8c-.4 1.7-2.3 3.2-4.3 3.4-1.9.2-3.2-.9-2.9-2.5.3-1.7 2.2-3.2 4.2-3.4.5-.1 1-.1 1.2.2V2.6z"/></svg>',
+      /* beamed pair */
+      '<svg viewBox="0 0 24 24"><path d="M6.8 4.4 20.6 1.6v3.2L6.8 7.6z"/><path d="M6.8 6.4h1.8v11.2H6.8zM18.8 3.6h1.8v11.2h-1.8z"/><ellipse cx="4.7" cy="17.9" rx="3.7" ry="2.8" transform="rotate(-20 4.7 17.9)"/><ellipse cx="16.7" cy="15.1" rx="3.7" ry="2.8" transform="rotate(-20 16.7 15.1)"/></svg>',
+    ];
+
+    const POOL = fine ? 30 : 18;
+    const GAP = fine ? 44 : 58;    /* px of travel between notes */
+    const MIN_MS = fine ? 38 : 48; /* ceiling on the emission rate */
+
+    const layer = document.createElement("div");
+    layer.className = "note-fx-layer";
+    layer.setAttribute("aria-hidden", "true");
+    document.body.appendChild(layer);
+
+    const pool = [];
+    for (let i = 0; i < POOL; i++) {
+      const el = document.createElement("span");
+      el.className = "note-fx";
+      el.innerHTML = GLYPHS[i % GLYPHS.length];
+      gsap.set(el, { xPercent: -50, yPercent: -50, opacity: 0 });
+      layer.appendChild(el);
+      pool.push(el);
+    }
+
+    let next = 0;
+    let px = null, py = null, acc = 0, lastT = 0;
+
+    const rand = (lo, hi) => lo + Math.random() * (hi - lo);
+
+    function drop(x, y) {
+      const el = pool[next];
+      next = (next + 1) % POOL;
+      gsap.killTweensOf(el);
+
+      const s = rand(0.6, 1.1);
+      const dir = Math.random() < 0.5 ? -1 : 1;
+      const rise = rand(34, 62);
+      const dur = rand(0.55, 0.85);
+
+      gsap.set(el, {
+        /* just off the tip, never dead centre under it */
+        x: x + rand(2, 11),
+        y: y + rand(-8, 2),
+        scale: s * 0.55,
+        rotation: dir * rand(4, 12),
+        opacity: 0,
+      });
+
+      gsap.timeline()
+        .to(el, { opacity: 0.92, scale: s, duration: 0.13, ease: "power2.out" }, 0)
+        .to(el, {
+          x: "+=" + dir * rand(10, 34),
+          y: "-=" + rise,
+          rotation: dir * rand(16, 34),
+          duration: dur,
+          ease: "power1.out",
+        }, 0)
+        .to(el, { opacity: 0, scale: s * 0.8, duration: dur * 0.68, ease: "power2.in" }, dur * 0.32);
+    }
+
+    function travel(x, y) {
+      if (px === null) { px = x; py = y; return; }
+      acc += Math.hypot(x - px, y - py);
+      px = x; py = y;
+      if (acc < GAP) return;
+
+      const now = performance.now();
+      if (now - lastT < MIN_MS) {
+        /* throttled, but keep the debt bounded or the next allowed
+           frame after a flick fires with a full tank every time */
+        acc = Math.min(acc, GAP * 1.4);
+        return;
+      }
+      acc = 0;
+      lastT = now;
+      drop(x, y);
+    }
+
+    const reset = (x = null, y = null) => { px = x; py = y; acc = 0; };
+
+    if (fine) {
+      addEventListener("pointermove", (e) => {
+        if (e.pointerType === "touch") return;
+        travel(e.clientX, e.clientY);
+      }, { passive: true });
+
+      /* leaving the window and coming back elsewhere is not travel */
+      document.addEventListener("pointerleave", () => reset());
+    } else {
+      addEventListener("touchstart", (e) => {
+        const t = e.touches[0];
+        if (!t) return;
+        reset(t.clientX, t.clientY);
+        lastT = performance.now();
+        drop(t.clientX, t.clientY);
+        gsap.delayedCall(0.11, () => drop(t.clientX + rand(-14, 14), t.clientY + rand(-10, 6)));
+      }, { passive: true });
+
+      addEventListener("touchmove", (e) => {
+        const t = e.touches[0];
+        if (t) travel(t.clientX, t.clientY);
+      }, { passive: true });
+
+      addEventListener("touchend", () => reset(), { passive: true });
+    }
+  }
+
 })();
