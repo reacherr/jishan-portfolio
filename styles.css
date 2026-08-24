@@ -1865,6 +1865,62 @@ body.on-night .note-fx { filter: drop-shadow(0 0 7px rgba(233, 161, 60, 0.4)); }
 }
 
 
+/* ── notes off the portrait ──────────────────────────────────
+   Phone only. Down there the photograph bleeds to both screen
+   edges and dissolves into the night; these drift up out of the
+   dissolve, so the soft edge reads as the picture turning into
+   music rather than as a blurred crop.
+
+   Deliberately CSS keyframes and not a tween. Nothing here reacts
+   to anything — no pointer, no scroll — so it has no business on
+   a ticker. motion.js only builds the elements, which also means
+   they never exist for a visitor who asked for reduced motion.
+
+   Sits over the frame rather than inside it: the frame both clips
+   and masks its children, and a note emerging from the fade has
+   to be outside both. Its box is pinned to the frame's through the
+   shared --shot-h token. */
+
+.hero-notes {
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.hn-note {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--w);
+  height: var(--w);
+  margin: calc(var(--w) / -2);
+  color: var(--ember);
+  opacity: 0;
+  filter: drop-shadow(0 0 6px rgba(233, 161, 60, 0.35));
+  animation: hero-note-out var(--t) var(--d) infinite linear;
+  will-change: transform, opacity;
+}
+
+.hn-note svg { display: block; width: 100%; height: 100%; fill: currentColor; }
+
+/* the rise is a fraction of the frame's own height, not a fixed distance:
+   --shot-h collapses to a letterbox on a phone held sideways, and a note
+   travelling 100px would leave the photograph entirely */
+@keyframes hero-note-out {
+  0%   { opacity: 0; transform: translate3d(0, 0, 0) scale(0.7) rotate(0deg); }
+  16%  { opacity: var(--o); }
+  60%  { opacity: var(--o); }
+  100% {
+    opacity: 0;
+    transform: translate3d(var(--dx), calc(var(--shot-h, 300px) * var(--dyf)), 0) scale(1) rotate(var(--rot));
+  }
+}
+
+
 /* ── reveal ──────────────────────────────────────────────────── */
 
 .rv {
@@ -1937,12 +1993,72 @@ body.on-night .note-fx { filter: drop-shadow(0 0 7px rgba(233, 161, 60, 0.4)); }
 
   .hire { display: none; }
 
-  .act-hero { min-height: auto; padding-top: clamp(4.5rem, 15vh, 7rem); }
+  /* the portrait carries the top of this screen, so the room opens on it
+     rather than on 7rem of nothing. What is left above is filled by the
+     photograph's own top edge dissolving — see .hero-shot-frame below. */
+  .act-hero {
+    min-height: auto;
+    padding-top: clamp(3.1rem, 7.5vh, 4rem);
+    /* 5:4 of the full screen width, capped so the name still clears the
+       fold on a short phone. Held as a token because three things have to
+       agree on it: the photograph, the note layer over it, and the record
+       docked into it — and .hero-shot is taller than all of them, so
+       percentages against it do not work. */
+    --shot-h: min(80vw, 44svh);
+  }
 
   .hero-grid { grid-template-columns: 1fr; gap: clamp(1.6rem, 5vh, 2.4rem); }
-  .hero-shot { order: -1; }
-  .hero-shot .disc-slot { top: auto; bottom: 6%; right: -2%; width: min(30vmin, 150px); }
-  .hero-shot img { aspect-ratio: 5 / 4; max-height: 44svh; object-position: 52% 14%; }
+
+  /* full bleed: a soft edge that stops short of the screen edge reads as
+     a mistake, so the photograph runs the whole width and dissolves into
+     the night on both sides. The caption takes the gutter back so it
+     still lines up with the name underneath it. */
+  .hero-shot { order: -1; margin-inline: calc(var(--gut) * -1); }
+  .hero-shot figcaption { margin-inline: var(--gut); }
+  .hero-shot .disc-slot {
+    --disc-w: min(30vmin, 150px);
+    top: calc(var(--shot-h) - var(--disc-w) - 1.1rem);
+    bottom: auto;
+    right: 4%;
+    width: var(--disc-w);
+  }
+  .hero-shot img { height: var(--shot-h); aspect-ratio: auto; max-height: none; object-position: 52% 10%; }
+
+  /* the dissolve.
+
+     Two mask layers intersected — one across, one down — rather than a
+     night-coloured gradient painted on top: .hero-glow sits BEHIND the
+     portrait, and an opaque overlay would stamp the ember out. Masked,
+     the photograph fades into the stage light instead of over it.
+
+     It goes on the frame and not on the <img> because motion.js scales
+     and scroll-drifts the image; a mask on a transformed element travels
+     with it, and the soft edges would visibly slide as you scroll.
+
+     Browsers without mask-composite fall back to the default `add`,
+     i.e. no fade — which is exactly what this looked like before. */
+  .hero-shot-frame {
+    --fade-x: 13%;
+    --fade-y: 15%;
+    background: none;
+    box-shadow: none;
+    -webkit-mask-image:
+      linear-gradient(90deg, transparent 0, #000 var(--fade-x), #000 calc(100% - var(--fade-x)), transparent 100%),
+      linear-gradient(180deg, transparent 0, #000 var(--fade-y), #000 82%, transparent 100%);
+    mask-image:
+      linear-gradient(90deg, transparent 0, #000 var(--fade-x), #000 calc(100% - var(--fade-x)), transparent 100%),
+      linear-gradient(180deg, transparent 0, #000 var(--fade-y), #000 82%, transparent 100%);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+  }
+
+  /* the bottom of the frame already dissolves; the scrim that used to do
+     that job would only mud it */
+  .hero-shot-frame::after { display: none; }
+
+  .hero-notes { display: block; height: var(--shot-h); }
 
   .hero-name { font-size: clamp(2.6rem, 15vw, 4.6rem); line-height: 0.88; }
   .hero-deva { font-size: clamp(1.2rem, 7vw, 2rem); }
@@ -1992,6 +2108,8 @@ body.on-night .note-fx { filter: drop-shadow(0 0 7px rgba(233, 161, 60, 0.4)); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .logo-rail-track { animation: none; }
+  /* motion.js never builds these — belt and braces if that ever moves */
+  .hero-notes { display: none; }
   .rv { opacity: 1; transform: none; transition: none; }
   *, *::before, *::after {
     animation-duration: 0.01ms !important;

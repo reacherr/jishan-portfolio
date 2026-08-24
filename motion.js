@@ -844,6 +844,61 @@
 
       addEventListener("touchend", () => reset(), { passive: true });
     }
+
+    /* ── and the ones that come off the portrait ─────────────────
+       Phone only: that is the breakpoint where the hero photograph
+       runs edge to edge and dissolves into the night on all four
+       sides. These come out of the dissolve.
+
+       Built here purely to reuse GLYPHS above — the motion itself is
+       a CSS keyframe (.hn-note), because nothing about it reacts to
+       anything and it should not cost a frame on the ticker. All this
+       does is place six spans and hand each one its numbers.
+
+       Delays are negative so the animation opens mid-cycle: the first
+       screen a visitor sees already has notes in the air rather than
+       eight seconds of nothing. Durations are all different so the six
+       never settle into a visible pulse.                              */
+
+    if (matchMedia("(max-width: 860px)").matches) {
+      const shot = document.querySelector(".hero-shot");
+      if (shot) {
+        /* x/y are per cent of the frame; dx is a drift in px and dy a
+           fraction of the frame's own height (see .hn-note).
+
+           x stays inside the fade band (13% in from either edge) so a
+           note is always born out of the dissolve, and x + dx keeps it
+           inside the screen for as long as it is still lit — .act-hero
+           clips, and half a note sliced off the edge reads as a bug.
+
+           The three on the right stay in the upper half: the record
+           docks into the lower right corner at this breakpoint. */
+        const SEEDS = [
+          { x: 9,  y: 57, dx: -20, dy: -0.35, rot: -16, w: 17, o: 0.50, t: 9.4,  d: -1.2 },
+          { x: 12, y: 33, dx: -14, dy: -0.29, rot: 12,  w: 13, o: 0.36, t: 11.2, d: -5.6 },
+          { x: 8,  y: 76, dx: -19, dy: -0.39, rot: -22, w: 15, o: 0.44, t: 8.1,  d: -3.4 },
+          { x: 90, y: 30, dx: 19,  dy: -0.32, rot: 18,  w: 16, o: 0.46, t: 10.1, d: -0.4 },
+          { x: 88, y: 46, dx: 15,  dy: -0.27, rot: -14, w: 12, o: 0.32, t: 12.3, d: -7.1 },
+          { x: 92, y: 20, dx: 21,  dy: -0.23, rot: 20,  w: 14, o: 0.40, t: 8.8,  d: -4.9 },
+        ];
+
+        const notes = document.createElement("div");
+        notes.className = "hero-notes";
+        notes.setAttribute("aria-hidden", "true");
+
+        SEEDS.forEach((s, i) => {
+          const el = document.createElement("span");
+          el.className = "hn-note";
+          el.innerHTML = GLYPHS[i % GLYPHS.length];
+          el.style.cssText =
+            `--x:${s.x}%;--y:${s.y}%;--dx:${s.dx}px;--dyf:${s.dy};` +
+            `--rot:${s.rot}deg;--w:${s.w}px;--o:${s.o};--t:${s.t}s;--d:${s.d}s`;
+          notes.appendChild(el);
+        });
+
+        shot.appendChild(notes);
+      }
+    }
   }
 
 })();
