@@ -774,17 +774,30 @@ main { position: relative; }
 
 .act-campaigns { padding-bottom: 0; }
 
-/* the brand rail opens the campaigns act */
+/* the brand strip — a band of daylight between the hero and the first act.
+   It sits outside any section, so .room-day on the element gives it colours */
 .logo-rail {
   position: relative;
-  margin: 0 calc(var(--gut) * -1) 0 calc(var(--rail-w) * -1);
   padding: clamp(1rem, 2.4vh, 1.5rem) 0;
-  border-bottom: 1px solid var(--line);
+  border-block: 1px solid var(--line);
   overflow: hidden;
   background: var(--bg-2);
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
 }
+
+/* the logos fade out at the ends; the band itself runs edge to edge */
+.logo-rail::before,
+.logo-rail::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  width: 7%;
+  pointer-events: none;
+}
+
+.logo-rail::before { left: 0; background: linear-gradient(90deg, var(--bg-2), transparent); }
+.logo-rail::after { right: 0; background: linear-gradient(270deg, var(--bg-2), transparent); }
 
 .logo-rail-track {
   display: flex;
@@ -870,13 +883,16 @@ main { position: relative; }
 
 .camp-headmeta { min-width: 0; }
 
+/* the brand is the headline of each scene — set big enough that nine
+   campaigns read as nine different screens, not one card reloading */
 .camp-brand {
   font-family: var(--ff-display);
   font-weight: 700;
-  font-variation-settings: "wdth" 90;
-  font-size: clamp(1.05rem, 1.9vw, 1.5rem);
-  line-height: 1.1;
-  letter-spacing: -0.02em;
+  font-variation-settings: "wdth" 88, "opsz" 72;
+  font-size: clamp(1.5rem, 2.9vw, 2.7rem);
+  line-height: 0.98;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
 }
 
 .camp-tag {
@@ -994,7 +1010,57 @@ main { position: relative; }
 .tp-count b { color: var(--fg); font-weight: 600; }
 .tp-count i { font-style: normal; opacity: 0.5; }
 
-.tp-scrub { flex: 1; height: 1px; background: var(--line); position: relative; min-width: 2rem; }
+.tp-reel { flex: 1; min-width: 0; position: relative; }
+
+.tp-marks {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(9, minmax(0, 1fr));
+  padding-bottom: 0.55rem;
+}
+
+.tp-marks button {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 2.6rem;
+  padding: 0 0.3rem;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  position: relative;
+}
+
+.tp-marks img {
+  max-height: 1.5rem;
+  max-width: 100%;
+  width: auto;
+  object-fit: contain;
+  mix-blend-mode: multiply;
+  filter: grayscale(1) contrast(1.1);
+  opacity: 0.55;
+  transition: opacity 0.3s var(--ease), filter 0.3s var(--ease), transform 0.3s var(--ease);
+}
+
+.tp-marks img.is-sq { max-height: 2.1rem; }
+.tp-marks button:hover img { opacity: 0.9; }
+.tp-marks button.is-on img { opacity: 1; filter: none; transform: scale(1.18); }
+
+/* a tick on the track under each mark — the current one lit */
+.tp-marks button::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -0.55rem;
+  width: 1px;
+  height: 0.4rem;
+  background: var(--line);
+  transition: background 0.3s var(--ease), height 0.3s var(--ease);
+}
+
+.tp-marks button.is-on::after { background: var(--flame); height: 0.65rem; }
+
+.tp-scrub { display: block; height: 1px; background: var(--line); position: relative; }
 .tp-scrub i { position: absolute; inset: 0 auto 0 0; width: 0%; background: var(--flame); transition: width 0.14s linear; }
 
 /* ══ 02 · brands — the day room ═════════════════════════════ */
@@ -1986,10 +2052,30 @@ body.on-night .note-fx { filter: drop-shadow(0 0 7px rgba(233, 161, 60, 0.4)); }
     transform-origin: 0 50%;
   }
 
-  .rail button { flex-direction: column; align-items: center; gap: 0.15rem; padding: 0.3rem 0.35rem; }
-  .rail button span { opacity: 1; transform: none; font-size: 0.6rem; letter-spacing: 0.04em; }
-  .rail button em { font-size: 0.56rem; }
-  .rail button:hover, .rail button.is-here { color: var(--cream); }
+  /* the bar is always dark, whichever room is behind it — the on-day
+     rules above are for the floating desktop rail and must not reach here */
+  body.on-day .rail { color: var(--cream-45); }
+
+  /* six numbered tabs at 8px read as noise on a phone: the label alone,
+     large enough to read, and an ember pip for where you are */
+  .rail button { flex-direction: column; align-items: center; gap: 0.3rem; padding: 0.35rem 0.35rem 0.2rem; min-height: 2.75rem; justify-content: center; }
+  .rail button em { display: none; }
+  .rail button span { opacity: 1; transform: none; font-size: 0.7rem; letter-spacing: 0.02em; }
+  .rail button::before {
+    content: "";
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--ember);
+    opacity: 0;
+    transform: scale(0.4);
+    transition: opacity 0.28s var(--ease), transform 0.28s var(--ease);
+  }
+  .rail button.is-here::before { opacity: 1; transform: none; }
+  .rail button:hover,
+  .rail button.is-here,
+  body.on-day .rail button:hover,
+  body.on-day .rail button.is-here { color: var(--cream); }
 
   .hire { display: none; }
 
@@ -2066,7 +2152,6 @@ body.on-night .note-fx { filter: drop-shadow(0 0 7px rgba(233, 161, 60, 0.4)); }
 
   .hero-figures { grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr)); gap: 1rem; }
 
-  .logo-rail { margin-left: calc(var(--gut) * -1); }
 
   .camp-pin {
     position: static;
@@ -2078,6 +2163,27 @@ body.on-night .note-fx { filter: drop-shadow(0 0 7px rgba(233, 161, 60, 0.4)); }
 
   .camp-disc { display: none; }
 
+  /* the reel takes a row of its own; the arrows and count sit under it */
+  .camp-transport { flex-wrap: wrap; row-gap: 1rem; }
+  /* nine marks will not fit across a phone at a readable size — the reel
+     becomes a strip you swipe, and app.js keeps the current mark centred */
+  .tp-reel {
+    flex-basis: 100%;
+    order: -1;
+    display: grid;
+    overflow-x: auto;
+    scrollbar-width: none;
+    margin-inline: calc(var(--gut) * -1);
+    padding-inline: var(--gut);
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 1.4rem, #000 calc(100% - 1.4rem), transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 1.4rem, #000 calc(100% - 1.4rem), transparent);
+  }
+  .tp-reel::-webkit-scrollbar { display: none; }
+  .tp-marks { grid-template-columns: repeat(9, 5.2rem); width: max-content; }
+  .tp-marks button { height: 3rem; padding: 0 0.5rem; }
+
+  .act-brands { padding-bottom: 3rem; }
+
   .camp-films.n3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .camp-films.n3 > :first-child { grid-column: 1 / -1; }
 
@@ -2086,7 +2192,10 @@ body.on-night .note-fx { filter: drop-shadow(0 0 7px rgba(233, 161, 60, 0.4)); }
   .rec-row button { grid-template-columns: 1.9rem minmax(0, 1fr) auto auto; }
 
   .contact-card .disc-slot { display: none; }
-  .contact-deva { font-size: clamp(3rem, 18vw, 6rem); top: -2.6rem; }
+  /* on a phone the word stands clear above the card: half-buried behind
+     its top edge it read as a rendering fault, not as depth */
+  .act-contact { padding-top: clamp(5.5rem, 16vh, 7.5rem); }
+  .contact-deva { font-size: clamp(3rem, 18vw, 6rem); top: -0.98em; opacity: 0.16; }
 
   .site-foot { padding-bottom: clamp(4.5rem, 12vh, 6rem); justify-content: center; text-align: center; }
 }
@@ -2098,9 +2207,8 @@ body.on-night .note-fx { filter: drop-shadow(0 0 7px rgba(233, 161, 60, 0.4)); }
   .camp-logo { max-width: 60%; }
   .contact-lines li { grid-template-columns: 1fr; gap: 0.15rem; }
   .rail { justify-content: space-around; padding-left: 0.3rem; padding-right: 0.3rem; }
-  .rail button { padding: 0.28rem 0.15rem; }
-  .rail button span { font-size: 0.53rem; letter-spacing: 0.02em; }
-  .rail button em { font-size: 0.5rem; }
+  .rail button { padding-inline: 0.15rem; }
+  .rail button span { font-size: 0.66rem; letter-spacing: 0; }
 }
 
 /* ══ reduced motion ══════════════════════════════════════════ */

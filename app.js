@@ -288,7 +288,7 @@ function fitLogo(img) {
     img.decoding = "async";
     img.alt = "";
     img.setAttribute("aria-hidden", "true");
-    defer(img, `assets/brands/${file}`);
+    defer(img, `assets/brands/${file}?v=2`);
     track.appendChild(img);
   });
 }
@@ -305,7 +305,7 @@ function fitLogo(img) {
       const img = document.createElement("img");
       img.decoding = "async";
       img.alt = name;
-      defer(img, `assets/brands/${file}`);
+      defer(img, `assets/brands/${file}?v=2`);
       li.appendChild(img);
     } else {
       const type = document.createElement("span");
@@ -337,12 +337,30 @@ function refreshPlaying() {
 
 campTotal.textContent = String(NC).padStart(2, "0");
 
+/* the reel under the card: every campaign's mark, laid out as the scrub
+   track itself, so you can see what is coming and jump straight to it */
+const reelMarks = CAMPAIGNS.map((c, i) => {
+  const li = document.createElement("li");
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.setAttribute("aria-label", c.brand);
+  const img = document.createElement("img");
+  img.alt = "";
+  img.decoding = "async";
+  defer(img, `assets/brands/${c.logo}?v=2`);
+  btn.appendChild(img);
+  btn.addEventListener("click", () => goToCampaign(i));
+  li.appendChild(btn);
+  $("campReel").appendChild(li);
+  return btn;
+});
+
 function renderCampaign(i) {
   if (i === campIndex) return;
   campIndex = i;
   const c = CAMPAIGNS[i];
 
-  campLogo.src = `assets/brands/${c.logo}`;
+  campLogo.src = `assets/brands/${c.logo}?v=2`;
   campLogo.alt = `${c.brand} logo`;
   campBrand.textContent = c.brand;
   campTag.textContent = c.tag;
@@ -355,12 +373,37 @@ function renderCampaign(i) {
   campPrev.disabled = i === 0;
   campNext.disabled = i === NC - 1;
 
+  reelMarks.forEach((b, k) => {
+    b.classList.toggle("is-on", k === i);
+    if (k === i) b.setAttribute("aria-current", "true");
+    else b.removeAttribute("aria-current");
+  });
+  /* without the scroll scrub (phones, reduced motion) the fill steps with the reel */
+  if (!scrubEnabled) {
+    campScrub.style.width = `${reelFill(i / (NC - 1))}%`;
+    /* on a phone the reel is a swipeable strip — bring the current mark to its middle */
+    const strip = reelMarks[i].closest(".tp-reel");
+    if (strip.scrollWidth > strip.clientWidth) {
+      const b = reelMarks[i];
+      strip.scrollTo({
+        left: b.offsetLeft + b.offsetWidth / 2 - strip.clientWidth / 2,
+        behavior: reducedMotion ? "auto" : "smooth",
+      });
+    }
+  }
+
   if (reducedMotion) return;
   document.dispatchEvent(new CustomEvent("jat:campaign", { detail: i }));
   if (document.documentElement.classList.contains("motion-on")) return;
   campCard.classList.remove("is-swapping");
   void campCard.offsetWidth;
   campCard.classList.add("is-swapping");
+}
+
+/* the marks sit at the centres of NC equal cells, not at 0…100% — land the
+   fill on the centre of whichever mark is current */
+function reelFill(p) {
+  return (((0.5 + p * (NC - 1)) / NC) * 100).toFixed(1);
 }
 
 function filmFacade(f, brand) {
@@ -727,7 +770,7 @@ function frame() {
   if (scrubEnabled && y >= campTop - vh * 0.35 && y <= campEnd + vh * 0.35) {
     const p = clamp01((y - campTop) / campSpan);
     renderCampaign(Math.round(p * (NC - 1)));
-    campScrub.style.width = `${(p * 100).toFixed(1)}%`;
+    campScrub.style.width = `${reelFill(p)}%`;
     dpFill.style.strokeDashoffset = String(304.2 * (1 - p));
   }
 

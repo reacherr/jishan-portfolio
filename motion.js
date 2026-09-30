@@ -594,16 +594,36 @@
     const tag = $("campTag");
     const films = $("campFilms");
 
+    /* the brand name rolls in a letter at a time, like a counter
+       turning over — app.js has already swapped the text by now */
+    let brandSplit = null;
+
     document.addEventListener("jat:campaign", () => {
       const tiles = q(".film", films);
+      if (brandSplit) { gsap.killTweensOf(brandSplit.chars); brandSplit = null; }
       gsap.killTweensOf([logo, brand, tag, ...tiles]);
 
-      gsap.timeline()
+      const tl = gsap.timeline()
         .fromTo(logo, { autoAlpha: 0, x: -14 }, { autoAlpha: 1, x: 0, duration: 0.5 }, 0)
-        .fromTo([brand, tag], { autoAlpha: 0, y: 12 },
-          { autoAlpha: 1, y: 0, duration: 0.5, stagger: 0.05 }, 0.03)
+        .fromTo(tag, { autoAlpha: 0, y: 10 }, { autoAlpha: 1, y: 0, duration: 0.5 }, 0.12)
         .fromTo(tiles, { autoAlpha: 0, y: 20 },
           { autoAlpha: 1, y: 0, duration: 0.55, stagger: 0.055 }, 0.06);
+
+      gsap.set(brand, { autoAlpha: 1, y: 0 });
+      if (SplitText) {
+        brandSplit = new SplitText(brand, { type: "words,chars", mask: "chars" });
+        const split = brandSplit;
+        tl.fromTo(split.chars, { yPercent: 110 }, {
+          yPercent: 0,
+          duration: 0.6,
+          stagger: 0.016,
+          ease: "power4.out",
+          /* leave plain text behind so the next swap starts clean */
+          onComplete: () => { if (brandSplit === split) { split.revert(); brandSplit = null; } },
+        }, 0.02);
+      } else {
+        tl.fromTo(brand, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.5 }, 0.03);
+      }
 
       bindFilmCues();
       sweepFilms();
