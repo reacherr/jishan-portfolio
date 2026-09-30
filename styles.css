@@ -770,11 +770,11 @@ main { position: relative; }
   color: var(--cream-45);
 }
 
-/* ══ 01 · campaigns — the day room ═══════════════════════════ */
+/* ══ 03 · campaigns ══════════════════════════════════════════ */
 
 .act-campaigns { padding-bottom: 0; }
 
-/* the brand rail opens the day room */
+/* the brand rail opens the campaigns act */
 .logo-rail {
   position: relative;
   margin: 0 calc(var(--gut) * -1) 0 calc(var(--rail-w) * -1);
@@ -997,7 +997,7 @@ main { position: relative; }
 .tp-scrub { flex: 1; height: 1px; background: var(--line); position: relative; min-width: 2rem; }
 .tp-scrub i { position: absolute; inset: 0 auto 0 0; width: 0%; background: var(--flame); transition: width 0.14s linear; }
 
-/* ══ 02 · brands ═════════════════════════════════════════════ */
+/* ══ 02 · brands — the day room ═════════════════════════════ */
 
 .act-brands {
   padding-top: clamp(5rem, 14vh, 9rem);
@@ -1090,7 +1090,7 @@ main { position: relative; }
   color: var(--ember);
 }
 
-/* ══ 03 · on screen — the Pop Kaun? credit ══════════════════ */
+/* ══ 01 · on screen — the Pop Kaun? credit ══════════════════ */
 
 .act-screen {
   padding-top: clamp(5rem, 14vh, 9rem);
@@ -1237,7 +1237,7 @@ main { position: relative; }
   background: linear-gradient(180deg, var(--ember), rgba(233, 161, 60, 0));
 }
 
-/* ══ 03 · records — back into the night ══════════════════════ */
+/* ══ 04 · records — back into the night ══════════════════════ */
 
 .act-records {
   padding-top: clamp(4.5rem, 12vh, 7.5rem);
@@ -1419,7 +1419,7 @@ main { position: relative; }
 .rec-row.is-on .rec-n { color: var(--ember); font-weight: 600; }
 .rec-row.is-on .rec-name { color: var(--ember); }
 
-/* ══ 04 · contact ════════════════════════════════════════════ */
+/* ══ 05 · contact ════════════════════════════════════════════ */
 
 .act-contact {
   padding-top: clamp(6rem, 20vh, 12rem);

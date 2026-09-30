@@ -6,6 +6,12 @@
 
 const CAMPAIGNS = [
   {
+    brand: "Abu Dhabi Knight Riders",
+    logo: "adkr.png",
+    tag: "Official anthem · Lyrics, music & vocals",
+    films: [{ t: "ADKR Official Anthem", id: "Llo0k-KxSak" }],
+  },
+  {
     brand: "Navi",
     logo: "navi.png",
     tag: "Ad films · Jingle",
@@ -553,7 +559,7 @@ let docSpan = 1;
 let scrubEnabled = false;
 let roomNow = null;
 
-const RAIL_ORDER = ["contact", "records", "screen", "brands", "campaigns", "hero"];
+const RAIL_ORDER = ["contact", "records", "campaigns", "brands", "screen", "hero"];
 
 function measure() {
   vw = innerWidth;
@@ -613,10 +619,11 @@ function parkDisc() {
 
 /*
    zones, by scroll position:
-     hero        → behind the portrait
-     campaigns   → beside the title, progress ring live
-     brands      → fades out
-     records     → peeks from behind the feature card, label = active release
+     hero        → behind the portrait, scrolls away with it
+     screen/brands → gone
+     campaigns   → fades up beside the title, progress ring live
+     records     → pulled across from campaigns, peeks from behind the
+                   feature card, label = active release
      contact     → slides in behind the contact card
 */
 function stageAt(y) {
@@ -629,28 +636,23 @@ function stageAt(y) {
 
   if (y < campTop) {
     const u = smooth((y - (campTop - B)) / B);
-    if (!hero || !camp) return { pose: hero || camp, a: hero || camp ? 1 - u : 0, scrub: false, art: false };
-    return { pose: mixPose(hero, camp, u), a: 1, scrub: false, art: false };
+    return { pose: camp, a: u, scrub: false, art: false };
   }
 
   if (y <= campEnd) return { pose: camp, a: 1, scrub: scrubEnabled, art: false };
 
+  const rec = slotPose(slotRecords);
+
   if (y < campEnd + B) {
     const u = smooth((y - campEnd) / B);
-    return { pose: camp, a: 1 - u, scrub: scrubEnabled, art: false };
+    if (!camp || !rec) return { pose: camp || rec, a: camp || rec ? 1 - u : 0, scrub: false, art: false };
+    return { pose: mixPose(camp, rec, u), a: 1, scrub: scrubEnabled && u < 0.5, art: u >= 0.5 };
   }
 
-  const rec = slotPose(slotRecords);
   const con = slotPose(slotContact);
-  const recIn = marks.records - vh * 0.35;
   const conIn = marks.contact - vh * 0.5;
 
-  if (y < recIn) return { pose: rec, a: 0, scrub: false, art: true };
-
-  if (y < conIn) {
-    const u = smooth((y - recIn) / (vh * 0.35));
-    return { pose: rec, a: u, scrub: false, art: true };
-  }
+  if (y < conIn) return { pose: rec, a: 1, scrub: false, art: true };
 
   const u = smooth((y - conIn) / (vh * 0.5));
   if (!rec || !con) return { pose: con || rec, a: con || rec ? 1 : 0, scrub: false, art: true };
@@ -688,7 +690,7 @@ function frame() {
   const st = stageAt(y);
 
   let nearestRow = -1;
-  if (!recLocked && recHover < 0 && y > marks.brands && y < marks.contact + vh) {
+  if (!recLocked && recHover < 0 && y > campEnd && y < marks.contact + vh) {
     const mid = vh * 0.45;
     let bestD = Infinity;
     for (let i = 0; i < recRows.length; i++) {
@@ -742,7 +744,7 @@ function frame() {
 
   /* the rail floats over whichever room is at the middle of the screen */
   const mid = y + vh / 2;
-  const room = mid < marks.campaigns || mid >= marks.screen ? "night" : "day";
+  const room = mid < marks.brands || mid >= marks.records ? "night" : "day";
   if (room !== roomNow) {
     roomNow = room;
     document.body.classList.toggle("on-day", room === "day");

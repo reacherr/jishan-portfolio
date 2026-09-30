@@ -19,7 +19,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&display=swap" rel="stylesheet" />
 <!-- Devanagari display is only ever his name and one word — subset to those glyphs -->
 <link href="https://fonts.googleapis.com/css2?family=Rozha+One&text=%E0%A4%9C%E0%A4%BF%E0%A4%B6%E0%A4%BE%E0%A4%A8%20%E0%A4%85%E0%A4%B2%E0%A5%80%20%E0%A4%A5%E0%A5%8B%E0%A4%AC%E0%A4%BE%E0%A4%A8%E0%A5%80%20%E0%A4%AE%E0%A4%B9%E0%A4%AB%E0%A4%BC%E0%A4%BF%E0%A4%B2&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="styles.css?v=69" />
+<link rel="stylesheet" href="styles.css?v=71" />
 </head>
 <body>
 
@@ -42,9 +42,9 @@
     <path class="rw-fill" id="rwFill" />
   </svg>
   <button type="button" data-act="act-hero"><em>00</em><span>Index</span></button>
-  <button type="button" data-act="act-campaigns"><em>01</em><span>Campaigns</span></button>
+  <button type="button" data-act="act-screen"><em>01</em><span>Screen</span></button>
   <button type="button" data-act="act-brands"><em>02</em><span>Brands</span></button>
-  <button type="button" data-act="act-screen"><em>03</em><span>Screen</span></button>
+  <button type="button" data-act="act-campaigns"><em>03</em><span>Campaigns</span></button>
   <button type="button" data-act="act-records"><em>04</em><span>Records</span></button>
   <button type="button" data-act="act-contact"><em>05</em><span>Contact</span></button>
 </nav>
@@ -112,72 +112,12 @@
     </ul>
   </section>
 
-  <!-- ══ 01 · campaigns ══════════════════════════════════════ -->
-  <section class="act act-campaigns room-day" id="act-campaigns" aria-labelledby="campHeading">
-
-    <div class="logo-rail" aria-label="Selected brands">
-      <div class="logo-rail-track" id="logoRail"></div>
-    </div>
-
-    <div class="camp-pin">
-      <div class="camp-left">
-        <p class="act-eyebrow"><em>01</em> Commercial work</p>
-        <h2 class="act-title" id="campHeading">The<br />Campaigns</h2>
-        <p class="act-lede">
-          Jingles, ad films and stadium anthems — written, composed, sung, and
-          often all four at once. Keep scrolling and the reel runs.
-        </p>
-        <div class="camp-disc"><div class="disc-slot" id="slotCampaigns"></div></div>
-      </div>
-
-      <div class="camp-right">
-        <article class="camp-card" id="campCard">
-          <header class="camp-head">
-            <img class="camp-logo" id="campLogo" alt="" width="180" height="60" />
-            <div class="camp-headmeta">
-              <h3 class="camp-brand" id="campBrand"></h3>
-              <p class="camp-tag" id="campTag"></p>
-            </div>
-          </header>
-          <div class="camp-films" id="campFilms"></div>
-        </article>
-
-        <div class="camp-transport">
-          <button type="button" class="tp-btn" id="campPrev" aria-label="Previous campaign">
-            <span aria-hidden="true">←</span>
-          </button>
-          <p class="tp-count" aria-live="polite">
-            <b id="campNum">01</b><i aria-hidden="true">/</i><span id="campTotal">08</span>
-          </p>
-          <button type="button" class="tp-btn" id="campNext" aria-label="Next campaign">
-            <span aria-hidden="true">→</span>
-          </button>
-          <span class="tp-scrub" aria-hidden="true"><i id="campScrub"></i></span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ══ 02 · brands ═════════════════════════════════════════ -->
-  <section class="act act-brands room-day" id="act-brands" aria-labelledby="wallHeading">
-    <header class="wall-head">
-      <p class="act-eyebrow"><em>02</em> The client list</p>
-      <h2 class="act-title" id="wallHeading">A hundred brands<br />have borrowed his&nbsp;voice.</h2>
-      <p class="act-lede">
-        Some wanted a jingle. Some wanted an anthem. Some just wanted the
-        thirty seconds you can&rsquo;t get out of your head.
-      </p>
-    </header>
-
-    <ul class="wall" id="wall"></ul>
-  </section>
-
-  <!-- ══ 03 · on screen ══════════════════════════════════════ -->
+  <!-- ══ 01 · on screen ══════════════════════════════════════ -->
   <section class="act act-screen room-night" id="act-screen" aria-labelledby="screenHeading">
     <div class="screen-glow" aria-hidden="true"></div>
 
     <header class="screen-head">
-      <p class="act-eyebrow"><em>03</em> On screen</p>
+      <p class="act-eyebrow"><em>01</em> On screen</p>
       <h2 class="screen-title" id="screenHeading">Pop&nbsp;Kaun<span aria-hidden="true">?</span></h2>
       <p class="act-lede screen-lede">
         His first Bollywood credit — composer and lyricist on Farhad Samji&rsquo;s
@@ -212,7 +152,67 @@
     </p>
   </section>
 
-  <!-- ══ 03 · records ════════════════════════════════════════ -->
+  <!-- ══ 02 · brands ═════════════════════════════════════════ -->
+  <section class="act act-brands room-day" id="act-brands" aria-labelledby="wallHeading">
+    <header class="wall-head">
+      <p class="act-eyebrow"><em>02</em> The client list</p>
+      <h2 class="act-title" id="wallHeading">A hundred brands<br />have borrowed his&nbsp;voice.</h2>
+      <p class="act-lede">
+        Some wanted a jingle. Some wanted an anthem. Some just wanted the
+        thirty seconds you can&rsquo;t get out of your head.
+      </p>
+    </header>
+
+    <ul class="wall" id="wall"></ul>
+  </section>
+
+  <!-- ══ 03 · campaigns ══════════════════════════════════════ -->
+  <section class="act act-campaigns room-day" id="act-campaigns" aria-labelledby="campHeading">
+
+    <div class="logo-rail" aria-label="Selected brands">
+      <div class="logo-rail-track" id="logoRail"></div>
+    </div>
+
+    <div class="camp-pin">
+      <div class="camp-left">
+        <p class="act-eyebrow"><em>03</em> Commercial work</p>
+        <h2 class="act-title" id="campHeading">The<br />Campaigns</h2>
+        <p class="act-lede">
+          Jingles, ad films and stadium anthems — written, composed, sung, and
+          often all four at once. Keep scrolling and the reel runs.
+        </p>
+        <div class="camp-disc"><div class="disc-slot" id="slotCampaigns"></div></div>
+      </div>
+
+      <div class="camp-right">
+        <article class="camp-card" id="campCard">
+          <header class="camp-head">
+            <img class="camp-logo" id="campLogo" alt="" width="180" height="60" />
+            <div class="camp-headmeta">
+              <h3 class="camp-brand" id="campBrand"></h3>
+              <p class="camp-tag" id="campTag"></p>
+            </div>
+          </header>
+          <div class="camp-films" id="campFilms"></div>
+        </article>
+
+        <div class="camp-transport">
+          <button type="button" class="tp-btn" id="campPrev" aria-label="Previous campaign">
+            <span aria-hidden="true">←</span>
+          </button>
+          <p class="tp-count" aria-live="polite">
+            <b id="campNum">01</b><i aria-hidden="true">/</i><span id="campTotal">09</span>
+          </p>
+          <button type="button" class="tp-btn" id="campNext" aria-label="Next campaign">
+            <span aria-hidden="true">→</span>
+          </button>
+          <span class="tp-scrub" aria-hidden="true"><i id="campScrub"></i></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 04 · records ════════════════════════════════════════ -->
   <section class="act act-records room-night" id="act-records" aria-labelledby="recHeading">
     <div class="rec-glow" aria-hidden="true"></div>
 
@@ -248,7 +248,7 @@
     </div>
   </section>
 
-  <!-- ══ 04 · contact ════════════════════════════════════════ -->
+  <!-- ══ 05 · contact ════════════════════════════════════════ -->
   <section class="act act-contact room-night" id="act-contact" aria-labelledby="contactHeading">
     <div class="contact-pin">
       <p class="contact-deva" lang="hi" aria-hidden="true">महफ़िल</p>
@@ -303,12 +303,12 @@
 
 </main>
 
-<script src="app.js?v=69"></script>
+<script src="app.js?v=71"></script>
 
 <!-- GSAP 3.13 core + SplitText, self-hosted so the site owns no third-party
      runtime. motion.js is additive: without it the page is unchanged. -->
 <script src="assets/vendor/gsap.min.js"></script>
 <script src="assets/vendor/SplitText.min.js"></script>
-<script src="motion.js?v=69"></script>
+<script src="motion.js?v=71"></script>
 </body>
 </html>
