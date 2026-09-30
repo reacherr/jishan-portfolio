@@ -1,6 +1,6 @@
 /* ══════════════════════════════════════════════════════════════
-   Jishan Ali Thobani — Singer & Music Director
-   "rooms of light" — the page moves between a night room and a
+   Jishan Ali Thobani - Singer & Music Director
+   "rooms of light" - the page moves between a night room and a
    day room; every component reads its colours from the room it is in.
    ══════════════════════════════════════════════════════════════ */
 
@@ -91,7 +91,7 @@ img { max-width: 100%; display: block; }
   border-radius: 2px;
 }
 
-/* film grain over the whole page — the single cheapest source of warmth */
+/* film grain over the whole page - the single cheapest source of warmth */
 .grain {
   position: fixed;
   inset: 0;
@@ -348,7 +348,7 @@ body.at-contact .hire {
 /* ── the travelling record ───────────────────────────────────── */
 
 /*
-   z 1 — above section backgrounds, below every content card (z 2),
+   z 1 - above section backgrounds, below every content card (z 2),
    so it can tuck behind a panel like a record into its sleeve.
 */
 .disc-assembly {
@@ -387,7 +387,7 @@ body.at-contact .hire {
 .disc:active { cursor: grabbing; }
 
 /*
-   Dragging the record scrubs the campaign reel — the single least
+   Dragging the record scrubs the campaign reel - the single least
    discoverable thing on the page. `cursor: grab` hints it; this says it,
    but only in the act where dragging actually does something.
 */
@@ -525,7 +525,7 @@ body.at-contact .hire {
 
 .disc-assembly.is-scrubbing .disc-needle { opacity: 1; }
 
-/* equaliser ring — erupts around the record while something plays */
+/* equaliser ring - erupts around the record while something plays */
 
 .eq { position: absolute; inset: -7%; opacity: 0; transition: opacity 0.5s var(--ease); pointer-events: none; }
 
@@ -563,7 +563,7 @@ main { position: relative; }
   padding-right: var(--gut);
 }
 
-/* ══ 00 · index — the night room ═════════════════════════════ */
+/* ══ 00 · index - the night room ═════════════════════════════ */
 
 .act-hero {
   min-height: 100svh;
@@ -617,7 +617,7 @@ main { position: relative; }
   letter-spacing: -0.042em;
 }
 
-/* the masked reveal clips the line box — pad it back out for descenders */
+/* the masked reveal clips the line box - pad it back out for descenders */
 .hn-line {
   display: block;
   overflow: hidden;
@@ -676,7 +676,7 @@ main { position: relative; }
   line-height: 1.62;
 }
 
-/* the portrait — with the record peeking out from behind it */
+/* the portrait - with the record peeking out from behind it */
 
 .hero-shot { position: relative; }
 
@@ -774,7 +774,7 @@ main { position: relative; }
 
 .act-campaigns { padding-bottom: 0; }
 
-/* the brand strip — a band of daylight between the hero and the first act.
+/* the brand strip - a band of daylight between the hero and the first act.
    It sits outside any section, so .room-day on the element gives it colours */
 .logo-rail {
   position: relative;
@@ -824,7 +824,7 @@ main { position: relative; }
 
 .logo-rail img.is-sq { height: clamp(34px, 4.2vw, 50px); }
 
-/* sticky makes its own stacking context — z 2 keeps the whole pin above the
+/* sticky makes its own stacking context - z 2 keeps the whole pin above the
    record (z 1) so the card can cover it, while empty areas reveal it */
 .camp-pin {
   position: sticky;
@@ -883,7 +883,7 @@ main { position: relative; }
 
 .camp-headmeta { min-width: 0; }
 
-/* the brand is the headline of each scene — set big enough that nine
+/* the brand is the headline of each scene - set big enough that nine
    campaigns read as nine different screens, not one card reloading */
 .camp-brand {
   font-family: var(--ff-display);
@@ -908,7 +908,7 @@ main { position: relative; }
 .camp-films.n2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .camp-films.n3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
-/* video facade — no iframe until the visitor asks for one */
+/* video facade - no iframe until the visitor asks for one */
 
 .film {
   position: relative;
@@ -993,7 +993,7 @@ main { position: relative; }
   transition: background 0.24s var(--ease), color 0.24s var(--ease), border-color 0.24s var(--ease);
 }
 
-/* hover only where there is a pointer — a phone keeps :hover stuck on the
+/* hover only where there is a pointer - a phone keeps :hover stuck on the
    last button tapped, which left the arrow looking pressed */
 @media (hover: hover) {
   .tp-btn:hover { background: var(--ink); color: var(--day); border-color: var(--ink); }
@@ -1051,7 +1051,7 @@ main { position: relative; }
 .tp-marks button:hover img { opacity: 0.9; }
 .tp-marks button.is-on img { opacity: 1; filter: none; transform: scale(1.18); }
 
-/* a tick on the track under each mark — the current one lit */
+/* a tick on the track under each mark - the current one lit */
 .tp-marks button::after {
   content: "";
   position: absolute;
@@ -1068,7 +1068,7 @@ main { position: relative; }
 .tp-scrub { display: block; height: 1px; background: var(--line); position: relative; }
 .tp-scrub i { position: absolute; inset: 0 auto 0 0; width: 0%; background: var(--flame); transition: width 0.14s linear; }
 
-/* ══ 02 · brands — the day room ═════════════════════════════ */
+/* ══ 02 · brands - the day room ═════════════════════════════ */
 
 .act-brands {
   padding-top: clamp(5rem, 14vh, 9rem);
@@ -1161,7 +1161,7 @@ main { position: relative; }
   color: var(--ember);
 }
 
-/* ══ 01 · on screen — the Pop Kaun? credit ══════════════════ */
+/* ══ 01 · on screen - the Pop Kaun? credit ══════════════════ */
 
 .act-screen {
   padding-top: clamp(5rem, 14vh, 9rem);
@@ -1308,7 +1308,7 @@ main { position: relative; }
   background: linear-gradient(180deg, var(--ember), rgba(233, 161, 60, 0));
 }
 
-/* ══ 04 · records — back into the night ══════════════════════ */
+/* ══ 04 · records - back into the night ══════════════════════ */
 
 .act-records {
   padding-top: clamp(4.5rem, 12vh, 7.5rem);
@@ -1500,7 +1500,7 @@ main { position: relative; }
 
 .contact-pin { position: relative; display: flex; flex-direction: column; gap: clamp(1.4rem, 3vh, 2.2rem); }
 
-/* "mehfil" — a gathering for music — set huge and low behind the card */
+/* "mehfil" - a gathering for music - set huge and low behind the card */
 .contact-deva {
   position: absolute;
   top: clamp(-4.5rem, -7vw, -2.5rem);
@@ -1647,7 +1647,7 @@ a.cl-value:hover { color: var(--ember); border-bottom-color: var(--ember); }
    half-finished without a script to drive it.
    ══════════════════════════════════════════════════════════════ */
 
-/* GSAP owns these transforms now — a CSS transition on the same
+/* GSAP owns these transforms now - a CSS transition on the same
    property would fight quickTo for the inline style every frame */
 .motion-on .logo-rail-track { animation: none; }
 .motion-on .camp-card.is-swapping { animation: none; }
@@ -1685,7 +1685,7 @@ a.cl-value:hover { color: var(--ember); border-bottom-color: var(--ember); }
 
 /* ── the hero answers you ────────────────────────────────────── */
 
-/* a warm light you push around his face — the "rooms of light" idea
+/* a warm light you push around his face - the "rooms of light" idea
    made something you can actually touch */
 .hero-glint {
   position: absolute;
@@ -1703,7 +1703,7 @@ a.cl-value:hover { color: var(--ember); border-bottom-color: var(--ember); }
 
 .hero-shot-frame:hover .hero-glint { opacity: 1; }
 
-/* on touch there is no hover to hold it open — the scroll moves it instead */
+/* on touch there is no hover to hold it open - the scroll moves it instead */
 .hero-shot-frame.glint-lit .hero-glint { opacity: 1; }
 
 /* his name is set in a variable face; the cursor widens the letters
@@ -1713,7 +1713,7 @@ a.cl-value:hover { color: var(--ember); border-bottom-color: var(--ember); }
   display: inline-block;
   will-change: font-variation-settings, transform;
   transform: translateY(calc(var(--hl) * -14px));
-  /* the letters nearest the cursor warm toward the ember and light up —
+  /* the letters nearest the cursor warm toward the ember and light up -
      the room's stage light, run across his own name */
   color: color-mix(in oklab, var(--ember) calc(var(--hl) * 68%), var(--hn-base, var(--cream)));
   text-shadow: 0 0 calc(var(--hl) * 30px) rgba(233, 161, 60, calc(var(--hl) * 0.5));
@@ -1722,7 +1722,7 @@ a.cl-value:hover { color: var(--ember); border-bottom-color: var(--ember); }
 .hero-name { --hn-base: var(--cream); }
 .hn-last { --hn-base: var(--flame-hot); }
 
-/* the entrance masks each line — once it has played the clip has to go,
+/* the entrance masks each line - once it has played the clip has to go,
    or a letter can never lift out of its own line box */
 .hero-name.is-live .hn-line { overflow: visible; }
 
@@ -1730,7 +1730,7 @@ a.cl-value:hover { color: var(--ember); border-bottom-color: var(--ember); }
 
 .sp-line { display: block; will-change: transform; }
 
-/* SplitText's line masks clip on the baseline — pad the descenders back.
+/* SplitText's line masks clip on the baseline - pad the descenders back.
    Only the mask gets it: padding the line inside as well would grow the
    mask by the same amount again and loosen the leading. */
 .split-title > div { padding-bottom: 0.1em; margin-bottom: -0.1em; }
@@ -1807,7 +1807,7 @@ a.cl-value:hover { color: var(--ember); border-bottom-color: var(--ember); }
 .wall li::after { opacity: calc(var(--lit) * 0.9); }
 .wall-type { color: color-mix(in oklab, var(--fg) calc(var(--lit) * 100%), var(--fg-3)); }
 
-/* the pool is already eased in JS — a transition on top would only lag it.
+/* the pool is already eased in JS - a transition on top would only lag it.
    Without the motion layer these keep their original hover transitions. */
 .motion-on .wall img,
 .motion-on .wall li::after,
@@ -1943,7 +1943,7 @@ body.on-night .note-fx { filter: drop-shadow(0 0 7px rgba(233, 161, 60, 0.4)); }
    music rather than as a blurred crop.
 
    Deliberately CSS keyframes and not a tween. Nothing here reacts
-   to anything — no pointer, no scroll — so it has no business on
+   to anything - no pointer, no scroll - so it has no business on
    a ticker. motion.js only builds the elements, which also means
    they never exist for a visitor who asked for reduced motion.
 
@@ -2057,7 +2057,7 @@ body.on-night .note-fx { filter: drop-shadow(0 0 7px rgba(233, 161, 60, 0.4)); }
     transform-origin: 0 50%;
   }
 
-  /* the bar is always dark, whichever room is behind it — the on-day
+  /* the bar is always dark, whichever room is behind it - the on-day
      rules above are for the floating desktop rail and must not reach here */
   body.on-day .rail { color: var(--cream-45); }
 
@@ -2086,14 +2086,14 @@ body.on-night .note-fx { filter: drop-shadow(0 0 7px rgba(233, 161, 60, 0.4)); }
 
   /* the portrait carries the top of this screen, so the room opens on it
      rather than on 7rem of nothing. What is left above is filled by the
-     photograph's own top edge dissolving — see .hero-shot-frame below. */
+     photograph's own top edge dissolving - see .hero-shot-frame below. */
   .act-hero {
     min-height: auto;
     padding-top: clamp(3.1rem, 7.5vh, 4rem);
     /* 5:4 of the full screen width, capped so the name still clears the
        fold on a short phone. Held as a token because three things have to
        agree on it: the photograph, the note layer over it, and the record
-       docked into it — and .hero-shot is taller than all of them, so
+       docked into it - and .hero-shot is taller than all of them, so
        percentages against it do not work. */
     --shot-h: min(80vw, 44svh);
   }
@@ -2117,7 +2117,7 @@ body.on-night .note-fx { filter: drop-shadow(0 0 7px rgba(233, 161, 60, 0.4)); }
 
   /* the dissolve.
 
-     Two mask layers intersected — one across, one down — rather than a
+     Two mask layers intersected - one across, one down - rather than a
      night-coloured gradient painted on top: .hero-glow sits BEHIND the
      portrait, and an opaque overlay would stamp the ember out. Masked,
      the photograph fades into the stage light instead of over it.
@@ -2127,7 +2127,7 @@ body.on-night .note-fx { filter: drop-shadow(0 0 7px rgba(233, 161, 60, 0.4)); }
      with it, and the soft edges would visibly slide as you scroll.
 
      Browsers without mask-composite fall back to the default `add`,
-     i.e. no fade — which is exactly what this looked like before. */
+     i.e. no fade - which is exactly what this looked like before. */
   .hero-shot-frame {
     --fade-x: 13%;
     --fade-y: 15%;
@@ -2173,7 +2173,7 @@ body.on-night .note-fx { filter: drop-shadow(0 0 7px rgba(233, 161, 60, 0.4)); }
      three films, so the card changes height on every tap, and controls
      below it would jump out from under the thumb pressing them. */
   .camp-transport { flex-wrap: wrap; row-gap: 1rem; order: -1; }
-  /* nine marks will not fit across a phone at a readable size — the reel
+  /* nine marks will not fit across a phone at a readable size - the reel
      becomes a strip you swipe, and app.js keeps the current mark centred */
   .tp-reel {
     flex-basis: 100%;
@@ -2224,7 +2224,7 @@ body.on-night .note-fx { filter: drop-shadow(0 0 7px rgba(233, 161, 60, 0.4)); }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .logo-rail-track { animation: none; }
-  /* motion.js never builds these — belt and braces if that ever moves */
+  /* motion.js never builds these - belt and braces if that ever moves */
   .hero-notes { display: none; }
   .rv { opacity: 1; transform: none; transition: none; }
   *, *::before, *::after {

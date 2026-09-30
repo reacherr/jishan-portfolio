@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════
-   Jishan Ali Thobani — Singer & Music Director
+   Jishan Ali Thobani - Singer & Music Director
    ══════════════════════════════════════════════════════════════ */
 
 /* ── data ────────────────────────────────────────────────────── */
@@ -74,7 +74,7 @@ const RELEASES = [
     title: "99 Names of ALLAH",
     year: "2025",
     sub: "Asma Ul Husna · 2.6M+ views",
-    note: "The Asma Ul Husna, sung name by name. His most-heard recording — and still climbing.",
+    note: "The Asma Ul Husna, sung name by name. His most-watched recording so far.",
     thumb: "https://i.ytimg.com/vi/FhfhFYd-08s/maxresdefault.jpg",
   },
   {
@@ -82,7 +82,7 @@ const RELEASES = [
     title: "Navroz Mubarak",
     year: "2024",
     sub: "ft. Zaheed Damani · 100 artists · 14 countries",
-    note: "One song, a hundred voices, fourteen countries — a Navroz greeting that went right around the globe.",
+    note: "One song, a hundred voices, fourteen countries. A Navroz greeting that went right around the globe.",
     thumb: "https://i.ytimg.com/vi/ZlKAAOCDEB8/maxresdefault.jpg",
   },
   {
@@ -90,7 +90,7 @@ const RELEASES = [
     title: "Allahumma Salli Ala",
     year: "2022",
     sub: "Salwaat · Durood · 1.6M+ views",
-    note: "A salwaat in praise of the Prophet ﷺ — gentle, layered, sung in salutation.",
+    note: "A salwaat in praise of the Prophet ﷺ, sung in layered harmony.",
     thumb: "https://i.ytimg.com/vi/AeqZuH_HOeY/maxresdefault.jpg",
   },
   {
@@ -106,7 +106,7 @@ const RELEASES = [
     title: "SubhanALLAH Wa Bihamdihi",
     year: "2023",
     sub: "ft. Canadian artists · 1.3M+ views",
-    note: "A tasbih recorded across borders — one remembrance, many voices.",
+    note: "A tasbih recorded with artists from across Canada.",
     thumb: "https://i.ytimg.com/vi/CjRNp_gMOhg/hqdefault.jpg",
   },
   {
@@ -114,7 +114,7 @@ const RELEASES = [
     title: "HasbunALLAH",
     year: "2019",
     sub: "The breakout devotional",
-    note: "“ALLAH is sufficient for us.” The recording that carried his voice out past the mehfil.",
+    note: "“ALLAH is sufficient for us.” The release that first took his voice beyond the mehfil.",
     thumb: "https://i.ytimg.com/vi/fTu-x3Of1m4/maxresdefault.jpg",
   },
   {
@@ -122,7 +122,7 @@ const RELEASES = [
     title: "India Taiyar Hai",
     year: "2025",
     sub: "Team India anthem · Global Encounters Festival",
-    note: "An anthem written for Team India at the Global Encounters Festival — drums up, flags out.",
+    note: "An anthem written for Team India at the Global Encounters Festival.",
     thumb: "https://i.ytimg.com/vi/r3sqyZ02NqU/hqdefault.jpg",
   },
 ];
@@ -137,7 +137,7 @@ const BRANDS = [
   ["Kolkata Knight Riders", "kkr.png"],
   ["Bajaj Finserv", "bajaj-finserv.png"],
   ["IDFC First Bank", "idfc.png"],
-  /* the old site shipped a PediaSure file under the Petronas name — set as type */
+  /* the old site shipped a PediaSure file under the Petronas name - set as type */
   ["Petronas", null],
   ["Cleartrip", "cleartrip.png"],
   ["PediaSure", "pediasure.png"],
@@ -381,7 +381,7 @@ function renderCampaign(i) {
   /* without the scroll scrub (phones, reduced motion) the fill steps with the reel */
   if (!scrubEnabled) {
     campScrub.style.width = `${reelFill(i / (NC - 1))}%`;
-    /* on a phone the reel is a swipeable strip — bring the current mark to its middle */
+    /* on a phone the reel is a swipeable strip - bring the current mark to its middle */
     const strip = reelMarks[i].closest(".tp-reel");
     if (strip.scrollWidth > strip.clientWidth) {
       const b = reelMarks[i];
@@ -400,7 +400,7 @@ function renderCampaign(i) {
   campCard.classList.add("is-swapping");
 }
 
-/* the marks sit at the centres of NC equal cells, not at 0…100% — land the
+/* the marks sit at the centres of NC equal cells, not at 0...100% - land the
    fill on the centre of whichever mark is current */
 function reelFill(p) {
   return (((0.5 + p * (NC - 1)) / NC) * 100).toFixed(1);
@@ -417,13 +417,13 @@ function filmFacade(f, brand) {
     `</span>` +
     `<span class="film-name"></span>`;
   btn.querySelector(".film-name").textContent = f.t;
-  btn.setAttribute("aria-label", `Play ${brand} — ${f.t}`);
+  btn.setAttribute("aria-label", `Play ${brand}: ${f.t}`);
   btn.addEventListener("click", () => {
     if (btn.classList.contains("is-live")) return;
     const fr = document.createElement("iframe");
     fr.className = "film-frame";
     fr.src = `https://www.youtube-nocookie.com/embed/${f.id}?autoplay=1&rel=0&playsinline=1`;
-    fr.title = `${brand} — ${f.t}`;
+    fr.title = `${brand}: ${f.t}`;
     fr.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
     fr.allowFullscreen = true;
     btn.querySelector(".film-shot").appendChild(fr);
@@ -477,7 +477,7 @@ function selectRelease(i, fromClick) {
 
   stopRelease();
   recThumb.src = r.thumb;
-  recThumb.alt = `${r.title} — video still`;
+  recThumb.alt = `Video still from ${r.title}`;
   recTitle.textContent = r.title;
   recNote.textContent = r.note;
   recPlayTitle.textContent = r.title;
@@ -498,7 +498,7 @@ function playRelease() {
   const r = RELEASES[recIndexActive];
   const fr = document.createElement("iframe");
   fr.src = `https://www.youtube-nocookie.com/embed/${r.id}?autoplay=1&rel=0&playsinline=1`;
-  fr.title = `${r.title} — Jishan Ali Thobani`;
+  fr.title = `${r.title} by Jishan Ali Thobani`;
   fr.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
   fr.allowFullscreen = true;
   recMount.replaceChildren(fr);
@@ -524,7 +524,7 @@ defer(screenArt, `https://i.ytimg.com/vi/${POP_KAUN_TRAILER}/maxresdefault.jpg`)
 $("screenPlay").addEventListener("click", () => {
   const fr = document.createElement("iframe");
   fr.src = `https://www.youtube-nocookie.com/embed/${POP_KAUN_TRAILER}?autoplay=1&rel=0&playsinline=1`;
-  fr.title = "Pop Kaun? — official trailer";
+  fr.title = "Pop Kaun? official trailer";
   fr.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
   fr.allowFullscreen = true;
   screenMount.replaceChildren(fr);
@@ -553,13 +553,13 @@ $("screenPlay").addEventListener("click", () => {
 
 let railLen = 0;
 let progNow = -1;
-/* the hairline only exists under the 860px block — do not pay for it above */
+/* the hairline only exists under the 860px block - do not pay for it above */
 let railBar = false;
 let railH = 0;
 
 /*
    The wave the rail is drawn from. `bumpAmp` swells the amplitude around
-   `bumpY` — the motion layer uses it to make the wave respond to the
+   `bumpY` - the motion layer uses it to make the wave respond to the
    pointer, like a finger laid on a string.
 */
 function railWavePath(h, bumpY, bumpAmp) {
@@ -571,7 +571,7 @@ function railWavePath(h, bumpY, bumpAmp) {
     let amp = 3.4 + Math.sin(t * Math.PI * 3) * 1.6;
     if (bumpAmp) {
       /* additive, so the swell reads the same wherever the wave is
-         hovered — multiplying would flatten it at the wave's nodes */
+         hovered - multiplying would flatten it at the wave's nodes */
       const k = (y - bumpY) / 42;
       amp += bumpAmp * 3.4 * Math.exp(-k * k);
     }
@@ -643,7 +643,7 @@ const mixPose = (a, b, u) => ({
 
 let lastPose = { cx: 0, cy: 0, s: 1 };
 
-/* a slot hidden by a media query reports zero width — treat it as "no anchor" */
+/* a slot hidden by a media query reports zero width - treat it as "no anchor" */
 function slotPose(el) {
   const r = el.getBoundingClientRect();
   if (r.width < 1) return null;
@@ -702,7 +702,7 @@ function stageAt(y) {
   return { pose: mixPose(rec, con, u), a: 1, scrub: false, art: true };
 }
 
-/* hoverSpin is nudged by the motion layer — touching the portrait spins
+/* hoverSpin is nudged by the motion layer - touching the portrait spins
    the record behind it. It is never reset, so letting go coasts to a
    stop from wherever it got to rather than snapping back. */
 let hoverSpin = 0;
@@ -729,7 +729,7 @@ function frame() {
   frameQueued = false;
   const y = scrollY;
 
-  /* ── read phase — every layout query happens here ── */
+  /* ── read phase - every layout query happens here ── */
   const st = stageAt(y);
 
   let nearestRow = -1;
@@ -824,7 +824,7 @@ addEventListener("scroll", () => {
 let resizeTimer = null;
 let lastW = innerWidth;
 addEventListener("resize", () => {
-  /* mobile browsers fire resize on every URL-bar nudge — only react to real changes */
+  /* mobile browsers fire resize on every URL-bar nudge - only react to real changes */
   if (innerWidth === lastW && Math.abs(innerHeight - vh) < 120) return;
   lastW = innerWidth;
   clearTimeout(resizeTimer);
@@ -939,7 +939,7 @@ const io = new IntersectionObserver((entries) => {
 
 document.querySelectorAll(".rv").forEach((el) => io.observe(el));
 
-/* the hero is above the fold — never let it wait on an observer */
+/* the hero is above the fold - never let it wait on an observer */
 requestAnimationFrame(() =>
   document.querySelectorAll(".act-hero .rv").forEach((el) => el.classList.add("in"))
 );

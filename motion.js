@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════
-   motion.js — the interaction layer.
+   motion.js - the interaction layer.
 
    Everything here is additive. If GSAP never loads, the visitor asks
    for reduced motion, or the device has no fine pointer, the page
@@ -22,7 +22,7 @@
   if (!gsap) return;
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-  /* hover effects are pointless — and janky — on a touch screen */
+  /* hover effects are pointless - and janky - on a touch screen */
   const fine = matchMedia("(hover: hover) and (pointer: fine)").matches;
 
   document.documentElement.classList.add("motion-on");
@@ -67,7 +67,7 @@
     if (!fine || !host || !cue) return;
     const xTo = gsap.quickTo(cue, "x", { duration: 0.5, ease: "power3" });
     const yTo = gsap.quickTo(cue, "y", { duration: 0.5, ease: "power3" });
-    /* quickTo cannot drive the `scale` shorthand — it needs the two axes */
+    /* quickTo cannot drive the `scale` shorthand - it needs the two axes */
     const sxTo = gsap.quickTo(cue, "scaleX", { duration: 0.35, ease: "power3" });
     const syTo = gsap.quickTo(cue, "scaleY", { duration: 0.35, ease: "power3" });
     const sTo = (v) => { sxTo(v); syTo(v); };
@@ -105,7 +105,7 @@
   /* The same still on a screen with no hover: the bar of light passes
      once as the tile arrives, staggered down the row, and again when a
      new campaign lands. One class per tile, then the observer forgets
-     it — nothing runs between arrivals. */
+     it - nothing runs between arrivals. */
   const sweepFilms = (() => {
     if (fine) return () => {};
 
@@ -171,7 +171,7 @@
           lit[i] = now;
 
           if (!inside && now < 0.02) {
-            /* close enough to dark — snap, so no tile is left faintly on */
+            /* close enough to dark - snap, so no tile is left faintly on */
             if (was !== 0) tiles[i].style.setProperty("--lit", "0");
             lit[i] = 0;
           } else if (Math.abs(now - was) > 0.003) {
@@ -209,7 +209,7 @@
 
          Quantised to tenths on purpose. `--lit` drives a grayscale
          filter, and a filter handed a new value every frame re-rasterises
-         every mark on screen — on a phone that is the whole cost of the
+         every mark on screen - on a phone that is the whole cost of the
          section. Ten steps is invisible in motion and turns a raster pass
          per frame into one every few frames.                            */
       const lit = new Float32Array(tiles.length);
@@ -230,7 +230,7 @@
         first = mid[0];
         last = mid[mid.length - 1];
         /* measured in rows, not in viewports, so the band keeps its shape
-           whatever the grid reflows to — same reasoning as the pool above */
+           whatever the grid reflows to - same reasoning as the pool above */
         reach = Math.max(h * 3, 120);
       };
 
@@ -240,14 +240,14 @@
       let mt = null;
       const remeasure = (wait) => { clearTimeout(mt); mt = setTimeout(measure, wait); };
       addEventListener("resize", () => remeasure(180));
-      /* tapping through campaigns changes that card's height — one film or
-         three — which moves the whole wall under the cached positions */
+      /* tapping through campaigns changes that card's height - one film or
+         three - which moves the whole wall under the cached positions */
       document.addEventListener("jat:campaign", () => remeasure(420));
 
       gsap.ticker.add(() => {
         const band = scrollY + innerHeight * 0.46;
         const near = band > first - innerHeight && band < last + innerHeight;
-        /* nothing on screen and nothing still lit — do not even loop */
+        /* nothing on screen and nothing still lit - do not even loop */
         if (!near && !awake) return;
 
         awake = false;
@@ -260,7 +260,7 @@
           }
 
           /* eased, so the light lags the scroll a little rather than
-             tracking it exactly — a lamp, not a readout */
+             tracking it exactly - a lamp, not a readout */
           const now = lit[i] + (want - lit[i]) * 0.16;
           lit[i] = now;
           if (now > 0.004) awake = true;
@@ -381,7 +381,7 @@
       }
 
       /* and the ember behind him breathes, so the one screen everybody
-         sees is never completely still — transform and opacity only, so
+         sees is never completely still - transform and opacity only, so
          it costs a composite and nothing else */
       if (heroGlow) {
         gsap.to(heroGlow, {
@@ -437,7 +437,7 @@
         const speed = hovering ? 0 : dir * (1 + Math.min(Math.abs(vel) * 0.055, 2.6));
         reel.loop.timeScale(gsap.utils.interpolate(reel.loop.timeScale(), speed, 0.12));
 
-        /* skip the write once the reel has settled — this ticker never stops */
+        /* skip the write once the reel has settled - this ticker never stops */
         const skew = clamp(-vel * 0.06, -3.5, 3.5);
         if (Math.abs(skew - lastSkew) > 0.04) {
           lastSkew = skew;
@@ -508,7 +508,7 @@
       });
     }
 
-    /* 3 · his name is set in a variable face — let the cursor widen it.
+    /* 3 · his name is set in a variable face - let the cursor widen it.
        Splitting to characters costs the kerning pairs, so the split is
        kept and measured; see the note in PROJECT.md. */
     const chars = [];
@@ -595,7 +595,7 @@
     const films = $("campFilms");
 
     /* the brand name rolls in a letter at a time, like a counter
-       turning over — app.js has already swapped the text by now */
+       turning over - app.js has already swapped the text by now */
     let brandSplit = null;
 
     document.addEventListener("jat:campaign", () => {
@@ -632,7 +632,7 @@
 
   /* ── hovering the index cues the record up ─────────────────────
      Scroll normally decides which release is on the turntable. Point at
-     a row and it takes over — label art, still and all — then hands
+     a row and it takes over - label art, still and all - then hands
      control back when you leave the list.                             */
 
   if (fine && window.JAT) {
@@ -649,7 +649,7 @@
     const splits = new Map();
 
     /*
-       Geometry off the scroll event, not IntersectionObserver — same
+       Geometry off the scroll event, not IntersectionObserver - same
        reason app.js defers images that way. A throttled observer
        callback would leave a headline parked out of frame, and a
        headline that never arrives is far worse than one that
@@ -667,7 +667,7 @@
       }
     }
 
-    /* throttled, but with a trailing call — a flick that ends inside the
+    /* throttled, but with a trailing call - a flick that ends inside the
        window must still sweep its final position, or a headline that only
        just came into frame would stay parked until the next scroll */
     let sweepAt = 0;
@@ -691,7 +691,7 @@
     addEventListener("load", sweepTitles);
 
     /* a restored scroll position may put a headline on screen without the
-       visitor ever scrolling — sweep once more after the page settles */
+       visitor ever scrolling - sweep once more after the page settles */
     setTimeout(sweepTitles, 1200);
 
     function setupTitle(el) {
@@ -728,7 +728,7 @@
       q(".act-title, .screen-title, .contact-title").forEach(setupTitle);
       sweepTitles();
 
-      /* line breaks are width-dependent — re-split, but never re-animate */
+      /* line breaks are width-dependent - re-split, but never re-animate */
       let w = innerWidth;
       let t = null;
       addEventListener("resize", () => {
@@ -746,7 +746,7 @@
      on the way up; hold still and the page goes quiet again.
 
      Emission is gated on distance travelled, not on time, so the
-     rate follows the hand — a slow drift leaves the odd note, a
+     rate follows the hand - a slow drift leaves the odd note, a
      flick across the screen leaves a run of them. A minimum
      interval caps the run so a fast sweep cannot flood the layer.
 
@@ -870,7 +870,7 @@
        runs edge to edge and dissolves into the night on all four
        sides. These come out of the dissolve.
 
-       Built here purely to reuse GLYPHS above — the motion itself is
+       Built here purely to reuse GLYPHS above - the motion itself is
        a CSS keyframe (.hn-note), because nothing about it reacts to
        anything and it should not cost a frame on the ticker. All this
        does is place six spans and hand each one its numbers.
@@ -888,7 +888,7 @@
 
            x stays inside the fade band (13% in from either edge) so a
            note is always born out of the dissolve, and x + dx keeps it
-           inside the screen for as long as it is still lit — .act-hero
+           inside the screen for as long as it is still lit - .act-hero
            clips, and half a note sliced off the edge reads as a bug.
 
            The three on the right stay in the upper half: the record
