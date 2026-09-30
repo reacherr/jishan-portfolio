@@ -993,7 +993,12 @@ main { position: relative; }
   transition: background 0.24s var(--ease), color 0.24s var(--ease), border-color 0.24s var(--ease);
 }
 
-.tp-btn:hover { background: var(--ink); color: var(--day); border-color: var(--ink); }
+/* hover only where there is a pointer — a phone keeps :hover stuck on the
+   last button tapped, which left the arrow looking pressed */
+@media (hover: hover) {
+  .tp-btn:hover { background: var(--ink); color: var(--day); border-color: var(--ink); }
+}
+.tp-btn:active { background: var(--ink); color: var(--day); border-color: var(--ink); }
 .tp-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 .tp-btn:disabled:hover { background: transparent; color: var(--fg); border-color: var(--line); }
 
@@ -2163,8 +2168,11 @@ body.on-night .note-fx { filter: drop-shadow(0 0 7px rgba(233, 161, 60, 0.4)); }
 
   .camp-disc { display: none; }
 
-  /* the reel takes a row of its own; the arrows and count sit under it */
-  .camp-transport { flex-wrap: wrap; row-gap: 1rem; }
+  /* the reel takes a row of its own; the arrows and count sit under it.
+     The whole transport goes ABOVE the card here: campaigns have one to
+     three films, so the card changes height on every tap, and controls
+     below it would jump out from under the thumb pressing them. */
+  .camp-transport { flex-wrap: wrap; row-gap: 1rem; order: -1; }
   /* nine marks will not fit across a phone at a readable size — the reel
      becomes a strip you swipe, and app.js keeps the current mark centred */
   .tp-reel {
