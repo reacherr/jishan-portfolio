@@ -335,7 +335,7 @@
 
   /* ── the logo reel answers the scroll ──────────────────────────
      Handing the marquee to GSAP buys what a CSS keyframe cannot: it
-     speeds up when you scroll hard, and it runs backwards when you do. */
+     speeds up when you scroll hard. It always runs the same way. */
 
   const reel = (() => {
     const track = $("logoRail");
@@ -344,10 +344,14 @@
     const loop = gsap.to(track, { xPercent: -50, duration: 48, ease: "none", repeat: -1 });
     loop.progress(0.001);
 
-    /* the ticker below reads this flag and eases the reel to a stop */
+    /* the ticker below reads this flag and eases the reel to a stop.
+       Set on a real pointer move, not on enter: scrolling slides the band
+       under a resting cursor, and that should not stop it. The ticker
+       clears it on scroll, since the browser does not always send a
+       pointerleave when the page moves instead of the mouse. */
     const band = track.closest(".logo-rail");
     if (band && fine) {
-      band.addEventListener("pointerenter", () => { band.dataset.hover = "1"; });
+      band.addEventListener("pointermove", () => { band.dataset.hover = "1"; });
       band.addEventListener("pointerleave", () => { band.dataset.hover = ""; });
     }
     return { track, loop, band };
@@ -402,21 +406,25 @@
     let remeasureTimer = null;
     const remeasure = () => { contactTop = actContact ? actContact.offsetTop : 0; };
     remeasure();
+    /* a resize moves scrollY without anyone scrolling - the ticker must
+       not read that jump as a flick */
+    let resizing = false;
     addEventListener("resize", () => {
+      resizing = true;
+      if (reel && reel.band) reel.band.dataset.hover = "";
       clearTimeout(remeasureTimer);
-      remeasureTimer = setTimeout(remeasure, 180);
+      remeasureTimer = setTimeout(() => { resizing = false; remeasure(); }, 180);
     });
     addEventListener("load", remeasure);
 
     let lastY = scrollY;
     let glintAt = -1;
     let vel = 0;
-    let dir = 1;
     let lastSkew = 0;
 
     gsap.ticker.add(() => {
       const y = scrollY;
-      const dy = y - lastY;
+      const dy = resizing ? 0 : y - lastY;
       lastY = y;
       vel += (dy - vel) * 0.12;
 
@@ -432,9 +440,9 @@
 
       /* the reel */
       if (reel) {
-        if (Math.abs(dy) > 0.6) dir = dy > 0 ? 1 : -1;
+        if (Math.abs(dy) > 0.6 && reel.band) reel.band.dataset.hover = "";
         const hovering = reel.band && reel.band.dataset.hover === "1";
-        const speed = hovering ? 0 : dir * (1 + Math.min(Math.abs(vel) * 0.055, 2.6));
+        const speed = hovering ? 0 : 1 + Math.min(Math.abs(vel) * 0.055, 2.6);
         reel.loop.timeScale(gsap.utils.interpolate(reel.loop.timeScale(), speed, 0.12));
 
         /* skip the write once the reel has settled - this ticker never stops */
