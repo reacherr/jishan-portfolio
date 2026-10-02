@@ -70,6 +70,14 @@ const CAMPAIGNS = [
 
 const RELEASES = [
   {
+    id: "r3sqyZ02NqU",
+    title: "India Taiyar Hai",
+    year: "2025",
+    sub: "Team India anthem · Global Encounters Festival",
+    note: "An anthem written for Team India at the Global Encounters Festival.",
+    thumb: "https://i.ytimg.com/vi/r3sqyZ02NqU/sddefault.jpg",
+  },
+  {
     id: "FhfhFYd-08s",
     title: "99 Names of ALLAH",
     year: "2025",
@@ -116,14 +124,6 @@ const RELEASES = [
     sub: "The breakout devotional",
     note: "“ALLAH is sufficient for us.” The release that first took his voice beyond the mehfil.",
     thumb: "https://i.ytimg.com/vi/fTu-x3Of1m4/maxresdefault.jpg",
-  },
-  {
-    id: "r3sqyZ02NqU",
-    title: "India Taiyar Hai",
-    year: "2025",
-    sub: "Team India anthem · Global Encounters Festival",
-    note: "An anthem written for Team India at the Global Encounters Festival.",
-    thumb: "https://i.ytimg.com/vi/r3sqyZ02NqU/hqdefault.jpg",
   },
 ];
 

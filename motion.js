@@ -341,7 +341,7 @@
     const track = $("logoRail");
     if (!track) return null;
 
-    const loop = gsap.to(track, { xPercent: -50, duration: 62, ease: "none", repeat: -1 });
+    const loop = gsap.to(track, { xPercent: -50, duration: 48, ease: "none", repeat: -1 });
     loop.progress(0.001);
 
     /* the ticker below reads this flag and eases the reel to a stop */
